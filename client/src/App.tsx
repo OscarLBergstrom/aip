@@ -1,10 +1,10 @@
 import React from 'react';
+import "./assets/styles/app.scss";
+import HomePresenter from './components/presenters/homePresenter';
 
-function App() {
+const App = () => {
   return (
-    <div>
-      HAIP
-    </div>
+    <HomePresenter/>
   );
 }
 

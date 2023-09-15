@@ -1,0 +1,28 @@
+@import "../themes/theme.scss";
+
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: auto;
+    text-align: center;
+}
+
+.home .card {
+    background-color: $bg-secondary;
+    padding: 16px;
+    border-radius: 16px;
+    width: 40%;
+}
+
+.card .title {
+    font-size: 64px;
+    margin-bottom: 32px;
+}
+
+.card .info {
+    font-size: 18px;
+    color: $text-secondary;
+}

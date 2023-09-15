@@ -1,0 +1,14 @@
+@import "../themes/theme.scss";
+
+#app {
+    height: 100vh;
+    display: flex;
+}
+
+body {
+    margin: 0px;
+    font-family: sans-serif;
+    background-color: $bg-primary;
+    color: $text-primary;
+    padding: 4px;
+}
