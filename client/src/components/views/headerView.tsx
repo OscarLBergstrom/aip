@@ -1,11 +1,11 @@
 import "../../assets/styles/header.scss";
 import "../../assets/styles/common.scss"
-import templogo from "../../assets/images/templogo.png";
+import temp_logo from "../../assets/images/temp_logo.png";
 
 const HeaderView = () => {
     return (
         <div className="header">
-            <img className="logo" src={templogo} alt="templogo"/>
+            <img className="logo" src={temp_logo} alt="temp logo"/>
             <div>HAIP</div>
         </div>
     );
