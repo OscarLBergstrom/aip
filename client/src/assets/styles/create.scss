@@ -1,0 +1,46 @@
+@import "../themes/theme.scss";
+
+.create {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+.create .card {
+    background-color: $bg-secondary;
+    padding: 32px;
+    border-radius: 16px;
+    width: 40%;
+}
+
+.card .title {
+    font-size: 64px;
+    margin-bottom: 32px;
+}
+
+.card .form  {
+    height: 150px;
+}
+
+input[type="text"] {
+    width: 100%; /* Take up the full width of the container */
+    padding: 10px; /* Add some padding for better spacing */
+    font-size: 16px; /* Adjust the font size */
+    border: 1px solid $bg-primary; /* Add a border */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  input[type="submit"] {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: $green-primary;
+    color: $text-primary;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
