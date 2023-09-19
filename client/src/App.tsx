@@ -11,6 +11,7 @@ const App = () => {
     <div className="app">
       <HeaderPresenter/>
       <HomePresenter/>
+      {/* <PreviewPresenter/> */}
       <FooterPresenter/>
     </div>
   );
