@@ -9,7 +9,8 @@
 body {
     margin: 0px;
     font-family: sans-serif;
-    background-color: $bg-primary;
+    background: radial-gradient($bg-light, $bg-primary, $bg-secondary);
+    background-color: $bg-secondary;
     color: $text-primary;
     font-size: 18px;
 }

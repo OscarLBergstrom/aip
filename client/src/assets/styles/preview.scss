@@ -1,0 +1,23 @@
+@import "../themes/theme.scss";
+
+.preview{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+.player{
+    border-radius: 12px;
+    width: 50%;
+    height: 356px;
+}
+
+.title{
+    font-size: 64px;
+    margin-bottom: 32px;
+}
