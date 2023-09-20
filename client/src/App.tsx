@@ -13,22 +13,31 @@ const App = () => {
       <Route
         path="/"
         element={
-          <html className="app">
+          <div className="app">
             <HeaderPresenter />
             <HomePresenter />
-            {/* <PreviewPresenter/> */}
             <FooterPresenter />
-          </html>
+          </div>
         }
       />
       <Route
         path="/create"
         element={
-          <html className="app">
+          <div className="app">
             <HeaderPresenter />
             <CreatePresenter />
             <FooterPresenter />
-          </html>
+          </div>
+        }
+      />
+      <Route
+        path="/preview"
+        element={
+          <div className="app">
+            <HeaderPresenter />
+            <PreviewPresenter/>
+            <FooterPresenter />
+          </div>
         }
       />
     </Routes>
