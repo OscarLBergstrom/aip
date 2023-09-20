@@ -1,31 +1,28 @@
 import CreateView from "../views/createView";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
+import HaipModel from "../../models/model";
 
-const CreatePresenter = () => {
+interface CreatePresenterProps {
+  model: HaipModel;
+}
+
+const CreatePresenter: React.FC<CreatePresenterProps> = ({
+  model
+}) => {
   const [userMessage, setUserMessage] = useState<string>("");
   const [botResponse, setBotResponse] = useState<string>("");
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/api/chatbot", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: userMessage }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setBotResponse(data.botResponse); // Assuming your server returns { botResponse }
-    } catch (error) {
-      console.error("Error:", error);
-      setBotResponse("An error occurred while communicating with the chatbot.");
-    }
+    await model.submitBotRequest(userMessage);
+    setBotResponse(model.botResponse);
+    redirect("/preview");
   };
+
+  let navigate = useNavigate();
+  const redirect = (page: string) => {
+    navigate(page);
+  }
 
   return (
     <CreateView

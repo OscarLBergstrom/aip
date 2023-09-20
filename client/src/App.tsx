@@ -6,8 +6,10 @@ import HeaderPresenter from "./components/presenters/headerPresenter";
 import FooterPresenter from "./components/presenters/footerPresenter";
 import PreviewPresenter from './components/presenters/previewPresenter';
 import CreatePresenter from "./components/presenters/createPresenter";
+import HaipModel from "./models/model";
 
 const App = () => {
+  const haipModel = new HaipModel();
   return (
     <Routes>
       <Route
@@ -25,7 +27,7 @@ const App = () => {
         element={
           <div className="app">
             <HeaderPresenter />
-            <CreatePresenter />
+            <CreatePresenter model={haipModel}/>
             <FooterPresenter />
           </div>
         }
