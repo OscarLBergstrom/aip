@@ -1,6 +1,4 @@
 import "../../assets/styles/create.scss";
-import { useNavigate } from "react-router-dom"; 
-import { useEffect } from "react";
 
 interface CreateViewProps {
   userMessage: string;
@@ -20,18 +18,6 @@ const CreateView: React.FC<CreateViewProps> = ({
     e.preventDefault();
     onSubmit();
   };
-
-  useEffect(() => {
-    if(botResponse) {
-      console.log("Chatbot: \n", botResponse); 
-      redirect("/preview");
-    }
-  }, [botResponse]);
-
-  let navigate = useNavigate();
-  const redirect = (page: string) => {
-    navigate(page);
-  }
 
   return (
     <div className="create">

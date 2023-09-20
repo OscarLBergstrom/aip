@@ -1,5 +1,6 @@
 import CreateView from "../views/createView";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 
 const CreatePresenter = () => {
   const [userMessage, setUserMessage] = useState<string>("");
@@ -26,6 +27,18 @@ const CreatePresenter = () => {
       setBotResponse("An error occurred while communicating with the chatbot.");
     }
   };
+
+  useEffect(() => {
+    if(botResponse) {
+      console.log("Chatbot: \n", botResponse); 
+      redirect("/preview");
+    }
+  }, [botResponse]);
+
+  let navigate = useNavigate();
+  const redirect = (page: string) => {
+    navigate(page);
+  }
 
   return (
     <CreateView
