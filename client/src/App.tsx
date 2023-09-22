@@ -11,38 +11,30 @@ import HaipModel from "./models/model";
 const App = () => {
   const haipModel = new HaipModel();
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <div className="app">
-            <HeaderPresenter />
+    <div className="app">
+      <HeaderPresenter />
+      <Routes>
+        <Route
+          path="/"
+          element={
             <HomePresenter />
-            <FooterPresenter />
-          </div>
-        }
-      />
-      <Route
-        path="/create"
-        element={
-          <div className="app">
-            <HeaderPresenter />
-            <CreatePresenter model={haipModel}/>
-            <FooterPresenter />
-          </div>
-        }
-      />
-      <Route
-        path="/preview"
-        element={
-          <div className="app">
-            <HeaderPresenter />
-            <PreviewPresenter/>
-            <FooterPresenter />
-          </div>
-        }
-      />
-    </Routes>
+            }
+         />
+         <Route
+          path="/create"
+          element={
+            <CreatePresenter model={haipModel} />
+            }
+          />
+          <Route
+            path="/preview"
+            element={
+              <PreviewPresenter />
+            }
+           /> 
+      </Routes>
+      <FooterPresenter />
+    </div>
   );
 };
 
