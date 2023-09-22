@@ -20,7 +20,8 @@ const CreatePresenter = () => {
       }
 
       const data = await response.json();
-      setBotResponse(data.botResponse); // Assuming your server returns { botResponse }
+      setBotResponse(data.botResponse);
+
     } catch (error) {
       console.error("Error:", error);
       setBotResponse("An error occurred while communicating with the chatbot.");
