@@ -6,6 +6,7 @@ import HeaderPresenter from "./components/presenters/headerPresenter";
 import FooterPresenter from "./components/presenters/footerPresenter";
 import PreviewPresenter from './components/presenters/previewPresenter';
 import CreatePresenter from "./components/presenters/createPresenter";
+import SidebarPresenter from "./components/presenters/sidebarPresenter";
 import HaipModel from "./models/model";
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <div className="app">
       <HeaderPresenter />
+      <SidebarPresenter />
       <Routes>
         <Route
           path="/"

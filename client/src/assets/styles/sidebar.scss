@@ -1,0 +1,49 @@
+@import "../themes/theme.scss";
+
+.menu-toggler {
+    position: absolute;
+    top: 0;
+    margin: 24px;
+}
+
+.menu-icon {
+    color: $text-primary;
+    &:hover,
+    &:focus {
+        color: $text-secondary;
+    }
+}
+
+.sidebar {
+    background-color: $bg-secondary;
+    width: 200px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: -100%;
+    transition: 850ms;
+}
+
+.sidebar.open {
+    left: 0;
+    transition: 350ms;
+}
+
+.sidebar .menu-item {
+    margin: 8px 16px;
+}
+
+.menu-item .menu-link {
+    color: $text-primary;
+    text-decoration: none;
+    line-height: 24px;
+
+    &:hover,
+    &:focus {
+        color: $text-secondary;
+    }
+}
+
+
+
