@@ -1,4 +1,5 @@
 import "../../assets/styles/home.scss";
+import "../../assets/styles/common.scss";
 
 interface HomeViewProps {
   onLogin: () => void;
@@ -6,7 +7,7 @@ interface HomeViewProps {
 
 const HomeView: React.FC<HomeViewProps> = ({ onLogin }) => {
   return (
-    <div className="home">
+    <div className="page">
       <div className="card">
         <div className="title">Welcome to HAIP!</div>
         <div className="info">
@@ -18,7 +19,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onLogin }) => {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </div>
-        <button className="login" onClick={onLogin}>
+        <button className="button" onClick={onLogin}>
           Login
         </button>
       </div>

@@ -1,28 +1,7 @@
 @import "../themes/theme.scss";
+@import "./common.scss";
 
-.create {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-  margin: auto;
-}
-
-.create .card {
-  background-color: $bg-secondary;
-  padding: 32px;
-  border-radius: 16px;
-  width: 70%;
-}
-
-.card .title {
-  font-size: 48px;
-  margin-bottom: 32px;
-}
-
-.card .form {
+.form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,12 +18,5 @@ input[type="text"] {
 }
 
 input[type="submit"] {
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: $green-primary;
-  color: $text-primary;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  @extend .button;
 }

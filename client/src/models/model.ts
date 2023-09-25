@@ -1,19 +1,27 @@
+interface userType {
+  code: string,
+  token: string,
+  email: string,
+  username: string,
+}
+
 export default class HaipModel {
 
   botResponse: string;
   urlResponse: string;
-  userCode: string;
-  userToken: string;
-  userEmail: string;
-  userName: string;
+  loggedIn: boolean;
+  user: userType;
 
   constructor() {
     this.botResponse = "";
     this.urlResponse = "";
-    this.userCode = "";
-    this.userToken = "";
-    this.userEmail = "";
-    this.userName = "";
+    this.loggedIn = false;
+    this.user = {
+      code: "",
+      token: "",
+      email: "",
+      username: ""
+    };
   }
 
   /* Submit chatbot request and set the bot response */
@@ -85,26 +93,37 @@ export default class HaipModel {
     }
   }
 
+  getUserDetails = async () => {
+    if (!Object.values(this.user).some(v => v)) {
+      this.getUserCode() 
+      await this.getUserToken();
+      await this.getUserProfile();
+      this.loggedIn = true;
+
+      console.log("user: ", this.user);
+    }
+  }
+
   /* Get user code param */
   getUserCode = () => {
     const params = new URLSearchParams(window.location.search);
     const code_param = params.get("code");
     if (typeof code_param === "string") {
-      this.userCode = code_param;
+      this.user.code = code_param;
     }
   }
 
   /* Get user token */
   getUserToken = async () => {
     const verifier = localStorage.getItem("verifier");
-    if (typeof this.userCode === "string" && typeof verifier === "string") {
+    if (typeof this.user.code === "string" && typeof verifier === "string") {
       try {
         const response = await fetch(`http://localhost:3001/api/token`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ code: this.userCode, verifier: verifier }),
+          body: JSON.stringify({ code: this.user.code, verifier: verifier }),
         });
 
         if (!response.ok) {
@@ -112,9 +131,7 @@ export default class HaipModel {
         }
 
         const data = await response.json();
-        this.userToken = data.token;
-        // setToken(data.token);
-        console.log("token: ", data.token);
+        this.user.token = data.token;
       } catch (error) {
         console.error("Error:", error);
       }
@@ -125,7 +142,7 @@ export default class HaipModel {
   getUserProfile = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/profile?token=${encodeURIComponent(this.userToken)}`,
+        `http://localhost:3001/api/profile?token=${encodeURIComponent(this.user.token)}`,
         {
           method: "GET",
         }
@@ -136,10 +153,8 @@ export default class HaipModel {
       }
 
       const data = await response.json();
-      this.userEmail = data.profile.email;
-      this.userName = data.profile.display_name;
-      // setEmail(data.profile.email);
-      // setUserName(data.profile.display_name);
+      this.user.email = data.profile.email;
+      this.user.username = data.profile.display_name;
     } catch (error) {
       console.error("Error:", error);
     }
