@@ -13,10 +13,11 @@ const PreviewView: React.FC<PreviewViewProps> = ({
   getPlaylistID();
 
   return (
-    <div className="preview">
+    <div className="page">
       <div className="title">Your AI generated playlist!</div>
       <iframe
         id="player"
+        title="preview playlist player"
         className="player"
         src={`https://open.spotify.com/embed/playlist/${playlistID}?utm_source=generator`}
         frameBorder="0"
