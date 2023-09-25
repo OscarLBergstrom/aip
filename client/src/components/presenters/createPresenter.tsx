@@ -17,9 +17,8 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [email, setEmail] = useState<string>("placeholder");
 
   const getCode = () => {
-    const params = new URLSearchParams(window.location.search);
-    const code_param = params.get("code");
-    if (typeof code_param === "string") setCode(code_param);
+    model.getUserCode();
+    setCode(model.userCode);
   };
 
   const handleSubmit = async () => {
@@ -63,49 +62,14 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   };
 
   const getToken = async () => {
-    const verifier = localStorage.getItem("verifier");
-    if (typeof code === "string" && typeof verifier === "string") {
-      try {
-        const response = await fetch(`http://localhost:3001/api/token`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ code: code, verifier: verifier }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setToken(data.token);
-        console.log("token: ", data.token);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
+    await model.getUserToken();
+    setToken(model.userToken);
   };
 
   const getProfile = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/api/profile?token=${encodeURIComponent(token)}`,
-        {
-          method: "GET",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setEmail(data.profile.email);
-      setUserName(data.profile.display_name);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    await model.getUserProfile();
+    setEmail(model.userEmail);
+    setUserName(model.userName);
   };
 
   return (
