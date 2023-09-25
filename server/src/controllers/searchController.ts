@@ -18,8 +18,6 @@ export const searchResponse = async (req: Request, res: Response) => {
 
     const search = await result.json();
 
-    console.log(search);
-
     res.json({
       search,
     });

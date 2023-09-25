@@ -1,22 +1,94 @@
-export default class HaipModel {
+interface Track {
+  title: string;
+  artist: string;
+}
 
+export default class HaipModel {
   botResponse: string;
+  formattedResponse: Track[];
   urlResponse: string;
   userCode: string;
   userToken: string;
   userEmail: string;
   userName: string;
+  userID: string;
+  playlist: string[];
+  playlistID: string;
 
   constructor() {
     this.botResponse = "";
+    this.formattedResponse = [];
     this.urlResponse = "";
     this.userCode = "";
     this.userToken = "";
     this.userEmail = "";
     this.userName = "";
+    this.userID = "";
+    this.playlist = [];
+    this.playlistID = "";
   }
 
-  /* Submit chatbot request and set the bot response */
+  formatBotResponse(botMessage: string) {
+    const tracks: Track[] = [];
+
+    const arr = botMessage.split(",");
+
+    for (let i = 0; i < arr.length; i++) {
+      const trackInfo = arr[i].split("-");
+      console.log(trackInfo);
+
+      const track: Track = {
+        title: trackInfo[0].trim(),
+        artist: trackInfo[1].trim(),
+      };
+
+      tracks.push(track);
+    }
+
+    return tracks;
+  }
+
+  createPlaylist = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/playlist`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: this.userToken, userID: this.userID}),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      this.playlistID = data.token.id;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  addTracks = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/tracks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ playlistID: this.playlistID, uris: this.playlist, token: this.userToken}),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   async submitBotRequest(userMessage: string) {
     try {
       const response = await fetch("http://localhost:3001/api/chatbot", {
@@ -33,9 +105,27 @@ export default class HaipModel {
 
       const data = await response.json();
       this.botResponse = data.botResponse;
+
+      this.formattedResponse = this.formatBotResponse(data.botResponse);
+
+      const trackIDs = [];
+
+      for (let i = 0; i < this.formattedResponse.length; i++) {
+        const searchResult = await this.getSearchResult(
+          this.formattedResponse[i].title,
+          this.formattedResponse[i].artist
+        );
+        trackIDs.push(searchResult);
+      }
+
+      this.playlist = trackIDs;
+      console.log("Final playlist: ", trackIDs);
+      await this.createPlaylist();
+      this.addTracks();
     } catch (error) {
       console.error("Error:", error);
-      this.botResponse = "An error occurred while communicating with the chatbot.";
+      this.botResponse =
+        "An error occurred while communicating with the chatbot.";
     }
     console.log("ChatBot: \n", this.botResponse);
   }
@@ -83,7 +173,7 @@ export default class HaipModel {
     } catch (error) {
       console.error("Error:", error);
     }
-  }
+  };
 
   /* Get user code param */
   getUserCode = () => {
@@ -92,7 +182,7 @@ export default class HaipModel {
     if (typeof code_param === "string") {
       this.userCode = code_param;
     }
-  }
+  };
 
   /* Get user token */
   getUserToken = async () => {
@@ -119,13 +209,15 @@ export default class HaipModel {
         console.error("Error:", error);
       }
     }
-  }
-  
+  };
+
   /* Get email and username of user */
   getUserProfile = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/profile?token=${encodeURIComponent(this.userToken)}`,
+        `http://localhost:3001/api/profile?token=${encodeURIComponent(
+          this.userToken
+        )}`,
         {
           method: "GET",
         }
@@ -138,11 +230,34 @@ export default class HaipModel {
       const data = await response.json();
       this.userEmail = data.profile.email;
       this.userName = data.profile.display_name;
-      // setEmail(data.profile.email);
-      // setUserName(data.profile.display_name);
+      this.userID = data.profile.id;
     } catch (error) {
       console.error("Error:", error);
     }
-  }
+  };
 
-};
+  getSearchResult = async (artist: string, track: string) => {
+
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/search?token=${encodeURIComponent(
+          this.userToken
+        )}&track=${encodeURIComponent(track)}&artist=${encodeURIComponent(
+          artist
+        )}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.search.tracks.items[0].uri;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+}

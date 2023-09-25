@@ -31,7 +31,7 @@ const App = () => {
           <Route
             path="/preview"
             element={
-              <PreviewPresenter />
+              <PreviewPresenter model={haipModel}/>
             }
            /> 
       </Routes>
