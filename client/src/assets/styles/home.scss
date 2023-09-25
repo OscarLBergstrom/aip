@@ -1,27 +1,38 @@
 @import "../themes/theme.scss";
 
 .home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  margin: auto;
 }
 
 .home .card {
-    background-color: $bg-secondary;
-    padding: 32px;
-    border-radius: 16px;
-    width: 50%;
+  background-color: $bg-secondary;
+  padding: 32px;
+  border-radius: 16px;
+  width: 50%;
 }
 
 .card .title {
-    font-size: 48px;
-    margin-bottom: 32px;
+  font-size: 48px;
+  margin-bottom: 32px;
 }
 
 .card .info {
-    color: $text-secondary;
+  color: $text-secondary;
+}
+
+.login {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: $green-primary;
+  color: $text-primary;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
