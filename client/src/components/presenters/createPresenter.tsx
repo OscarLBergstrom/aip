@@ -1,5 +1,5 @@
 import CreateView from "../views/createView";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HaipModel from "../../models/model";
 
@@ -13,13 +13,20 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
 
   const [code, setCode] = useState<string>("");
   const [token, setToken] = useState<string>("");
-  const [userName, setUserName] = useState<string>("placeholder");
-  const [email, setEmail] = useState<string>("placeholder");
+  const [userName, setUserName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
-  const getCode = () => {
-    model.getUserCode();
-    setCode(model.userCode);
-  };
+  useEffect( () => {
+    const getUser = async () => {
+      await model.getUserDetails();
+      setCode(model.user.code);
+      setToken(model.user.token);
+      setUserName(model.user.username);
+      setEmail(model.user.email);
+    }
+
+    getUser();
+  }, [])
 
   const handleSubmit = async () => {
     await model.submitBotRequest(userMessage);
@@ -32,17 +39,6 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
     navigate(page);
   };
 
-  const getToken = async () => {
-    await model.getUserToken();
-    setToken(model.userToken);
-  };
-
-  const getProfile = async () => {
-    await model.getUserProfile();
-    setEmail(model.userEmail);
-    setUserName(model.userName);
-  };
-
   return (
     <CreateView
       userMessage={userMessage}
@@ -53,9 +49,6 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
       token={token}
       email={email}
       userName={userName}
-      onLoad={getCode}
-      onToken={getToken}
-      onProfile={getProfile}
     />
   );
 };

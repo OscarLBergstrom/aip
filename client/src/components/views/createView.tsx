@@ -1,4 +1,5 @@
 import "../../assets/styles/create.scss";
+import "../../assets/styles/common.scss";
 
 interface CreateViewProps {
   userMessage: string;
@@ -9,9 +10,6 @@ interface CreateViewProps {
   token: string;
   email: string;
   userName: string;
-  onLoad: () => void;
-  onToken: () => void;
-  onProfile: () => void;
 }
 
 const CreateView: React.FC<CreateViewProps> = ({
@@ -23,11 +21,7 @@ const CreateView: React.FC<CreateViewProps> = ({
   token,
   email,
   userName,
-  onLoad,
-  onToken,
-  onProfile,
 }) => {
-  onLoad();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +29,7 @@ const CreateView: React.FC<CreateViewProps> = ({
   };
 
   return (
-    <div className="create">
+    <div className="page">
       <div className="card">
         <div className="title">Hello {userName}!</div>
         <form className="form" onSubmit={handleSubmit}>
@@ -50,17 +44,6 @@ const CreateView: React.FC<CreateViewProps> = ({
           </label>
           <input type="submit" value="Submit" />
         </form>
-        <div>
-          <p>Chatbot: {botResponse}</p>
-          <p>Code:</p>
-          <p>{code}</p>
-          <p>Token:</p>
-          <p>{token}</p>
-          <p>Email: </p>
-          <p>{email}</p>
-        </div>
-        <button onClick={onToken}>Get token</button>
-        <button onClick={onProfile}>Get profile information</button>
       </div>
     </div>
   );
