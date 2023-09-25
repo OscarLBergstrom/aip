@@ -2,10 +2,18 @@ export default class HaipModel {
 
   botResponse: string;
   urlResponse: string;
+  userCode: string;
+  userToken: string;
+  userEmail: string;
+  userName: string;
 
   constructor() {
     this.botResponse = "";
     this.urlResponse = "";
+    this.userCode = "";
+    this.userToken = "";
+    this.userEmail = "";
+    this.userName = "";
   }
 
   /* Submit chatbot request and set the bot response */
@@ -72,11 +80,69 @@ export default class HaipModel {
 
       const data = await response.json();
       this.urlResponse = data.urlResponse;
-      // document.location = data.urlResponse;
     } catch (error) {
       console.error("Error:", error);
-      this.urlResponse = "An error occurred while logging in."
     }
-  };
+  }
+
+  /* Get user code param */
+  getUserCode = () => {
+    const params = new URLSearchParams(window.location.search);
+    const code_param = params.get("code");
+    if (typeof code_param === "string") {
+      this.userCode = code_param;
+    }
+  }
+
+  /* Get user token */
+  getUserToken = async () => {
+    const verifier = localStorage.getItem("verifier");
+    if (typeof this.userCode === "string" && typeof verifier === "string") {
+      try {
+        const response = await fetch(`http://localhost:3001/api/token`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ code: this.userCode, verifier: verifier }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        this.userToken = data.token;
+        // setToken(data.token);
+        console.log("token: ", data.token);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  }
+  
+  /* Get email and username of user */
+  getUserProfile = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/profile?token=${encodeURIComponent(this.userToken)}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      this.userEmail = data.profile.email;
+      this.userName = data.profile.display_name;
+      // setEmail(data.profile.email);
+      // setUserName(data.profile.display_name);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
 };
