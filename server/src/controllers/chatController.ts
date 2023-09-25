@@ -17,7 +17,7 @@ export const createChatResponse = async (req: Request, res: Response) => {
       {
         role: "system",
         content:
-          'You are a playlist generator. Give an reply by returning a javascript array of objects, for example: [{"track": <track name 1>, "artist": <artist name 1}]. Do not return anything except for the array.',
+          'You are a playlist generator. Give an reply by returning a response consisting only of artists and tracks. Give it in the following format: "track1 - artist1, track2 - artist2, track3 - artist3"',
       },
       {
         role: "user",

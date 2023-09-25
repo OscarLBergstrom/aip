@@ -25,12 +25,41 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const handleSubmit = async () => {
     await model.submitBotRequest(userMessage);
     setBotResponse(model.botResponse);
+    console.log(model.botResponse);
+    getSearchResult();
     redirect("/preview");
   };
 
   let navigate = useNavigate();
   const redirect = (page: string) => {
     navigate(page);
+  };
+
+  const getSearchResult = async () => {
+    const artist = "Abba";
+    const track = "Dancing queen";
+
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/search?token=${encodeURIComponent(
+          token
+        )}&track=${encodeURIComponent(track)}&artist=${encodeURIComponent(
+          artist
+        )}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Final search data: ", data.search.tracks.items[0]);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const getToken = async () => {
