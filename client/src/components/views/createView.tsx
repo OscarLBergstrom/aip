@@ -10,7 +10,6 @@ interface CreateViewProps {
   email: string;
   userName: string;
   onLoad: () => void;
-  onLogin: () => void;
   onToken: () => void;
   onProfile: () => void;
 }
@@ -25,7 +24,6 @@ const CreateView: React.FC<CreateViewProps> = ({
   email,
   userName,
   onLoad,
-  onLogin,
   onToken,
   onProfile,
 }) => {
@@ -61,7 +59,6 @@ const CreateView: React.FC<CreateViewProps> = ({
           <p>Email: </p>
           <p>{email}</p>
         </div>
-        <button onClick={onLogin}>Test API</button>
         <button onClick={onToken}>Get token</button>
         <button onClick={onProfile}>Get profile information</button>
       </div>
