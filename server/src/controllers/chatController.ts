@@ -4,9 +4,8 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: "./src/.env" });
 
-// Configure your OpenAI API key and create an instance of the API client
 const openaiConfig = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY, // Replace with your OpenAI API key
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(openaiConfig);
 
@@ -17,7 +16,8 @@ export const createChatResponse = async (req: Request, res: Response) => {
     const messages: ChatCompletionRequestMessage[] = [
       {
         role: "system",
-        content: "You are a helpful assistant.",
+        content:
+          'You are a playlist generator. Give an reply by returning a javascript array of objects, for example: [{"track": <track name 1>, "artist": <artist name 1}]. Do not return anything except for the array.',
       },
       {
         role: "user",

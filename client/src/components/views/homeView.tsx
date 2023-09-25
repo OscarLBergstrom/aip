@@ -1,6 +1,8 @@
 import "../../assets/styles/home.scss";
 
 const HomeView = () => {
+
+
     return (
         <div className="home">
             <div className="card">

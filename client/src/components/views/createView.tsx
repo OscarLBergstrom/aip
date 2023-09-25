@@ -4,8 +4,15 @@ interface CreateViewProps {
   userMessage: string;
   setUserMessage: (message: string) => void;
   botResponse: string;
-  setBotResponse: (response: string) => void;
   onSubmit: () => void;
+  code: string;
+  token: string;
+  email: string;
+  userName: string;
+  onLoad: () => void;
+  onLogin: () => void;
+  onToken: () => void;
+  onProfile: () => void;
 }
 
 const CreateView: React.FC<CreateViewProps> = ({
@@ -13,7 +20,17 @@ const CreateView: React.FC<CreateViewProps> = ({
   setUserMessage,
   botResponse,
   onSubmit,
+  code,
+  token,
+  email,
+  userName,
+  onLoad,
+  onLogin,
+  onToken,
+  onProfile,
 }) => {
+  onLoad();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
@@ -22,7 +39,7 @@ const CreateView: React.FC<CreateViewProps> = ({
   return (
     <div className="create">
       <div className="card">
-        <div className="title">Create playlist!</div>
+        <div className="title">Hello {userName}!</div>
         <form className="form" onSubmit={handleSubmit}>
           <label>
             What kind of playlist do you want to create?
@@ -35,6 +52,18 @@ const CreateView: React.FC<CreateViewProps> = ({
           </label>
           <input type="submit" value="Submit" />
         </form>
+        <div>
+          <p>Chatbot: {botResponse}</p>
+          <p>Code:</p>
+          <p>{code}</p>
+          <p>Token:</p>
+          <p>{token}</p>
+          <p>Email: </p>
+          <p>{email}</p>
+        </div>
+        <button onClick={onLogin}>Test API</button>
+        <button onClick={onToken}>Get token</button>
+        <button onClick={onProfile}>Get profile information</button>
       </div>
     </div>
   );
