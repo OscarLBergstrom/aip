@@ -6,32 +6,37 @@ import HeaderPresenter from "./components/presenters/headerPresenter";
 import FooterPresenter from "./components/presenters/footerPresenter";
 import PreviewPresenter from './components/presenters/previewPresenter';
 import CreatePresenter from "./components/presenters/createPresenter";
+import SidebarPresenter from "./components/presenters/sidebarPresenter";
+import HaipModel from "./models/model";
 
 const App = () => {
+  const haipModel = new HaipModel();
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <html className="app">
-            <HeaderPresenter />
+    <div className="app">
+      <HeaderPresenter />
+      <SidebarPresenter />
+      <Routes>
+        <Route
+          path="/"
+          element={
             <HomePresenter />
-            {/* <PreviewPresenter/> */}
-            <FooterPresenter />
-          </html>
-        }
-      />
-      <Route
-        path="/create"
-        element={
-          <html className="app">
-            <HeaderPresenter />
-            <CreatePresenter />
-            <FooterPresenter />
-          </html>
-        }
-      />
-    </Routes>
+            }
+         />
+         <Route
+          path="/create"
+          element={
+            <CreatePresenter model={haipModel} />
+            }
+          />
+          <Route
+            path="/preview"
+            element={
+              <PreviewPresenter />
+            }
+           /> 
+      </Routes>
+      <FooterPresenter />
+    </div>
   );
 };
 
