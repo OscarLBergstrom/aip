@@ -19,7 +19,7 @@ const App = () => {
         <Route
           path="/"
           element={
-            <HomePresenter />
+            <HomePresenter model={haipModel}/>
             }
          />
          <Route
