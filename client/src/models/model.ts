@@ -251,7 +251,7 @@ export default class HaipModel {
     }
   };
 
-  getSearchResult = async (artist: string, track: string) => {
+  getSearchResult = async (track: string, artist: string) => {
 
     try {
       const response = await fetch(
