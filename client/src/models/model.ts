@@ -1,9 +1,11 @@
+import { useFetch } from "../hooks/useFetch";
+import { Method } from "axios";
 
 interface Track {
   title: string;
   artist: string;
 }
-interface userType {
+interface User {
   code: string,
   token: string,
   email: string,
@@ -18,7 +20,7 @@ export default class HaipModel {
   playlist: string[];
   playlistID: string;
   loggedIn: boolean;
-  user: userType;
+  user: User;
   
   constructor() {
     this.botResponse = "";
@@ -58,19 +60,14 @@ export default class HaipModel {
 
   createPlaylist = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/api/playlist`, {
-        method: "POST",
+      const data = await useFetch({
+        url: `http://localhost:3001/api/playlist`,
+        method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token: this.user.token, userID: this.user.id}),
+        body: { token: this.user.token, userID: this.user.id}
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
       this.playlistID = data.token.id;
     } catch (error) {
       console.error("Error:", error);
@@ -79,39 +76,29 @@ export default class HaipModel {
 
   addTracks = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/api/tracks`, {
-        method: "POST",
+      const data = await useFetch({
+        url: `http://localhost:3001/api/tracks`,
+        method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ playlistID: this.playlistID, uris: this.playlist, token: this.user.token}),
+        body: { playlistID: this.playlistID, uris: this.playlist, token: this.user.token}
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  async submitBotRequest(userMessage: string) {
+  submitBotRequest = async (userMessage: string) => {
     try {
-      const response = await fetch("http://localhost:3001/api/chatbot", {
-        method: "POST",
+      const data = await useFetch({
+        url: "http://localhost:3001/api/chatbot",
+        method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: userMessage }),
+        body: { message: userMessage }
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
       this.botResponse = data.botResponse;
 
       this.formattedResponse = this.formatBotResponse(data.botResponse);
@@ -136,7 +123,7 @@ export default class HaipModel {
         "An error occurred while communicating with the chatbot.";
     }
     console.log("ChatBot: \n", this.botResponse);
-  }
+  };
 
   /* Login */
   handleLogin = async () => {
@@ -168,15 +155,12 @@ export default class HaipModel {
       const apiUrl = `http://localhost:3001/api/login?challenge=${encodeURIComponent(
         challenge
       )}`;
-      const response = await fetch(apiUrl, {
-        method: "GET",
-      });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      const data = await useFetch({
+        url: apiUrl,
+        method: "GET" as Method
+      })
 
-      const data = await response.json();
       this.urlResponse = data.urlResponse;
     } catch (error) {
       console.error("Error:", error);
@@ -208,19 +192,14 @@ export default class HaipModel {
     const verifier = localStorage.getItem("verifier");
     if (typeof this.user.code === "string" && typeof verifier === "string") {
       try {
-        const response = await fetch(`http://localhost:3001/api/token`, {
-          method: "POST",
+        const data = await useFetch({
+          url: `http://localhost:3001/api/token`,
+          method: "POST" as Method,
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ code: this.user.code, verifier: verifier }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
+          body: { code: this.user.code, verifier: verifier }
+        })
         this.user.token = data.token;
       } catch (error) {
         console.error("Error:", error);
@@ -231,18 +210,10 @@ export default class HaipModel {
   /* Get email and username of user */
   getUserProfile = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/profile?token=${encodeURIComponent(this.user.token)}`,
-        {
-          method: "GET",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = await useFetch({
+        url: `http://localhost:3001/api/profile?token=${encodeURIComponent(this.user.token)}`,
+        method: "GET" as Method
+      });
       this.user.id = data.profile.id;
       this.user.email = data.profile.email;
       this.user.username = data.profile.display_name;
@@ -254,22 +225,14 @@ export default class HaipModel {
   getSearchResult = async (track: string, artist: string) => {
 
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/search?token=${encodeURIComponent(
+      const data = await useFetch({
+        url: `http://localhost:3001/api/search?token=${encodeURIComponent(
           this.user.token
         )}&track=${encodeURIComponent(track)}&artist=${encodeURIComponent(
           artist
         )}`,
-        {
-          method: "GET",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
+        method: "GET" as Method
+      });
       return data.search.tracks.items[0].uri;
     } catch (error) {
       console.error("Error:", error);
