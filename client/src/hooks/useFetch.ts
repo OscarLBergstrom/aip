@@ -1,8 +1,10 @@
+import { Method } from "axios";
+
 interface Request {
     url: string,
-    method: string,
+    method: Method,
     headers?: Record<string, string>,
-    body?: string
+    body?: Record<any, any>
 }
 
 export const useFetch = async (request: Request) => {
@@ -10,7 +12,7 @@ export const useFetch = async (request: Request) => {
         const response = await fetch(request.url, {
           method: request.method,
           headers: request.headers,
-          body: request.body,
+          body: JSON.stringify(request.body),
         });
   
         if (!response.ok) {

@@ -1,4 +1,5 @@
 import { useFetch } from "../hooks/useFetch";
+import { Method } from "axios";
 
 interface Track {
   title: string;
@@ -61,11 +62,11 @@ export default class HaipModel {
     try {
       const data = await useFetch({
         url: `http://localhost:3001/api/playlist`,
-        method: "POST",
+        method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token: this.user.token, userID: this.user.id})
+        body: { token: this.user.token, userID: this.user.id}
       });
       this.playlistID = data.token.id;
     } catch (error) {
@@ -77,11 +78,11 @@ export default class HaipModel {
     try {
       const data = await useFetch({
         url: `http://localhost:3001/api/tracks`,
-        method: "POST",
+        method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ playlistID: this.playlistID, uris: this.playlist, token: this.user.token})
+        body: { playlistID: this.playlistID, uris: this.playlist, token: this.user.token}
       });
     } catch (error) {
       console.error("Error:", error);
@@ -92,11 +93,11 @@ export default class HaipModel {
     try {
       const data = await useFetch({
         url: "http://localhost:3001/api/chatbot",
-        method: "POST",
+        method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: userMessage })
+        body: { message: userMessage }
       });
       this.botResponse = data.botResponse;
 
@@ -157,7 +158,7 @@ export default class HaipModel {
 
       const data = await useFetch({
         url: apiUrl,
-        method: "GET"
+        method: "GET" as Method
       })
 
       this.urlResponse = data.urlResponse;
@@ -193,11 +194,11 @@ export default class HaipModel {
       try {
         const data = await useFetch({
           url: `http://localhost:3001/api/token`,
-          method: "POST",
+          method: "POST" as Method,
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ code: this.user.code, verifier: verifier })
+          body: { code: this.user.code, verifier: verifier }
         })
         this.user.token = data.token;
       } catch (error) {
@@ -211,7 +212,7 @@ export default class HaipModel {
     try {
       const data = await useFetch({
         url: `http://localhost:3001/api/profile?token=${encodeURIComponent(this.user.token)}`,
-        method: "GET"
+        method: "GET" as Method
       });
       this.user.id = data.profile.id;
       this.user.email = data.profile.email;
@@ -230,7 +231,7 @@ export default class HaipModel {
         )}&track=${encodeURIComponent(track)}&artist=${encodeURIComponent(
           artist
         )}`,
-        method: "GET"
+        method: "GET" as Method
       });
       return data.search.tracks.items[0].uri;
     } catch (error) {
