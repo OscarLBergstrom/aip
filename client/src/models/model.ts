@@ -63,7 +63,7 @@ export default class HaipModel {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token: this.userToken, userID: this.user.id}),
+        body: JSON.stringify({ token: this.user.token, userID: this.user.id}),
       });
 
       if (!response.ok) {
@@ -84,7 +84,7 @@ export default class HaipModel {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ playlistID: this.playlistID, uris: this.playlist, token: this.userToken}),
+        body: JSON.stringify({ playlistID: this.playlistID, uris: this.playlist, token: this.user.token}),
       });
 
       if (!response.ok) {
@@ -256,7 +256,7 @@ export default class HaipModel {
     try {
       const response = await fetch(
         `http://localhost:3001/api/search?token=${encodeURIComponent(
-          this.userToken
+          this.user.token
         )}&track=${encodeURIComponent(track)}&artist=${encodeURIComponent(
           artist
         )}`,
