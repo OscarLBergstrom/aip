@@ -5,7 +5,8 @@ export const createPlaylistResponse = async (req: Request, res: Response) => {
 
     const token = req.body.token;
     const userID = req.body.userID;
-    const name = "HAIP playlist"; //TODO: fixa att det här är en input från user alternativt genereras unik
+    const name = req.body.playlistName;
+    //const name = "HAIP playlist"; //TODO: fixa att det här är en input från user alternativt genereras unik
 
     const result = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
       method: "POST",

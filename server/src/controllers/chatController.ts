@@ -11,13 +11,12 @@ const openai = new OpenAIApi(openaiConfig);
 
 export const createChatResponse = async (req: Request, res: Response) => {
   try {
-    const { message } = req.body;
+    const { message, numberOfTracks } = req.body;
 
     const messages: ChatCompletionRequestMessage[] = [
       {
         role: "system",
-        content:
-          'You are a playlist generator. Give an reply by returning a response consisting only of artists and tracks. Give it in the following format: track1 - artist1, track2 - artist2, track3 - artist3. Write no other text at all, only tracks and artists.',
+        content: `You are a playlist generator. Give an reply by returning a response consisting only of artists and tracks. Give it in the following format: track1 - artist1, track2 - artist2, track3 - artist3. Write no other text at all, only tracks and artists. The number of tracks in the playlist should be ${numberOfTracks}`,
       },
       {
         role: "user",
