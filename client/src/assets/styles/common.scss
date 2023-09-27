@@ -12,7 +12,7 @@
     border: 0;
     border-radius: 100px;
     box-sizing: border-box;
-    color: #ffffff;
+    color: $text-primary;
     cursor: pointer;
     display: inline-flex;
     font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -40,7 +40,7 @@
   .button:hover,
   .button:focus { 
     background-color: $green-secondary;
-    color: #ffffff;
+    color: $text-primary;
   }
 
   .button.red {
@@ -58,28 +58,27 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  text-align: center;
   width: 100vw;
   margin: auto;
 }
 
 .card {
   background-color: $bg-secondary;
-  padding: 32px;
+  padding: 24px;
   border-radius: 16px;
-  width: 50%;
+  width: 70%;
+  text-align: center;
 }
   
 .title {
-  font-size: 48px;
+  font-size: 32px;
   margin-bottom: 32px;
   margin-top: 24px;
 }
 
 .subtitle {
-  font-size: 25px;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  font-size: 18px;
+  margin: 8px 0px;
 }
 
 .info {
