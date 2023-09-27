@@ -4,25 +4,22 @@ import "../../assets/styles/common.scss";
 interface CreateViewProps {
   userMessage: string;
   setUserMessage: (message: string) => void;
-  botResponse: string;
+  playlistName: string;
+  setPlaylistName: (name: string) => void;
+  setNumberOfTracks: (numberOfTracks: number) => void;
   onSubmit: () => void;
-  code: string;
-  token: string;
-  email: string;
   userName: string;
 }
 
 const CreateView: React.FC<CreateViewProps> = ({
   userMessage,
   setUserMessage,
-  botResponse,
+  playlistName,
+  setPlaylistName,
+  setNumberOfTracks,
   onSubmit,
-  code,
-  token,
-  email,
   userName,
 }) => {
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
@@ -33,15 +30,30 @@ const CreateView: React.FC<CreateViewProps> = ({
       <div className="card">
         <div className="title">Hello {userName}!</div>
         <form className="form" onSubmit={handleSubmit}>
-          <label>
-            What kind of playlist do you want to create?
-            <input
-              type="text"
-              name="query"
-              value={userMessage}
-              onChange={(e) => setUserMessage(e.target.value)}
-            />
-          </label>
+          <div> What kind of playlist do you want to create?</div>
+          <input
+            type="text"
+            name="query"
+            value={userMessage}
+            onChange={(e) => setUserMessage(e.target.value)}
+          />
+          <div className="subtitle">Additional data:</div>
+          <div>Name of playlist:</div>
+          <input
+            type="text"
+            name="name"
+            value={playlistName}
+            onChange={(e) => setPlaylistName(e.target.value)}
+          />
+          <div>Number of songs:</div>
+          <input
+            type="number"
+            name="numberOfTracks"
+            min="1"
+            max="10"
+            defaultValue="1"
+            onChange={(e) => setNumberOfTracks(parseInt(e.target.value))}
+          />
           <input type="submit" value="Submit" />
         </form>
       </div>

@@ -6,11 +6,11 @@ interface Track {
   artist: string;
 }
 interface User {
-  code: string,
-  token: string,
-  email: string,
-  username: string,
-  id: string,
+  code: string;
+  token: string;
+  email: string;
+  username: string;
+  id: string;
 }
 
 export default class HaipModel {
@@ -21,7 +21,7 @@ export default class HaipModel {
   playlistID: string;
   loggedIn: boolean;
   user: User;
-  
+
   constructor() {
     this.botResponse = "";
     this.formattedResponse = [];
@@ -59,7 +59,7 @@ export default class HaipModel {
     return tracks;
   }
 
-  createPlaylist = async () => {
+  createPlaylist = async (playlistName: string) => {
     try {
       const data = await useFetch({
         url: `http://localhost:3001/api/playlist`,
@@ -67,7 +67,11 @@ export default class HaipModel {
         headers: {
           "Content-Type": "application/json",
         },
-        body: { token: this.user.token, userID: this.user.id}
+        body: {
+          token: this.user.token,
+          userID: this.user.id,
+          playlistName: playlistName,
+        },
       });
       this.playlistID = data.token.id;
     } catch (error) {
@@ -83,14 +87,22 @@ export default class HaipModel {
         headers: {
           "Content-Type": "application/json",
         },
-        body: { playlistID: this.playlistID, uris: this.playlist, token: this.user.token}
+        body: {
+          playlistID: this.playlistID,
+          uris: this.playlist,
+          token: this.user.token,
+        },
       });
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  submitBotRequest = async (userMessage: string) => {
+  submitBotRequest = async (
+    userMessage: string,
+    playlistName: string,
+    numberOfTracks: number
+  ) => {
     try {
       const data = await useFetch({
         url: "http://localhost:3001/api/chatbot",
@@ -98,7 +110,7 @@ export default class HaipModel {
         headers: {
           "Content-Type": "application/json",
         },
-        body: { message: userMessage }
+        body: { message: userMessage, numberOfTracks: numberOfTracks },
       });
       this.botResponse = data.botResponse;
 
@@ -116,7 +128,7 @@ export default class HaipModel {
 
       this.playlist = trackIDs;
       console.log("Final playlist: ", trackIDs);
-      await this.createPlaylist();
+      await this.createPlaylist(playlistName);
       this.addTracks();
     } catch (error) {
       console.error("Error:", error);
@@ -159,8 +171,8 @@ export default class HaipModel {
 
       const data = await useFetch({
         url: apiUrl,
-        method: "GET" as Method
-      })
+        method: "GET" as Method,
+      });
 
       this.urlResponse = data.urlResponse;
     } catch (error) {
@@ -169,15 +181,15 @@ export default class HaipModel {
   };
 
   getUserDetails = async () => {
-    if (!Object.values(this.user).some(v => v)) {
-      this.getUserCode() 
+    if (!Object.values(this.user).some((v) => v)) {
+      this.getUserCode();
       await this.getUserToken();
       await this.getUserProfile();
       this.loggedIn = true;
 
       console.log("user: ", this.user);
     }
-  }
+  };
 
   /* Get user code param */
   getUserCode = () => {
@@ -199,8 +211,8 @@ export default class HaipModel {
           headers: {
             "Content-Type": "application/json",
           },
-          body: { code: this.user.code, verifier: verifier }
-        })
+          body: { code: this.user.code, verifier: verifier },
+        });
         this.user.token = data.token;
       } catch (error) {
         console.error("Error:", error);
@@ -212,8 +224,10 @@ export default class HaipModel {
   getUserProfile = async () => {
     try {
       const data = await useFetch({
-        url: `http://localhost:3001/api/profile?token=${encodeURIComponent(this.user.token)}`,
-        method: "GET" as Method
+        url: `http://localhost:3001/api/profile?token=${encodeURIComponent(
+          this.user.token
+        )}`,
+        method: "GET" as Method,
       });
       this.user.id = data.profile.id;
       this.user.email = data.profile.email;
@@ -224,7 +238,6 @@ export default class HaipModel {
   };
 
   getSearchResult = async (track: string, artist: string) => {
-
     try {
       const data = await useFetch({
         url: `http://localhost:3001/api/search?token=${encodeURIComponent(
@@ -232,7 +245,7 @@ export default class HaipModel {
         )}&track=${encodeURIComponent(track)}&artist=${encodeURIComponent(
           artist
         )}`,
-        method: "GET" as Method
+        method: "GET" as Method,
       });
       return data.search.tracks.items[0].uri;
     } catch (error) {
