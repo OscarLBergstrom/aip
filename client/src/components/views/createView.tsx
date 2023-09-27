@@ -1,6 +1,5 @@
 import "../../assets/styles/create.scss";
 import "../../assets/styles/common.scss";
-import Slider from "react-input-slider";
 
 interface CreateViewProps {
   userMessage: string;
