@@ -9,28 +9,21 @@ interface CreatePresenterProps {
 
 const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [userMessage, setUserMessage] = useState<string>("");
-  const [botResponse, setBotResponse] = useState<string>("");
-
-  const [code, setCode] = useState<string>("");
-  const [token, setToken] = useState<string>("");
+  const [playlistName, setPlaylistName] = useState<string>("");
+  const [numberOfTracks, setNumberOfTracks] = useState<number>(1);
   const [userName, setUserName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
 
   useEffect( () => {
     const getUser = async () => {
       await model.getUserDetails();
-      setCode(model.user.code);
-      setToken(model.user.token);
       setUserName(model.user.username);
-      setEmail(model.user.email);
     }
 
     getUser();
   }, [])
 
   const handleSubmit = async () => {
-    await model.submitBotRequest(userMessage);
-    setBotResponse(model.botResponse);
+    await model.submitBotRequest(userMessage, playlistName, numberOfTracks);
     redirect("/preview");
   };
 
@@ -43,11 +36,10 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
     <CreateView
       userMessage={userMessage}
       setUserMessage={setUserMessage}
-      botResponse={botResponse}
+      playlistName={playlistName}
+      setPlaylistName={setPlaylistName}
+      setNumberOfTracks={setNumberOfTracks}
       onSubmit={handleSubmit}
-      code={code}
-      token={token}
-      email={email}
       userName={userName}
     />
   );
