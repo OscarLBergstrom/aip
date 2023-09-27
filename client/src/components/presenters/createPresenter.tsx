@@ -38,6 +38,7 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
       setUserMessage={setUserMessage}
       playlistName={playlistName}
       setPlaylistName={setPlaylistName}
+      numberOfTracks={numberOfTracks}
       setNumberOfTracks={setNumberOfTracks}
       onSubmit={handleSubmit}
       userName={userName}
