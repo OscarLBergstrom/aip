@@ -41,16 +41,17 @@ export default class HaipModel {
   formatBotResponse(botMessage: string) {
     const tracks: Track[] = [];
 
-    const arr = botMessage.split(",");
+    botMessage = botMessage.trim();
+    const arr = botMessage.split(/\d+\. /);
 
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 1; i < arr.length; i++) {
       const trackInfo = arr[i].split("-");
-      console.log(trackInfo);
 
       const track: Track = {
         title: trackInfo[0].trim(),
         artist: trackInfo[1].trim(),
       };
+      console.log(track);
 
       tracks.push(track);
     }
@@ -122,7 +123,7 @@ export default class HaipModel {
       this.botResponse =
         "An error occurred while communicating with the chatbot.";
     }
-    console.log("ChatBot: \n", this.botResponse);
+    console.log("ChatBot:\n", this.botResponse);
   };
 
   /* Login */
