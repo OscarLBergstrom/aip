@@ -1,8 +1,12 @@
 import HeaderView from "../views/headerView";
+import { useState } from "react";
 
 const HeaderPresenter = () => {
+
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
+
     return (
-        <HeaderView/>
+        <HeaderView setLoggedIn={setLoggedIn}/>
     );
 }
 

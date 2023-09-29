@@ -1,4 +1,5 @@
 import "../../assets/styles/sidebar.scss";
+import "../../assets/styles/common.scss";
 import { HiMenu } from "react-icons/hi";
 
 interface SidebarViewProps {
@@ -14,7 +15,7 @@ const SidebarView: React.FC<SidebarViewProps> = ({
     return (
         <div>
             <div className="menu-toggler" onClick={toggleShowSidebar}>
-                <HiMenu className="menu-icon" size="32px"/>
+                <HiMenu className="icon" size="32px"/>
             </div>
             
             <div className={
