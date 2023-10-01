@@ -15,7 +15,6 @@ interface User {
 
 export default class HaipModel {
   botResponse: string;
-  formattedResponse: Track[];
   urlResponse: string;
   playlist: string[];
   playlistID: string;
@@ -24,7 +23,6 @@ export default class HaipModel {
 
   constructor() {
     this.botResponse = "";
-    this.formattedResponse = [];
     this.urlResponse = "";
     this.playlist = [];
     this.playlistID = "";
@@ -79,6 +77,20 @@ export default class HaipModel {
     }
   };
 
+  getTrackIDs = async (response: Track[]) => {
+    const trackIDs = [];
+
+    for (let i = 0; i < response.length; i++) {
+      const searchResult = await this.getSearchResult(
+        response[i].title,
+        response[i].artist
+      );
+      trackIDs.push(searchResult);
+    }
+
+    return trackIDs;
+  };
+
   addTracks = async () => {
     try {
       const data = await useFetch({
@@ -114,21 +126,16 @@ export default class HaipModel {
       });
       this.botResponse = data.botResponse;
 
-      this.formattedResponse = this.formatBotResponse(data.botResponse);
+      // format the bot response 
+      const formattedResponse = this.formatBotResponse(data.botResponse);
 
-      const trackIDs = [];
+      // gets the playlist in an array (the array consists of the tracks' Spotify URI)
+      this.playlist = await this.getTrackIDs(formattedResponse);
 
-      for (let i = 0; i < this.formattedResponse.length; i++) {
-        const searchResult = await this.getSearchResult(
-          this.formattedResponse[i].title,
-          this.formattedResponse[i].artist
-        );
-        trackIDs.push(searchResult);
-      }
-
-      this.playlist = trackIDs;
-      console.log("Final playlist: ", trackIDs);
+      // create a new playlist
       await this.createPlaylist(playlistName);
+
+      // add the tracks to the playlist
       this.addTracks();
     } catch (error) {
       console.error("Error:", error);
