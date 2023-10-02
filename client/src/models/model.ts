@@ -19,6 +19,7 @@ export default class HaipModel {
   urlResponse: string;
   playlist: string[];
   playlistID: string;
+  playlistName: string;
   loggedIn: boolean;
   user: User;
 
@@ -27,6 +28,7 @@ export default class HaipModel {
     this.urlResponse = "";
     this.playlist = [];
     this.playlistID = "";
+    this.playlistName = "";
     this.loggedIn = false;
     this.user = {
       code: "",
@@ -134,6 +136,7 @@ export default class HaipModel {
     numberOfTracks: number
   ) => {
     try {
+      this.setPlaylistName(playlistName);
       console.log(this.user.token);
       const data = await useFetch({
         url: "http://localhost:3001/api/chatbot",
@@ -144,19 +147,6 @@ export default class HaipModel {
         body: { message: userMessage, numberOfTracks: numberOfTracks },
       });
       this.botResponse = data.botResponse;
-
-      // format the bot response
-      const formattedResponse = this.formatBotResponse(data.botResponse);
-
-      // gets the playlist in an array (the array consists of the tracks' Spotify URI)
-      this.playlist = await this.getTrackIDs(formattedResponse);
-
-      // create a new playlist
-      await this.createPlaylist(playlistName);
-
-      // add the tracks to the playlist
-      this.addTracks();
-
       this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
@@ -164,6 +154,27 @@ export default class HaipModel {
         "An error occurred while communicating with the chatbot.";
     }
     console.log("ChatBot:\n", this.botResponse);
+  };
+
+  setPlaylistName = (name: string) => {
+    this.playlistName = name;
+  };
+
+  submitPlaylistRequest = async () => {
+    try {
+      // get the playlist in an array (the array consists of the tracks' Spotify URI)
+      this.playlist = await this.getTrackIDs(
+        this.formatBotResponse(this.botResponse)
+      );
+
+      // create a new playlist
+      await this.createPlaylist(this.playlistName);
+
+      // add the tracks to the playlist
+      this.addTracks();
+    } catch (error) {
+      console.error("Error: ", error);
+    }
   };
 
   /* Login */

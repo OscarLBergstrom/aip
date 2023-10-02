@@ -8,18 +8,24 @@ interface PreviewPresenterProps {
 
 const PreviewPresenter: React.FC<PreviewPresenterProps> = ({ model }) => {
   const [playlistID, setPlaylistID] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const playlistObserver = async () => {
-      console.log("inside observer");
       setPlaylistID(model.playlistID);
     };
-    
-    setPlaylistID(model.playlistID); // Den här behövs för när vi kommer hit, har model.playlistID redan satts. 
+
+    const getPlaylist = async () => {
+      setLoading(true);
+      await model.submitPlaylistRequest();
+      setLoading(false);
+    };
+
     model.addObserver(playlistObserver);
+    getPlaylist();
   }, []);
 
-  return <PreviewView playlistID={playlistID} />;
+  return loading ? <div>Loading</div> : <PreviewView playlistID={playlistID} />;
 };
 
 export default PreviewPresenter;
