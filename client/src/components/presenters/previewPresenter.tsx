@@ -1,6 +1,6 @@
 import PreviewView from "../views/previewView";
 import HaipModel from "../../models/model";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PreviewPresenterProps {
   model: HaipModel;
@@ -8,12 +8,24 @@ interface PreviewPresenterProps {
 
 const PreviewPresenter: React.FC<PreviewPresenterProps> = ({ model }) => {
   const [playlistID, setPlaylistID] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const getPlaylistID = async () => {
-    setPlaylistID(model.playlistID);
-  };
+  useEffect(() => {
+    const playlistObserver = async () => {
+      setPlaylistID(model.playlistID);
+    };
 
-  return <PreviewView playlistID={playlistID} getPlaylistID={getPlaylistID} />;
+    const getPlaylist = async () => {
+      setLoading(true);
+      await model.submitPlaylistRequest();
+      setLoading(false);
+    };
+
+    model.addObserver(playlistObserver);
+    getPlaylist();
+  }, []);
+
+  return loading ? <div>Loading</div> : <PreviewView playlistID={playlistID} />;
 };
 
 export default PreviewPresenter;

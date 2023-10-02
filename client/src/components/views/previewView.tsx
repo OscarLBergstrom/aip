@@ -3,15 +3,9 @@ import "../../assets/styles/common.scss";
 
 interface PreviewViewProps {
   playlistID: string;
-  getPlaylistID: () => void;
 }
 
-const PreviewView: React.FC<PreviewViewProps> = ({
-  getPlaylistID,
-  playlistID,
-}) => {
-  getPlaylistID();
-
+const PreviewView: React.FC<PreviewViewProps> = ({ playlistID }) => {
   return (
     <div className="page">
       <div className="title">Your AI generated playlist!</div>
