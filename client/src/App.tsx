@@ -13,7 +13,7 @@ const App = () => {
   const haipModel = new HaipModel();
   return (
     <div className="app">
-      <HeaderPresenter />
+      <HeaderPresenter model={haipModel}/>
       <SidebarPresenter />
       <Routes>
         <Route

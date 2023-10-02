@@ -1,12 +1,20 @@
 import HeaderView from "../views/headerView";
-import { useState } from "react";
+import HaipModel from "../../models/model";
+import { useState, useEffect } from "react";
 
-const HeaderPresenter = () => {
+interface HeaderPresenterProps {
+    model: HaipModel;
+}
 
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
+const HeaderPresenter: React.FC<HeaderPresenterProps> = ({ model }) => {
+
+    const [loggedIn, setLoggedIn] = useState<boolean>(model.loggedIn);
 
     return (
-        <HeaderView setLoggedIn={setLoggedIn}/>
+        <HeaderView 
+        loggedIn={loggedIn}
+        // setLoggedIn={setLoggedIn}
+        />
     );
 }
 
