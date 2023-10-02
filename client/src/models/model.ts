@@ -13,6 +13,11 @@ interface User {
   id: string;
 }
 
+interface Playlist {
+  id: string;
+  name: string;
+}
+
 export default class HaipModel {
   botResponse: string;
   urlResponse: string;
@@ -20,6 +25,7 @@ export default class HaipModel {
   playlistID: string;
   loggedIn: boolean;
   user: User;
+  myPlaylists: Playlist[];
 
   constructor() {
     this.botResponse = "";
@@ -34,6 +40,7 @@ export default class HaipModel {
       username: "",
       id: "",
     };
+    this.myPlaylists = [];
   }
 
   formatBotResponse(botMessage: string) {
@@ -194,6 +201,9 @@ export default class HaipModel {
       await this.getUserProfile();
       this.loggedIn = true;
 
+      sessionStorage.setItem("user_id", this.user.id);
+      sessionStorage.setItem("user_token", this.user.token);
+
       console.log("user: ", this.user);
     }
   };
@@ -259,4 +269,31 @@ export default class HaipModel {
       console.error("Error:", error);
     }
   };
+
+  getPlaylists = async () => {
+    console.log("in get playlists", sessionStorage.getItem("user_id"))
+    try {
+      const data = await useFetch({
+        url: `http://localhost:3001/api/myPlaylists`,
+        method: "GET" as Method,
+        body: {
+          token: sessionStorage.getItem("user_token"),
+          userID: sessionStorage.getItem("user_id"),
+        },
+      });
+
+      const items = data.items;
+      for (let i = 0; i < items.length; i++) {
+        const playlist: Playlist = {
+          id: items[i].id,
+          name: items[i].name,
+        };
+        this.myPlaylists.push(playlist);
+      }
+      console.log("myPlaylists", this.myPlaylists);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
 }

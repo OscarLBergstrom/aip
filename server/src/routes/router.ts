@@ -6,6 +6,7 @@ import { profileResponse } from "../controllers/profileController";
 import { searchResponse } from "../controllers/searchController";
 import { createPlaylistResponse } from "../controllers/createPlaylistController";
 import { addTracksResponse } from "../controllers/addTracksController";
+import { getPlaylistsResponse } from "../controllers/getPlaylistsController";
 
 const router = Router();
 
@@ -22,5 +23,7 @@ router.get("/api/search", searchResponse);
 router.post("/api/playlist", createPlaylistResponse);
 
 router.post("/api/tracks", addTracksResponse);
+
+router.get("/api/myPlaylists", getPlaylistsResponse);
 
 export default router;

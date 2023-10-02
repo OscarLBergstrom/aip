@@ -38,7 +38,7 @@ const App = () => {
           <Route
             path="/list"
             element={
-              <ListPresenter/>
+              <ListPresenter model={haipModel}/>
             }
           />
       </Routes>
