@@ -19,6 +19,7 @@ const App = () => {
       <Routes>
         <Route element={<PrivateRoutes loggedIn = {haipModel.loggedIn}/>}>
             <Route path='/create' element={<CreatePresenter model={haipModel}/>}/>
+            <Route path='/preview' element={<PreviewPresenter model={haipModel}/>}/>
         </Route>
         <Route
           path="/"
@@ -26,18 +27,6 @@ const App = () => {
             <HomePresenter model={haipModel}/>
             }
          />
-         {/* <Route
-          path="/create"
-          element={
-            <CreatePresenter model={haipModel} />
-            }
-          /> */}
-          <Route
-            path="/preview"
-            element={
-              <PreviewPresenter model={haipModel}/>
-            }
-           /> 
       </Routes>
       <FooterPresenter />
     </div>
