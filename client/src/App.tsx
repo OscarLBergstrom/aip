@@ -7,6 +7,7 @@ import FooterPresenter from "./components/presenters/footerPresenter";
 import PreviewPresenter from './components/presenters/previewPresenter';
 import CreatePresenter from "./components/presenters/createPresenter";
 import SidebarPresenter from "./components/presenters/sidebarPresenter";
+import ListPresenter from "./components/presenters/listPresenter";
 import HaipModel from "./models/model";
 
 const App = () => {
@@ -34,6 +35,12 @@ const App = () => {
               <PreviewPresenter model={haipModel}/>
             }
            /> 
+          <Route
+            path="/list"
+            element={
+              <ListPresenter/>
+            }
+          />
       </Routes>
       <FooterPresenter />
     </div>
