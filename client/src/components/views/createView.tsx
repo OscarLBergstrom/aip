@@ -1,14 +1,6 @@
 import "../../assets/styles/create.scss";
 import "../../assets/styles/common.scss";
 
-interface User {
-  code: string;
-  token: string;
-  email: string;
-  username: string;
-  id: string;
-}
-
 interface CreateViewProps {
   userMessage: string;
   setUserMessage: (message: string) => void;

@@ -1,14 +1,7 @@
 import "../../assets/styles/sidebar.scss";
 import "../../assets/styles/common.scss";
 import { HiMenu } from "react-icons/hi";
-
-interface User {
-    code: string;
-    token: string;
-    email: string;
-    username: string;
-    id: string;
-}
+import { User } from "../../assets/utils/types";
 
 interface SidebarViewProps {
     showSidebar: boolean;

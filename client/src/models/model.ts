@@ -1,18 +1,6 @@
 import { useFetch } from "../hooks/useFetch";
 import { Method } from "axios";
-
-interface Track {
-  title: string;
-  artist: string;
-}
-
-interface User {
-  code: string;
-  token: string;
-  email: string;
-  username: string;
-  id: string;
-}
+import { User, Track } from "../assets/utils/types"
 
 export default class HaipModel {
   observers: ((data: HaipModel) => void)[] = [];

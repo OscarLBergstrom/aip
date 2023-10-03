@@ -2,17 +2,10 @@ import SidebarView from "../views/sidebarView";
 import { useState, useEffect } from "react";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import HaipModel from "../../models/model";
+import { User } from "../../assets/utils/types";
 
 interface SidebarPresenterProps {
   model: HaipModel;
-}
-
-interface User {
-    code: string;
-    token: string;
-    email: string;
-    username: string;
-    id: string;
 }
 
 const SidebarPresenter: React.FC<SidebarPresenterProps> = ({ model }) => {
