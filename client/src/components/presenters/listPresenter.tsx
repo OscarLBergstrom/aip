@@ -7,7 +7,7 @@ interface ListPresenterProps {
 }
 
 const ListPresenter: React.FC<ListPresenterProps> = ({ model }) => {
-
+    
     let navigate = useNavigate();
     const redirect = (page: string) => {
         navigate(page);

@@ -1,5 +1,5 @@
 import SidebarView from "../views/sidebarView";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import HaipModel from "../../models/model";
 import { User } from "../../assets/utils/types";

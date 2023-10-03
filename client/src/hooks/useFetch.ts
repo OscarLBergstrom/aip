@@ -9,14 +9,11 @@ interface Request {
 
 export const useFetch = async (request: Request) => {
     try {
-        console.log(request)
         const response = await fetch(request.url, {
           method: request.method,
           headers: request.headers,
           body: JSON.stringify(request.body),
         });
-
-        console.log(response)
   
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

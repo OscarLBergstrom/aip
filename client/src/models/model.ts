@@ -291,14 +291,13 @@ export default class HaipModel {
   };
 
   getPlaylists = async () => {
-    console.log("in get playlists", sessionStorage.getItem("user_id"))
     try {
       const data = await useFetch({
         url: `http://localhost:3001/api/myPlaylists`,
         method: "GET" as Method,
         body: {
-          token: sessionStorage.getItem("user_token"),
-          userID: sessionStorage.getItem("user_id"),
+          token: this.user.token,
+          userID: this.user.id,
         },
       });
 
