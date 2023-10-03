@@ -1,20 +1,24 @@
 import "../../assets/styles/sidebar.scss";
+import "../../assets/styles/common.scss";
 import { HiMenu } from "react-icons/hi";
+import { User } from "../../assets/utils/types";
 
 interface SidebarViewProps {
     showSidebar: boolean;
     toggleShowSidebar: () => void;
+    user: User;
 }
 
 const SidebarView: React.FC<SidebarViewProps> = ({
     showSidebar,
     toggleShowSidebar,
+    user
 }) => {
 
     return (
         <div>
             <div className="menu-toggler" onClick={toggleShowSidebar}>
-                <HiMenu className="menu-icon" size="32px"/>
+                <HiMenu className="icon" size="32px"/>
             </div>
             
             <div className={
@@ -26,10 +30,7 @@ const SidebarView: React.FC<SidebarViewProps> = ({
                     <a className="menu-link" href="/">Home</a>
                 </div>
                 <div className="menu-item">
-                    <a className="menu-link" href="/create">Create Playlist</a>
-                </div>
-                <div className="menu-item">
-                    <a className="menu-link" href="/preview">Preview Playlist</a>
+                    <a className="menu-link" href={`/create?code=${user.code}`}>Create Playlist</a>
                 </div>
                 <div className="menu-item">
                     <a className="menu-link" href="/list">My Playlists</a>

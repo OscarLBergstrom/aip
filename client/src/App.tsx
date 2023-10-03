@@ -14,8 +14,8 @@ const App = () => {
   const haipModel = new HaipModel();
   return (
     <div className="app">
-      <HeaderPresenter />
-      <SidebarPresenter />
+      <HeaderPresenter model={haipModel}/>
+      <SidebarPresenter model={haipModel}/>
       <Routes>
         <Route
           path="/"

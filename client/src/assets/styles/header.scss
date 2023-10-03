@@ -1,7 +1,6 @@
 @import "../themes/theme.scss";
 
 .header {
-    padding: 8px;
     position: sticky;
     width: 100%;
     background-color: $bg-secondary;
@@ -9,4 +8,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+.logout {
+    top: 0;
+    margin: 16px;
+    position: fixed;
+    right: 0;
 }

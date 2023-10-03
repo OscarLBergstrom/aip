@@ -11,19 +11,30 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [userMessage, setUserMessage] = useState<string>("");
   const [playlistName, setPlaylistName] = useState<string>("");
   const [numberOfTracks, setNumberOfTracks] = useState<number>(1);
-  const [userName, setUserName] = useState<string>("");
+  const [botResponse, setBotResponse] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect( () => {
+  useEffect(() => {
     const getUser = async () => {
       await model.getUserDetails();
-      setUserName(model.user.username);
-    }
+    };
 
     getUser();
-  }, [])
+  }, []);
+
+  const botResponseObserver = () => {
+    setBotResponse(model.botResponse);
+  };
+
+  model.addObserver(botResponseObserver);
 
   const handleSubmit = async () => {
+    setLoading(true);
     await model.submitBotRequest(userMessage, playlistName, numberOfTracks);
+    setLoading(false);
+  };
+
+  const createPlaylist = async () => {
     redirect("/preview");
   };
 
@@ -32,7 +43,9 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
     navigate(page);
   };
 
-  return (
+  return loading ? (
+    <div>Loading</div>
+  ) : (
     <CreateView
       userMessage={userMessage}
       setUserMessage={setUserMessage}
@@ -41,7 +54,8 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
       numberOfTracks={numberOfTracks}
       setNumberOfTracks={setNumberOfTracks}
       onSubmit={handleSubmit}
-      userName={userName}
+      botResponse={botResponse}
+      createPlaylist={createPlaylist}
     />
   );
 };
