@@ -10,6 +10,8 @@ interface CreateViewProps {
   setNumberOfTracks: (numberOfTracks: number) => void;
   onSubmit: () => void;
   userName: string;
+  botResponse: string;
+  createPlaylist: () => void;
 }
 
 const CreateView: React.FC<CreateViewProps> = ({
@@ -21,10 +23,17 @@ const CreateView: React.FC<CreateViewProps> = ({
   setNumberOfTracks,
   onSubmit,
   userName,
+  botResponse,
+  createPlaylist,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
+  };
+
+  const handleClick = (e: React.FormEvent) => {
+    e.preventDefault();
+    createPlaylist();
   };
 
   return (
@@ -64,6 +73,8 @@ const CreateView: React.FC<CreateViewProps> = ({
           </div>
           <input type="submit" value="Submit" />
         </form>
+        <div>Output: {botResponse}</div>
+        <button onClick={handleClick}>Create playlist</button>
       </div>
     </div>
   );

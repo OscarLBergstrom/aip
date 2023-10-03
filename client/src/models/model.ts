@@ -14,10 +14,12 @@ interface User {
 }
 
 export default class HaipModel {
+  observers: ((data: HaipModel) => void)[] = [];
   botResponse: string;
   urlResponse: string;
   playlist: string[];
   playlistID: string;
+  playlistName: string;
   loggedIn: boolean;
   user: User;
 
@@ -26,6 +28,7 @@ export default class HaipModel {
     this.urlResponse = "";
     this.playlist = [];
     this.playlistID = "";
+    this.playlistName = "";
     this.loggedIn = false;
     this.user = {
       code: "",
@@ -34,6 +37,22 @@ export default class HaipModel {
       username: "",
       id: "",
     };
+  }
+
+  addObserver(obs: (data: HaipModel) => void): void {
+    this.observers.push(obs);
+  }
+
+  removeObserver(obs: (data: HaipModel) => void): void {
+    const index = this.observers.indexOf(obs);
+    if (index !== -1) {
+      this.observers.splice(index, 1);
+    }
+  }
+
+  notifyObservers(): void {
+    console.log("inside notify");
+    this.observers.forEach((observer) => observer(this));
   }
 
   formatBotResponse(botMessage: string) {
@@ -72,6 +91,7 @@ export default class HaipModel {
         },
       });
       this.playlistID = data.token.id;
+      this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -93,7 +113,7 @@ export default class HaipModel {
 
   addTracks = async () => {
     try {
-      const data = await useFetch({
+      await useFetch({
         url: `http://localhost:3001/api/tracks`,
         method: "POST" as Method,
         headers: {
@@ -116,6 +136,8 @@ export default class HaipModel {
     numberOfTracks: number
   ) => {
     try {
+      this.setPlaylistName(playlistName);
+      console.log(this.user.token);
       const data = await useFetch({
         url: "http://localhost:3001/api/chatbot",
         method: "POST" as Method,
@@ -125,24 +147,34 @@ export default class HaipModel {
         body: { message: userMessage, numberOfTracks: numberOfTracks },
       });
       this.botResponse = data.botResponse;
-
-      // format the bot response 
-      const formattedResponse = this.formatBotResponse(data.botResponse);
-
-      // gets the playlist in an array (the array consists of the tracks' Spotify URI)
-      this.playlist = await this.getTrackIDs(formattedResponse);
-
-      // create a new playlist
-      await this.createPlaylist(playlistName);
-
-      // add the tracks to the playlist
-      this.addTracks();
+      this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
       this.botResponse =
         "An error occurred while communicating with the chatbot.";
     }
     console.log("ChatBot:\n", this.botResponse);
+  };
+
+  setPlaylistName = (name: string) => {
+    this.playlistName = name;
+  };
+
+  submitPlaylistRequest = async () => {
+    try {
+      // get the playlist in an array (the array consists of the tracks' Spotify URI)
+      this.playlist = await this.getTrackIDs(
+        this.formatBotResponse(this.botResponse)
+      );
+
+      // create a new playlist
+      await this.createPlaylist(this.playlistName);
+
+      // add the tracks to the playlist
+      this.addTracks();
+    } catch (error) {
+      console.error("Error: ", error);
+    }
   };
 
   /* Login */
@@ -182,6 +214,7 @@ export default class HaipModel {
       });
 
       this.urlResponse = data.urlResponse;
+      this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -193,8 +226,8 @@ export default class HaipModel {
       await this.getUserToken();
       await this.getUserProfile();
       this.loggedIn = true;
-
       console.log("user: ", this.user);
+      this.notifyObservers();
     }
   };
 
@@ -221,6 +254,7 @@ export default class HaipModel {
           body: { code: this.user.code, verifier: verifier },
         });
         this.user.token = data.token;
+        this.notifyObservers();
       } catch (error) {
         console.error("Error:", error);
       }
@@ -239,6 +273,7 @@ export default class HaipModel {
       this.user.id = data.profile.id;
       this.user.email = data.profile.email;
       this.user.username = data.profile.display_name;
+      this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
     }
