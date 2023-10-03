@@ -3,9 +3,13 @@ import "../../assets/styles/common.scss";
 
 interface HomeViewProps {
   onLogin: () => void;
+  loggedIn: boolean;
 }
 
-const HomeView: React.FC<HomeViewProps> = ({ onLogin }) => {
+const HomeView: React.FC<HomeViewProps> = ({ 
+  onLogin,
+  loggedIn 
+}) => {
   return (
     <div className="page">
       <div className="card">
@@ -19,9 +23,12 @@ const HomeView: React.FC<HomeViewProps> = ({ onLogin }) => {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </div>
-        <button className="button" onClick={onLogin}>
-          Login
-        </button>
+        {!(loggedIn)
+          ? <button className="button" onClick={onLogin}>
+              Login
+            </button>
+          : <div/>
+        }
       </div>
     </div>
   );

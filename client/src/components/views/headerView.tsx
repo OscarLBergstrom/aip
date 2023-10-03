@@ -5,12 +5,12 @@ import { HiOutlineLogout } from "react-icons/hi";
 
 interface HeaderViewProps {
     loggedIn: boolean;
-    // setLoggedIn: (loggedIn: boolean) => void;
+    onLogout: () => void;
 }
 
 const HeaderView: React.FC<HeaderViewProps> = ({
     loggedIn,
-    // setLoggedIn
+    onLogout
 }) => {
     return (
         <div className="header">
@@ -19,11 +19,11 @@ const HeaderView: React.FC<HeaderViewProps> = ({
             {loggedIn
             ?
                 <div className="logout" 
-                    // onClick={() => setLoggedIn(false)}
+                    onClick={() => onLogout()}
                     >
                     <HiOutlineLogout className="icon" size="32px"/>
                 </div>
-            :   <div>Not logged in</div>
+            :   <div></div>
             }
         </div>
     );

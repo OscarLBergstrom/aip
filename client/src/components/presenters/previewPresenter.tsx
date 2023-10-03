@@ -23,7 +23,7 @@ const PreviewPresenter: React.FC<PreviewPresenterProps> = ({ model }) => {
 
     model.addObserver(playlistObserver);
     getPlaylist();
-  }, []);
+  }, [model]);
 
   return loading ? <div>Loading</div> : <PreviewView playlistID={playlistID} />;
 };

@@ -5,6 +5,7 @@ interface Track {
   title: string;
   artist: string;
 }
+
 interface User {
   code: string;
   token: string;
@@ -51,7 +52,7 @@ export default class HaipModel {
   }
 
   notifyObservers(): void {
-    console.log("inside notify");
+    console.log("inside notify", this.loggedIn);
     this.observers.forEach((observer) => observer(this));
   }
 
@@ -294,4 +295,15 @@ export default class HaipModel {
       console.error("Error:", error);
     }
   };
+
+  logout = () => {
+    this.loggedIn = false;
+    this.user = {
+      code: "",
+      token: "",
+      email: "",
+      username: "",
+      id: "",
+    };
+  }
 }

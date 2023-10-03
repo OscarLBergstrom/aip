@@ -14,7 +14,7 @@ const App = () => {
   return (
     <div className="app">
       <HeaderPresenter model={haipModel}/>
-      <SidebarPresenter />
+      <SidebarPresenter model={haipModel}/>
       <Routes>
         <Route
           path="/"

@@ -29,9 +29,6 @@ const SidebarView: React.FC<SidebarViewProps> = ({
                 <div className="menu-item">
                     <a className="menu-link" href="/create">Create Playlist</a>
                 </div>
-                <div className="menu-item">
-                    <a className="menu-link" href="/preview">Preview Playlist</a>
-                </div>
             </div>
         </div>
     );
