@@ -84,3 +84,11 @@
 .info {
   color: $text-secondary;
 }
+
+.icon {
+  color: $text-primary;
+  &:hover,
+  &:focus {
+      color: $text-secondary;
+  }
+}

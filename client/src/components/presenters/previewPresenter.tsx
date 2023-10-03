@@ -11,19 +11,20 @@ const PreviewPresenter: React.FC<PreviewPresenterProps> = ({ model }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const playlistObserver = async () => {
-      setPlaylistID(model.playlistID);
-    };
-
     const getPlaylist = async () => {
       setLoading(true);
       await model.submitPlaylistRequest();
       setLoading(false);
     };
 
-    model.addObserver(playlistObserver);
     getPlaylist();
   }, []);
+
+  const playlistObserver = () => {
+    setPlaylistID(model.playlistID);
+  };
+
+  model.addObserver(playlistObserver);
 
   return loading ? <div>Loading</div> : <PreviewView playlistID={playlistID} />;
 };
