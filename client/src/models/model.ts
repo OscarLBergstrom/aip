@@ -52,7 +52,6 @@ export default class HaipModel {
   }
 
   notifyObservers(): void {
-    console.log("inside notify", this.loggedIn);
     this.observers.forEach((observer) => observer(this));
   }
 
@@ -305,5 +304,6 @@ export default class HaipModel {
       username: "",
       id: "",
     };
+    this.notifyObservers();
   }
 }

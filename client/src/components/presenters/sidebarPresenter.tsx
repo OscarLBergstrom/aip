@@ -7,18 +7,29 @@ interface SidebarPresenterProps {
   model: HaipModel;
 }
 
+interface User {
+    code: string;
+    token: string;
+    email: string;
+    username: string;
+    id: string;
+}
+
 const SidebarPresenter: React.FC<SidebarPresenterProps> = ({ model }) => {
 
     const [showSidebar, setShowSidebar] = useState<boolean>(false);
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
+    const [loggedIn, setLoggedIn] = useState<boolean>(model.loggedIn);
+    const [user, setUser] = useState<User>(model.user);
+    const loggedInObserver = () => {
+        setLoggedIn(model.loggedIn);
+    };
 
-    useEffect(() => {
-        const loggedInObserver = () => {
-            setLoggedIn(model.loggedIn);
-        };
+    const userObserver = () => {
+        setUser(model.user);
+    }
 
-        model.addObserver(loggedInObserver);
-    }, [model]);
+    model.addObserver(userObserver);
+    model.addObserver(loggedInObserver);
 
     const ref = useOutsideClick(() => {
         if (showSidebar) {
@@ -35,6 +46,7 @@ const SidebarPresenter: React.FC<SidebarPresenterProps> = ({ model }) => {
                 <SidebarView 
                     showSidebar={showSidebar}
                     toggleShowSidebar={toggleShowSidebar}
+                    user={user}
                 />
             </div>
         : <div/>);

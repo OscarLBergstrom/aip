@@ -2,14 +2,24 @@ import "../../assets/styles/sidebar.scss";
 import "../../assets/styles/common.scss";
 import { HiMenu } from "react-icons/hi";
 
+interface User {
+    code: string;
+    token: string;
+    email: string;
+    username: string;
+    id: string;
+}
+
 interface SidebarViewProps {
     showSidebar: boolean;
     toggleShowSidebar: () => void;
+    user: User;
 }
 
 const SidebarView: React.FC<SidebarViewProps> = ({
     showSidebar,
     toggleShowSidebar,
+    user
 }) => {
 
     return (
@@ -27,7 +37,7 @@ const SidebarView: React.FC<SidebarViewProps> = ({
                     <a className="menu-link" href="/">Home</a>
                 </div>
                 <div className="menu-item">
-                    <a className="menu-link" href="/create">Create Playlist</a>
+                    <a className="menu-link" href={`/create?code=${user.code}`}>Create Playlist</a>
                 </div>
             </div>
         </div>

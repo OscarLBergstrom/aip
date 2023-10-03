@@ -7,42 +7,26 @@ interface CreatePresenterProps {
   model: HaipModel;
 }
 
-interface User {
-  code: string;
-  token: string;
-  email: string;
-  username: string;
-  id: string;
-}
-
 const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [userMessage, setUserMessage] = useState<string>("");
   const [playlistName, setPlaylistName] = useState<string>("");
   const [numberOfTracks, setNumberOfTracks] = useState<number>(1);
-  const [userName, setUserName] = useState<string>("");
-  const [user, setUser] = useState<User>();
   const [botResponse, setBotResponse] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getUser = async () => {
       await model.getUserDetails();
-      setUserName(model.user.username);
-    };
-
-    const userObserver = () => {
-      setUser(model.user);
-      console.log("presenter", model.user);
-    }
-
-    const botResponseObserver = () => {
-      setBotResponse(model.botResponse);
     };
 
     getUser();
-    model.addObserver(userObserver);
-    model.addObserver(botResponseObserver);
-  }, [model]);
+  }, []);
+
+  const botResponseObserver = () => {
+    setBotResponse(model.botResponse);
+  };
+
+  model.addObserver(botResponseObserver);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -70,7 +54,6 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
       numberOfTracks={numberOfTracks}
       setNumberOfTracks={setNumberOfTracks}
       onSubmit={handleSubmit}
-      userName={userName}
       botResponse={botResponse}
       createPlaylist={createPlaylist}
     />

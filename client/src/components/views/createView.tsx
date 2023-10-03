@@ -1,6 +1,14 @@
 import "../../assets/styles/create.scss";
 import "../../assets/styles/common.scss";
 
+interface User {
+  code: string;
+  token: string;
+  email: string;
+  username: string;
+  id: string;
+}
+
 interface CreateViewProps {
   userMessage: string;
   setUserMessage: (message: string) => void;
@@ -9,7 +17,6 @@ interface CreateViewProps {
   numberOfTracks: number;
   setNumberOfTracks: (numberOfTracks: number) => void;
   onSubmit: () => void;
-  userName: string;
   botResponse: string;
   createPlaylist: () => void;
 }
@@ -22,7 +29,6 @@ const CreateView: React.FC<CreateViewProps> = ({
   numberOfTracks,
   setNumberOfTracks,
   onSubmit,
-  userName,
   botResponse,
   createPlaylist,
 }) => {
@@ -39,7 +45,7 @@ const CreateView: React.FC<CreateViewProps> = ({
   return (
     <div className="page">
       <div className="card">
-        <div className="title">Hello {userName}!</div>
+        <div className="title">Create Playlist</div>
         <form className="form" onSubmit={handleSubmit}>
           <div className="option">
             <div className="optionText"> What kind of playlist do you want to create?</div>

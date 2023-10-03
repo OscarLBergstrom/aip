@@ -9,13 +9,11 @@ interface HomePresenterProps {
 const HomePresenter: React.FC<HomePresenterProps> = ({ model }) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(model.loggedIn);
 
-  useEffect(() => {
-    const loggedInObserver = () => {
-        setLoggedIn(model.loggedIn);
-    };
+  const loggedInObserver = () => {
+    setLoggedIn(model.loggedIn);
+  };
 
-    model.addObserver(loggedInObserver);
-  }, [model]);
+  model.addObserver(loggedInObserver);
 
   const handleLogin = async () => {
     await model.handleLogin();
