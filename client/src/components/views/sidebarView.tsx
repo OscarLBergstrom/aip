@@ -6,13 +6,15 @@ import { User } from "../../assets/utils/types";
 interface SidebarViewProps {
     showSidebar: boolean;
     toggleShowSidebar: () => void;
+    redirect: (page: string) => void;
     user: User;
 }
 
 const SidebarView: React.FC<SidebarViewProps> = ({
     showSidebar,
     toggleShowSidebar,
-    user
+    redirect,
+    user,
 }) => {
 
     return (
@@ -27,13 +29,13 @@ const SidebarView: React.FC<SidebarViewProps> = ({
                 : "sidebar"
             }>
                 <div className="menu-item">
-                    <a className="menu-link" href="/">Home</a>
+                    <div className="menu-link" onClick={() => redirect("/")}>Home</div>
                 </div>
                 <div className="menu-item">
-                    <a className="menu-link" href={`/create?code=${user.code}`}>Create Playlist</a>
+                    <div className="menu-link" onClick={() => redirect(`/create?code=${user.code}`)}>Create playlist</div>
                 </div>
                 <div className="menu-item">
-                    <a className="menu-link" href="/list">My Playlists</a>
+                    <div className="menu-link" onClick={() => redirect("/list")}>My playlists</div>
                 </div>
             </div>
         </div>
