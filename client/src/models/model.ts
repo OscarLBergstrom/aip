@@ -12,6 +12,7 @@ export default class HaipModel {
   loggedIn: boolean;
   user: User;
   myPlaylists: Playlist[];
+  tracks: Track[];
 
   constructor() {
     this.botResponse = "";
@@ -28,6 +29,7 @@ export default class HaipModel {
       id: "",
     };
     this.myPlaylists = [];
+    this.tracks = [];
   }
 
   addObserver(obs: (data: HaipModel) => void): void {
@@ -46,8 +48,7 @@ export default class HaipModel {
   }
 
   formatBotResponse(botMessage: string) {
-    const tracks: Track[] = [];
-
+    this.tracks = [];
     botMessage = botMessage.trim();
     const arr = botMessage.split(/\d+\. /);
 
@@ -60,10 +61,8 @@ export default class HaipModel {
       };
       console.log(track);
 
-      tracks.push(track);
+      this.tracks.push(track);
     }
-
-    return tracks;
   }
 
   createPlaylist = async (playlistName: string) => {
@@ -137,6 +136,7 @@ export default class HaipModel {
         body: { message: userMessage, numberOfTracks: numberOfTracks },
       });
       this.botResponse = data.botResponse;
+      this.formatBotResponse(this.botResponse);
       this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
@@ -153,9 +153,7 @@ export default class HaipModel {
   submitPlaylistRequest = async () => {
     try {
       // get the playlist in an array (the array consists of the tracks' Spotify URI)
-      this.playlist = await this.getTrackIDs(
-        this.formatBotResponse(this.botResponse)
-      );
+      this.playlist = await this.getTrackIDs(this.tracks);
 
       // create a new playlist
       await this.createPlaylist(this.playlistName);

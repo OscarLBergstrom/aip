@@ -1,5 +1,6 @@
 import "../../assets/styles/create.scss";
 import "../../assets/styles/common.scss";
+import { Track } from "../../assets/utils/types";
 
 interface CreateViewProps {
   userMessage: string;
@@ -11,6 +12,8 @@ interface CreateViewProps {
   onSubmit: () => void;
   botResponse: string;
   createPlaylist: () => void;
+  tracks: Track[];
+  submitted: boolean;
 }
 
 const CreateView: React.FC<CreateViewProps> = ({
@@ -23,6 +26,8 @@ const CreateView: React.FC<CreateViewProps> = ({
   onSubmit,
   botResponse,
   createPlaylist,
+  tracks,
+  submitted,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,14 +70,22 @@ const CreateView: React.FC<CreateViewProps> = ({
               name="numberOfTracks"
               min="1"
               max="10"
-              defaultValue="1"
+              defaultValue={numberOfTracks}
               onChange={(e) => setNumberOfTracks(parseInt(e.target.value))}
             />
           </div>
           <input type="submit" value="Submit" />
         </form>
-        <div>Output: {botResponse}</div>
-        <button onClick={handleClick}>Create playlist</button>
+        {submitted 
+        ? (
+          <div className="botlist">
+            {tracks.map((track, index) => (
+              <div className="botlist-item" key={index}>{track.title} - {track.artist}</div>
+            ))}
+            <button className="button" onClick={handleClick}>Create playlist</button>
+          </div>
+        )
+        : <div/> }
       </div>
     </div>
   );
