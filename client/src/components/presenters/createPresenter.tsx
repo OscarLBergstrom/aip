@@ -2,6 +2,7 @@ import CreateView from "../views/createView";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HaipModel from "../../models/model";
+import LoadingView from "../views/loadingView";
 
 interface CreatePresenterProps {
   model: HaipModel;
@@ -44,7 +45,7 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   };
 
   return loading ? (
-    <div>Loading</div>
+    <LoadingView/>
   ) : (
     <CreateView
       userMessage={userMessage}
