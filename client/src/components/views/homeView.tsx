@@ -4,16 +4,24 @@ import "../../assets/styles/common.scss";
 interface HomeViewProps {
   onLogin: () => void;
   loggedIn: boolean;
+  haipWord: string;
 }
 
 const HomeView: React.FC<HomeViewProps> = ({ 
   onLogin,
-  loggedIn 
+  loggedIn,
+  haipWord, 
 }) => {
+
+
   return (
     <div className="page">
       <div className="card">
-        <div className="title">Welcome to HAIP!</div>
+        {/* <div className="title">Welcome to HAIP!</div> */}
+        <div className="haip-text">
+          <div className="fade">{haipWord}</div>
+          <div className="subtext">AI PLAYLIST</div>
+        </div>
         <div className="info">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad

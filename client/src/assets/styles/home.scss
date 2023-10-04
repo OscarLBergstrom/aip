@@ -11,3 +11,36 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.haip-text {
+  display: flex;
+  flex-direction: column;
+  margin: 24px auto 48px auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.subtext {
+  font-size: 48px;
+  color: $green-dark;
+}
+
+.fade {
+  font-size: 96px;
+  font-weight: bold;
+  color: $green-primary;
+  animation: fade-in-out linear infinite 5s;
+  margin-bottom: 8px;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
