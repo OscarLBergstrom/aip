@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HaipModel from "../../models/model";
 import LoadingView from "../views/loadingView";
+import { Track } from "../../assets/utils/types";
 
 interface CreatePresenterProps {
   model: HaipModel;
@@ -12,8 +13,10 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [userMessage, setUserMessage] = useState<string>("");
   const [playlistName, setPlaylistName] = useState<string>("");
   const [numberOfTracks, setNumberOfTracks] = useState<number>(1);
-  const [botResponse, setBotResponse] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [tracks, setTracks] = useState<Track[]>([]);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -23,15 +26,20 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
     getUser();
   }, []);
 
-  const botResponseObserver = () => {
-    setBotResponse(model.botResponse);
-  };
+  const tracksObserver = () => {
+    setTracks(model.tracks);
+  }
 
-  model.addObserver(botResponseObserver);
+  model.addObserver(tracksObserver);
 
   const handleSubmit = async () => {
     setLoading(true);
+    setSuccess(false);
     await model.submitBotRequest(userMessage, playlistName, numberOfTracks);
+    setSubmitted(true);
+    if(model.tracks.length) {
+      setSuccess(true);
+    }
     setLoading(false);
   };
 
@@ -55,8 +63,10 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
       numberOfTracks={numberOfTracks}
       setNumberOfTracks={setNumberOfTracks}
       onSubmit={handleSubmit}
-      botResponse={botResponse}
       createPlaylist={createPlaylist}
+      tracks={tracks}
+      submitted={submitted}
+      success={success}
     />
   );
 };

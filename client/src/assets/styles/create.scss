@@ -51,3 +51,21 @@ input[type="submit"]{
   color: $text-secondary;
   text-align: left;
 }
+
+.botlist {
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 372px);
+  gap: 12px;
+  justify-content: center;
+  margin: 24px auto 16px auto;
+}
+
+.botlist-item {
+  border-radius: 5px;
+  padding: 12px;
+  background-color: $bg-light;
+  color: $text-secondary;
+  display: flex;
+  flex-direction: column;
+}

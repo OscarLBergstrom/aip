@@ -1,5 +1,7 @@
 import "../../assets/styles/create.scss";
 import "../../assets/styles/common.scss";
+import { Track } from "../../assets/utils/types";
+import { BiErrorCircle } from "react-icons/bi";
 
 interface CreateViewProps {
   userMessage: string;
@@ -9,8 +11,10 @@ interface CreateViewProps {
   numberOfTracks: number;
   setNumberOfTracks: (numberOfTracks: number) => void;
   onSubmit: () => void;
-  botResponse: string;
   createPlaylist: () => void;
+  tracks: Track[];
+  submitted: boolean;
+  success: boolean;
 }
 
 const CreateView: React.FC<CreateViewProps> = ({
@@ -21,8 +25,10 @@ const CreateView: React.FC<CreateViewProps> = ({
   numberOfTracks,
   setNumberOfTracks,
   onSubmit,
-  botResponse,
   createPlaylist,
+  tracks,
+  submitted,
+  success,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,14 +71,36 @@ const CreateView: React.FC<CreateViewProps> = ({
               name="numberOfTracks"
               min="1"
               max="10"
-              defaultValue="1"
+              defaultValue={numberOfTracks}
               onChange={(e) => setNumberOfTracks(parseInt(e.target.value))}
             />
           </div>
           <input type="submit" value="Submit" />
         </form>
-        <div>Output: {botResponse}</div>
-        <button onClick={handleClick}>Create playlist</button>
+        {submitted 
+        ? ( 
+          success
+          ? (
+            <div>
+              <div className="subtitle">
+                  Your HAIP Playlist
+                </div>
+              <div className="botlist">
+                {tracks.map((track, index) => (
+                  <div className="botlist-item" key={index}>
+                    <div>{track.title}</div>
+                    <div>{track.artist}</div>
+                  </div>
+                ))}
+              </div>
+              <button className="button" onClick={handleClick}>Save to Spotify</button>
+            </div>
+          ) : <div className="error">
+                <BiErrorCircle size="20px"/>
+                <div className="error-message">Could not generate playlist, please provide a better description.</div>
+              </div> 
+        )
+        : <div/> }
       </div>
     </div>
   );
