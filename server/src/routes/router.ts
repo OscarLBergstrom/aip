@@ -24,6 +24,6 @@ router.post("/api/playlist", createPlaylistResponse);
 
 router.post("/api/tracks", addTracksResponse);
 
-router.get("/api/myPlaylists", getPlaylistsResponse);
+router.get("/api/getplaylists", getPlaylistsResponse);
 
 export default router;

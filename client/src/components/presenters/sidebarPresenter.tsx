@@ -38,6 +38,9 @@ const SidebarPresenter: React.FC<SidebarPresenterProps> = ({ model }) => {
 
     let navigate = useNavigate();
     const redirect = (page: string) => {
+        if (showSidebar) {
+            setShowSidebar(false);
+        }
         navigate(page);
     };
 
