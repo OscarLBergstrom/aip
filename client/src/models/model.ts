@@ -1,6 +1,6 @@
 import { useFetch } from "../hooks/useFetch";
 import { Method } from "axios";
-import { User, Track } from "../assets/utils/types"
+import { User, Track, Playlist } from "../assets/utils/types"
 
 export default class HaipModel {
   observers: ((data: HaipModel) => void)[] = [];
@@ -11,6 +11,7 @@ export default class HaipModel {
   playlistName: string;
   loggedIn: boolean;
   user: User;
+  myPlaylists: Playlist[];
 
   constructor() {
     this.botResponse = "";
@@ -26,6 +27,7 @@ export default class HaipModel {
       username: "",
       id: "",
     };
+    this.myPlaylists = [];
   }
 
   addObserver(obs: (data: HaipModel) => void): void {
@@ -283,6 +285,35 @@ export default class HaipModel {
     }
   };
 
+  getPlaylists = async () => {
+    try {
+      const data = await useFetch({
+        url: "http://localhost:3001/api/getplaylists",
+        method: "GET" as Method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          token: this.user.token,
+          userID: this.user.id,
+        },
+      });
+
+      const items = data.items;
+      for (let i = 0; i < items.length; i++) {
+        const playlist: Playlist = {
+          id: items[i].id,
+          name: items[i].name,
+        };
+        this.myPlaylists.push(playlist);
+      }
+      console.log("myPlaylists", this.myPlaylists);
+      this.notifyObservers();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
   logout = () => {
     this.loggedIn = false;
     this.user = {

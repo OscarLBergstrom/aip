@@ -11,4 +11,9 @@ export interface Track {
     artist: string;
 }
 
+export interface Playlist {
+    id: string;
+    name: string;
+}
+
 
