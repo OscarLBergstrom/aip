@@ -1,6 +1,7 @@
 import "../../assets/styles/create.scss";
 import "../../assets/styles/common.scss";
 import { Track } from "../../assets/utils/types";
+import { BiErrorCircle } from "react-icons/bi";
 
 interface CreateViewProps {
   userMessage: string;
@@ -10,10 +11,10 @@ interface CreateViewProps {
   numberOfTracks: number;
   setNumberOfTracks: (numberOfTracks: number) => void;
   onSubmit: () => void;
-  botResponse: string;
   createPlaylist: () => void;
   tracks: Track[];
   submitted: boolean;
+  success: boolean;
 }
 
 const CreateView: React.FC<CreateViewProps> = ({
@@ -24,10 +25,10 @@ const CreateView: React.FC<CreateViewProps> = ({
   numberOfTracks,
   setNumberOfTracks,
   onSubmit,
-  botResponse,
   createPlaylist,
   tracks,
   submitted,
+  success,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,13 +78,27 @@ const CreateView: React.FC<CreateViewProps> = ({
           <input type="submit" value="Submit" />
         </form>
         {submitted 
-        ? (
-          <div className="botlist">
-            {tracks.map((track, index) => (
-              <div className="botlist-item" key={index}>{track.title} - {track.artist}</div>
-            ))}
-            <button className="button" onClick={handleClick}>Create playlist</button>
-          </div>
+        ? ( 
+          success
+          ? (
+            <div>
+              <div className="subtitle">
+                  Your HAIP Playlist
+                </div>
+              <div className="botlist">
+                {tracks.map((track, index) => (
+                  <div className="botlist-item" key={index}>
+                    <div>{track.title}</div>
+                    <div>{track.artist}</div>
+                  </div>
+                ))}
+              </div>
+              <button className="button" onClick={handleClick}>Save to Spotify</button>
+            </div>
+          ) : <div className="error">
+                <BiErrorCircle size="20px"/>
+                <div className="error-message">Could not generate playlist, please provide a better description.</div>
+              </div> 
         )
         : <div/> }
       </div>
