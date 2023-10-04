@@ -1,6 +1,7 @@
 import PreviewView from "../views/previewView";
 import HaipModel from "../../models/model";
 import { useEffect, useState } from "react";
+import LoadingView from "../views/loadingView";
 
 interface PreviewPresenterProps {
   model: HaipModel;
@@ -26,7 +27,11 @@ const PreviewPresenter: React.FC<PreviewPresenterProps> = ({ model }) => {
 
   model.addObserver(playlistObserver);
 
-  return loading ? <div>Loading</div> : <PreviewView playlistID={playlistID} />;
+  return loading ? (
+    <LoadingView/> )
+    : (
+    <PreviewView playlistID={playlistID} />
+    );
 };
 
 export default PreviewPresenter;
