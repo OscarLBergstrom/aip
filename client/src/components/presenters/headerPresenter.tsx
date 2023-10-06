@@ -23,6 +23,10 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({ model }) => {
         redirect("/");
     }
 
+    const goToHome = () => {
+        redirect("/");
+    }
+
     let navigate = useNavigate();
     const redirect = (page: string) => {
         navigate(page);
@@ -32,6 +36,7 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({ model }) => {
         <HeaderView 
             loggedIn={loggedIn}
             onLogout={handleLogout}
+            goToHome={goToHome}
         />
     );
 }

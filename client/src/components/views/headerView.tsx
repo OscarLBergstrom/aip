@@ -1,21 +1,21 @@
 import "../../assets/styles/header.scss";
 import "../../assets/styles/common.scss"
-import temp_logo from "../../assets/images/temp_logo.png";
 import { HiOutlineLogout } from "react-icons/hi";
 
 interface HeaderViewProps {
     loggedIn: boolean;
     onLogout: () => void;
+    goToHome: () => void;
 }
 
 const HeaderView: React.FC<HeaderViewProps> = ({
     loggedIn,
-    onLogout
+    onLogout,
+    goToHome
 }) => {
     return (
         <div className="header">
-            <img className="logo" src={temp_logo} alt="temp logo"/>
-            <div>HAIP</div>
+            <div className="header-text" onClick={() => goToHome()}>HAIP</div>
             {loggedIn
             ?
                 <div className="logout" 

@@ -1,6 +1,7 @@
 import "../../assets/styles/sidebar.scss";
 import "../../assets/styles/common.scss";
 import { HiMenu } from "react-icons/hi";
+import { AiOutlineClose } from "react-icons/ai";
 import { User } from "../../assets/utils/types";
 
 interface SidebarViewProps {
@@ -20,7 +21,9 @@ const SidebarView: React.FC<SidebarViewProps> = ({
     return (
         <div>
             <div className="menu-toggler" onClick={toggleShowSidebar}>
-                <HiMenu className="icon" size="32px"/>
+                {showSidebar
+                    ? <AiOutlineClose className="icon" size="32px"/>
+                    : <HiMenu className="icon" size="32px"/>}
             </div>
             
             <div className={
