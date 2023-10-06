@@ -1,5 +1,6 @@
 @import "../themes/theme.scss";
 @import "./common.scss";
+@import "@fontsource/plus-jakarta-sans";
 
 .form {
   display: flex;
@@ -22,8 +23,8 @@ input[type="text"]{
   color: $text-secondary;
   background-color: $bg-light;
   border: 2px solid $bg-light;
-  font-family: sans-serif;
-}
+  font-family: 'Plus Jakarta Sans', sans-serif;
+} 
 
 input[type="text"]:hover{
   border: 2px solid $bg-extra-light;
