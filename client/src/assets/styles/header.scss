@@ -8,6 +8,25 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    height: 64px;
+}
+
+.header-text {
+    font-size: 32px;
+    font-family: 800;
+    text-shadow:
+    0 0 2px $green-light,
+    0 0 4px $green-primary,
+    0 0 8px $green-secondary,
+    0 0 16px $green-dark;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 4px;
+    cursor: pointer;
+}  
+
+.header-text:hover{
+    color: $green-light;
+    text-shadow: none;
 }
 
 .logout {
@@ -15,4 +34,5 @@
     margin: 16px;
     position: fixed;
     right: 0;
+    cursor: pointer;
 }
