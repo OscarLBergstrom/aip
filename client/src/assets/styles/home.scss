@@ -1,16 +1,6 @@
 @import "../themes/theme.scss";
-
-
-.login {
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: $green-primary;
-  color: $text-primary;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+@import "@fontsource/plus-jakarta-sans";
+@import "@fontsource/plus-jakarta-sans/800.css"; 
 
 .haip-text {
   display: flex;
@@ -23,22 +13,22 @@
 .subtext {
   font-size: 48px;
   color: $text-primary;
-  font-family: 'impact', 'sans-serif';
+  font-family: 'Plus Jakarta sans', sans-serif;
+  font-weight: 800;
   letter-spacing: 4px;
 }
 
 .fade {
   font-size: 96px;
-  font-weight: bold;
   animation: fade-in-out linear infinite 8s;
   margin-bottom: 8px;
-  -webkit-text-stroke: 4px $green-primary;
+  font-family: 800;
   text-shadow: 
     0 0 4px $green-light,
     0 0 8px $green-primary,
-    0 0 12px $green-secondary,
-    0 0 24px $green-dark;
-  font-family: 'baskerville', 'serif';
+    0 0 16px $green-secondary,
+    0 0 32px $green-dark;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   letter-spacing: 6px;
 }
 

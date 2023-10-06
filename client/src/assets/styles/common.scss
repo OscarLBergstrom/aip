@@ -1,4 +1,6 @@
 @import "../themes/theme.scss";
+@import "@fontsource/plus-jakarta-sans";
+@import "@fontsource/plus-jakarta-sans/600.css"; 
 
 .logo {
     height: 48px;
@@ -15,7 +17,8 @@
     color: $text-primary;
     cursor: pointer;
     display: inline-flex;
-    font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+    // font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 16px;
     font-weight: 600;
     justify-content: center;
@@ -75,11 +78,13 @@
   font-size: 32px;
   margin-bottom: 32px;
   margin-top: 24px;
+  font-weight: 600;
 }
 
 .subtitle {
-  font-size: 24px;
+  font-size: 20px;
   margin: 8px 0px;
+  font-weight: 600;
 }
 
 .info {
