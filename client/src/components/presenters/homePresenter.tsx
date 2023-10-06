@@ -28,7 +28,7 @@ const HomePresenter: React.FC<HomePresenterProps> = ({ model }) => {
       setCount(0);
     }
     setHaipWord(h_words[count]);
-  }, 5000);
+  }, 8000);
 
   const handleLogin = async () => {
     await model.handleLogin();
