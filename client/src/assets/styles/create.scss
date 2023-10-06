@@ -1,5 +1,6 @@
 @import "../themes/theme.scss";
 @import "./common.scss";
+@import "@fontsource/plus-jakarta-sans";
 
 .form {
   display: flex;
@@ -22,8 +23,8 @@ input[type="text"]{
   color: $text-secondary;
   background-color: $bg-light;
   border: 2px solid $bg-light;
-  font-family: sans-serif;
-}
+  font-family: 'Plus Jakarta Sans', sans-serif;
+} 
 
 input[type="text"]:hover{
   border: 2px solid $bg-extra-light;
@@ -50,4 +51,30 @@ input[type="submit"]{
 .optionText {
   color: $text-secondary;
   text-align: left;
+}
+
+.botlist {
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 372px);
+  gap: 12px;
+  justify-content: center;
+  margin: 24px auto 16px auto;
+}
+
+.botlist-item {
+  border-radius: 5px;
+  padding: 12px;
+  background-color: $bg-light;
+  display: flex;
+  flex-direction: column;
+}
+
+.botlist-item-title {
+  color: $text-primary;
+}
+
+.botlist-item-artist {
+  color: $text-secondary;
+  font-size: 14px;
 }

@@ -3,15 +3,8 @@
 .menu-toggler {
     position: absolute;
     top: 0;
-    margin: 24px;
-}
-
-.menu-icon {
-    color: $text-primary;
-    &:hover,
-    &:focus {
-        color: $text-secondary;
-    }
+    margin: 16px;
+    cursor: pointer;
 }
 
 .sidebar {
@@ -32,6 +25,7 @@
 
 .sidebar .menu-item {
     margin: 8px 16px;
+    cursor: pointer;
 }
 
 .menu-item .menu-link {

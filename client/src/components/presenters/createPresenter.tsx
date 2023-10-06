@@ -2,6 +2,8 @@ import CreateView from "../views/createView";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HaipModel from "../../models/model";
+import LoadingView from "../views/loadingView";
+import { Track } from "../../assets/utils/types";
 
 interface CreatePresenterProps {
   model: HaipModel;
@@ -11,19 +13,37 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [userMessage, setUserMessage] = useState<string>("");
   const [playlistName, setPlaylistName] = useState<string>("");
   const [numberOfTracks, setNumberOfTracks] = useState<number>(1);
-  const [userName, setUserName] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [tracks, setTracks] = useState<Track[]>([]);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
-  useEffect( () => {
+  useEffect(() => {
     const getUser = async () => {
       await model.getUserDetails();
-      setUserName(model.user.username);
-    }
+    };
 
     getUser();
-  }, [])
+  }, []);
+
+  const tracksObserver = () => {
+    setTracks(model.tracks);
+  }
+
+  model.addObserver(tracksObserver);
 
   const handleSubmit = async () => {
+    setLoading(true);
+    setSuccess(false);
     await model.submitBotRequest(userMessage, playlistName, numberOfTracks);
+    setSubmitted(true);
+    if(model.tracks.length) {
+      setSuccess(true);
+    }
+    setLoading(false);
+  };
+
+  const createPlaylist = async () => {
     redirect("/preview");
   };
 
@@ -32,7 +52,9 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
     navigate(page);
   };
 
-  return (
+  return loading ? (
+    <LoadingView/>
+  ) : (
     <CreateView
       userMessage={userMessage}
       setUserMessage={setUserMessage}
@@ -41,7 +63,10 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
       numberOfTracks={numberOfTracks}
       setNumberOfTracks={setNumberOfTracks}
       onSubmit={handleSubmit}
-      userName={userName}
+      createPlaylist={createPlaylist}
+      tracks={tracks}
+      submitted={submitted}
+      success={success}
     />
   );
 };

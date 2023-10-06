@@ -3,15 +3,9 @@ import "../../assets/styles/common.scss";
 
 interface PreviewViewProps {
   playlistID: string;
-  getPlaylistID: () => void;
 }
 
-const PreviewView: React.FC<PreviewViewProps> = ({
-  getPlaylistID,
-  playlistID,
-}) => {
-  getPlaylistID();
-
+const PreviewView: React.FC<PreviewViewProps> = ({ playlistID }) => {
   return (
     <div className="page">
       <div className="title">Your AI generated playlist!</div>
@@ -24,7 +18,7 @@ const PreviewView: React.FC<PreviewViewProps> = ({
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       ></iframe>
-      <button className="button red">Delete playlist</button>
+      {/* <button className="button red">Delete playlist</button> */}
     </div>
   );
 };

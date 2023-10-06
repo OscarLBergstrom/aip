@@ -1,5 +1,7 @@
 import "../../assets/styles/create.scss";
 import "../../assets/styles/common.scss";
+import { Track } from "../../assets/utils/types";
+import { BiErrorCircle } from "react-icons/bi";
 
 interface CreateViewProps {
   userMessage: string;
@@ -9,7 +11,10 @@ interface CreateViewProps {
   numberOfTracks: number;
   setNumberOfTracks: (numberOfTracks: number) => void;
   onSubmit: () => void;
-  userName: string;
+  createPlaylist: () => void;
+  tracks: Track[];
+  submitted: boolean;
+  success: boolean;
 }
 
 const CreateView: React.FC<CreateViewProps> = ({
@@ -20,17 +25,25 @@ const CreateView: React.FC<CreateViewProps> = ({
   numberOfTracks,
   setNumberOfTracks,
   onSubmit,
-  userName,
+  createPlaylist,
+  tracks,
+  submitted,
+  success,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
   };
 
+  const handleClick = (e: React.FormEvent) => {
+    e.preventDefault();
+    createPlaylist();
+  };
+
   return (
     <div className="page">
       <div className="card">
-        <div className="title">Hello {userName}!</div>
+        <div className="title">Create Playlist</div>
         <form className="form" onSubmit={handleSubmit}>
           <div className="option">
             <div className="optionText"> What kind of playlist do you want to create?</div>
@@ -58,12 +71,36 @@ const CreateView: React.FC<CreateViewProps> = ({
               name="numberOfTracks"
               min="1"
               max="10"
-              defaultValue="1"
+              defaultValue={numberOfTracks}
               onChange={(e) => setNumberOfTracks(parseInt(e.target.value))}
             />
           </div>
           <input type="submit" value="Submit" />
         </form>
+        {submitted 
+        ? ( 
+          success
+          ? (
+            <div>
+              <div className="subtitle">
+                  Your HAIP Playlist
+                </div>
+              <div className="botlist">
+                {tracks.map((track, index) => (
+                  <div className="botlist-item" key={index}>
+                    <div className="botlist-item-title">{track.title}</div>
+                    <div className="botlist-item-artist">{track.artist}</div>
+                  </div>
+                ))}
+              </div>
+              <button className="button" onClick={handleClick}>Save to Spotify</button>
+            </div>
+          ) : <div className="error">
+                <BiErrorCircle size="20px"/>
+                <div className="error-message">Could not generate playlist, please provide a better description.</div>
+              </div> 
+        )
+        : <div/> }
       </div>
     </div>
   );

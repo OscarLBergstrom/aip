@@ -1,33 +1,25 @@
 import { useFetch } from "../hooks/useFetch";
 import { Method } from "axios";
-
-interface Track {
-  title: string;
-  artist: string;
-}
-interface User {
-  code: string;
-  token: string;
-  email: string;
-  username: string;
-  id: string;
-}
+import { User, Track, Playlist } from "../assets/utils/types"
 
 export default class HaipModel {
+  observers: ((data: HaipModel) => void)[] = [];
   botResponse: string;
-  formattedResponse: Track[];
   urlResponse: string;
   playlist: string[];
   playlistID: string;
+  playlistName: string;
   loggedIn: boolean;
   user: User;
+  myPlaylists: Playlist[];
+  tracks: Track[];
 
   constructor() {
     this.botResponse = "";
-    this.formattedResponse = [];
     this.urlResponse = "";
     this.playlist = [];
     this.playlistID = "";
+    this.playlistName = "";
     this.loggedIn = false;
     this.user = {
       code: "",
@@ -36,11 +28,27 @@ export default class HaipModel {
       username: "",
       id: "",
     };
+    this.myPlaylists = [];
+    this.tracks = [];
+  }
+
+  addObserver(obs: (data: HaipModel) => void): void {
+    this.observers.push(obs);
+  }
+
+  removeObserver(obs: (data: HaipModel) => void): void {
+    const index = this.observers.indexOf(obs);
+    if (index !== -1) {
+      this.observers.splice(index, 1);
+    }
+  }
+
+  notifyObservers(): void {
+    this.observers.forEach((observer) => observer(this));
   }
 
   formatBotResponse(botMessage: string) {
-    const tracks: Track[] = [];
-
+    this.tracks = [];
     botMessage = botMessage.trim();
     const arr = botMessage.split(/\d+\. /);
 
@@ -53,10 +61,8 @@ export default class HaipModel {
       };
       console.log(track);
 
-      tracks.push(track);
+      this.tracks.push(track);
     }
-
-    return tracks;
   }
 
   createPlaylist = async (playlistName: string) => {
@@ -74,14 +80,29 @@ export default class HaipModel {
         },
       });
       this.playlistID = data.token.id;
+      this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  getTrackIDs = async (response: Track[]) => {
+    const trackIDs = [];
+
+    for (let i = 0; i < response.length; i++) {
+      const searchResult = await this.getSearchResult(
+        response[i].title,
+        response[i].artist
+      );
+      trackIDs.push(searchResult);
+    }
+
+    return trackIDs;
+  };
+
   addTracks = async () => {
     try {
-      const data = await useFetch({
+      await useFetch({
         url: `http://localhost:3001/api/tracks`,
         method: "POST" as Method,
         headers: {
@@ -104,6 +125,8 @@ export default class HaipModel {
     numberOfTracks: number
   ) => {
     try {
+      this.setPlaylistName(playlistName);
+      console.log(this.user.token);
       const data = await useFetch({
         url: "http://localhost:3001/api/chatbot",
         method: "POST" as Method,
@@ -113,29 +136,33 @@ export default class HaipModel {
         body: { message: userMessage, numberOfTracks: numberOfTracks },
       });
       this.botResponse = data.botResponse;
-
-      this.formattedResponse = this.formatBotResponse(data.botResponse);
-
-      const trackIDs = [];
-
-      for (let i = 0; i < this.formattedResponse.length; i++) {
-        const searchResult = await this.getSearchResult(
-          this.formattedResponse[i].title,
-          this.formattedResponse[i].artist
-        );
-        trackIDs.push(searchResult);
-      }
-
-      this.playlist = trackIDs;
-      console.log("Final playlist: ", trackIDs);
-      await this.createPlaylist(playlistName);
-      this.addTracks();
+      this.formatBotResponse(this.botResponse);
+      this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
       this.botResponse =
         "An error occurred while communicating with the chatbot.";
     }
     console.log("ChatBot:\n", this.botResponse);
+  };
+
+  setPlaylistName = (name: string) => {
+    this.playlistName = name;
+  };
+
+  submitPlaylistRequest = async () => {
+    try {
+      // get the playlist in an array (the array consists of the tracks' Spotify URI)
+      this.playlist = await this.getTrackIDs(this.tracks);
+
+      // create a new playlist
+      await this.createPlaylist(this.playlistName);
+
+      // add the tracks to the playlist
+      this.addTracks();
+    } catch (error) {
+      console.error("Error: ", error);
+    }
   };
 
   /* Login */
@@ -175,6 +202,7 @@ export default class HaipModel {
       });
 
       this.urlResponse = data.urlResponse;
+      this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -186,8 +214,8 @@ export default class HaipModel {
       await this.getUserToken();
       await this.getUserProfile();
       this.loggedIn = true;
-
       console.log("user: ", this.user);
+      this.notifyObservers();
     }
   };
 
@@ -214,6 +242,7 @@ export default class HaipModel {
           body: { code: this.user.code, verifier: verifier },
         });
         this.user.token = data.token;
+        this.notifyObservers();
       } catch (error) {
         console.error("Error:", error);
       }
@@ -232,6 +261,7 @@ export default class HaipModel {
       this.user.id = data.profile.id;
       this.user.email = data.profile.email;
       this.user.username = data.profile.display_name;
+      this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -252,4 +282,45 @@ export default class HaipModel {
       console.error("Error:", error);
     }
   };
+
+  getPlaylists = async () => {
+    try {
+      const data = await useFetch({
+        url: "http://localhost:3001/api/getplaylists",
+        method: "GET" as Method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          token: this.user.token,
+          userID: this.user.id,
+        },
+      });
+
+      const items = data.items;
+      for (let i = 0; i < items.length; i++) {
+        const playlist: Playlist = {
+          id: items[i].id,
+          name: items[i].name,
+        };
+        this.myPlaylists.push(playlist);
+      }
+      console.log("myPlaylists", this.myPlaylists);
+      this.notifyObservers();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+  logout = () => {
+    this.loggedIn = false;
+    this.user = {
+      code: "",
+      token: "",
+      email: "",
+      username: "",
+      id: "",
+    };
+    this.notifyObservers();
+  }
 }
