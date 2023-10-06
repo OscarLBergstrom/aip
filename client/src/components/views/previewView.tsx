@@ -18,7 +18,7 @@ const PreviewView: React.FC<PreviewViewProps> = ({ playlistID }) => {
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       ></iframe>
-      <button className="button red">Delete playlist</button>
+      {/* <button className="button red">Delete playlist</button> */}
     </div>
   );
 };
