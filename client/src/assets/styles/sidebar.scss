@@ -29,13 +29,12 @@
 }
 
 .menu-item .menu-link {
-    color: $text-primary;
-    text-decoration: none;
+    color: $text-secondary;
     line-height: 24px;
 
     &:hover,
     &:focus {
-        color: $text-secondary;
+        color: $text-primary;
     }
 }
 

@@ -13,7 +13,7 @@ const ListView: React.FC<ListViewProps> = ({ onSelect }) => {
     return (
         <div className="page">
             <div className="card">
-                <div className="title">My Playlists</div>
+                <div className="subtitle">My Playlists</div>
                 <div className="list">
                     {playlists.map((playlist, index) => (
                         <div key={index} className="list-item" onClick={onSelect}>

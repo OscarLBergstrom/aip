@@ -1,6 +1,7 @@
 @import "../themes/theme.scss";
 @import "./common.scss";
 @import "@fontsource/plus-jakarta-sans";
+@import "@fontsource/plus-jakarta-sans/600.css"; 
 
 .form {
   display: flex;
@@ -77,4 +78,37 @@ input[type="submit"]{
 .botlist-item-artist {
   color: $text-secondary;
   font-size: 14px;
+}
+
+.toggler {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin: auto;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.span {
+  display: block;
+  width: 90%;
+  height: 2px;
+  background-color: $bg-extra-light;
+  margin: auto;
+}
+
+.arrow {
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.toggler-text-open {
+  margin-top: 8px;
+  color: $text-primary;
+  font-weight: 600;
+}
+
+.toggler-text-closed {
+  margin-top: 8px;
+  color: $text-secondary;
 }
