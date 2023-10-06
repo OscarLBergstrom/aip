@@ -88,8 +88,8 @@ const CreateView: React.FC<CreateViewProps> = ({
               <div className="botlist">
                 {tracks.map((track, index) => (
                   <div className="botlist-item" key={index}>
-                    <div>{track.title}</div>
-                    <div>{track.artist}</div>
+                    <div className="botlist-item-title">{track.title}</div>
+                    <div className="botlist-item-artist">{track.artist}</div>
                   </div>
                 ))}
               </div>
