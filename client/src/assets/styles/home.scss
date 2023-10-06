@@ -11,3 +11,48 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.haip-text {
+  display: flex;
+  flex-direction: column;
+  margin: 24px auto 48px auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.subtext {
+  font-size: 48px;
+  color: $text-primary;
+  font-family: 'impact', 'sans-serif';
+  letter-spacing: 4px;
+}
+
+.fade {
+  font-size: 96px;
+  font-weight: bold;
+  animation: fade-in-out linear infinite 8s;
+  margin-bottom: 8px;
+  -webkit-text-stroke: 4px $green-primary;
+  text-shadow: 
+    0 0 4px $green-light,
+    0 0 8px $green-primary,
+    0 0 12px $green-secondary,
+    0 0 24px $green-dark;
+  font-family: 'baskerville', 'serif';
+  letter-spacing: 6px;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
