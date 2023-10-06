@@ -9,6 +9,7 @@ import CreatePresenter from "./components/presenters/createPresenter";
 import SidebarPresenter from "./components/presenters/sidebarPresenter";
 import ListPresenter from "./components/presenters/listPresenter";
 import HaipModel from "./models/model";
+import PrivateRoutes from "./assets/utils/PrivateRoutes"
 
 const App = () => {
   const haipModel = new HaipModel();
@@ -17,30 +18,17 @@ const App = () => {
       <HeaderPresenter model={haipModel}/>
       <SidebarPresenter model={haipModel}/>
       <Routes>
+        <Route element={<PrivateRoutes loggedIn = {haipModel.loggedIn}/>}>
+            <Route path='/create' element={<CreatePresenter model={haipModel}/>}/>
+            <Route path='/preview' element={<PreviewPresenter model={haipModel}/>}/>
+            <Route path="/list" element={<ListPresenter model={haipModel}/>}/>
+        </Route>
         <Route
           path="/"
           element={
             <HomePresenter model={haipModel}/>
             }
          />
-         <Route
-          path="/create"
-          element={
-            <CreatePresenter model={haipModel} />
-            }
-          />
-          <Route
-            path="/preview"
-            element={
-              <PreviewPresenter model={haipModel}/>
-            }
-           /> 
-          <Route
-            path="/list"
-            element={
-              <ListPresenter model={haipModel}/>
-            }
-          />
       </Routes>
       <FooterPresenter />
     </div>
