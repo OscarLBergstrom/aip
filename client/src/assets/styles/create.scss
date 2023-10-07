@@ -85,30 +85,20 @@ input[type="submit"]{
   flex-direction: row;
   width: 90%;
   margin: auto;
-  justify-content: space-between;
   margin-bottom: 24px;
-}
-
-.span {
-  display: block;
-  width: 90%;
-  height: 2px;
-  background-color: $bg-extra-light;
-  margin: auto;
+  align-items: center;
 }
 
 .arrow {
-  margin-top: 8px;
   cursor: pointer;
+  margin-right: 8px;
 }
 
 .toggler-text-open {
-  margin-top: 8px;
   color: $text-primary;
   font-weight: 600;
 }
 
 .toggler-text-closed {
-  margin-top: 8px;
   color: $text-secondary;
 }

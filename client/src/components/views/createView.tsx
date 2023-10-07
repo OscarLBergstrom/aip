@@ -48,17 +48,16 @@ const CreateView: React.FC<CreateViewProps> = ({
   return (
     <div className="page">
       <div className="card">
-        <span className="span"/>
         { success 
           ? <div>
               { showCreate
                 ? <div className="toggler">
+                    <AiOutlineUp className="icon arrow" size="24px" onClick={() => setShowCreate(false)}/>
                     <div className="toggler-text-open">Edit Playlist</div>
-                    <AiOutlineUp className="icon arrow" size="20px" onClick={() => setShowCreate(false)}/>
                   </div>
                 : <div className="toggler">
+                    <AiOutlineDown className="icon arrow" size="24px" onClick={() => setShowCreate(true)}/>
                     <div className="toggler-text-closed">Edit Playlist</div>
-                    <AiOutlineDown className="icon arrow" size="20px" onClick={() => setShowCreate(true)}/>
                   </div>
               }
             </div>
@@ -108,7 +107,6 @@ const CreateView: React.FC<CreateViewProps> = ({
           success
           ? (
             <div>
-              <span className="span"/>
               <div className="subtitle">Your HAIP Playlist</div>
               <div className="botlist">
                 {tracks.map((track, index) => (
