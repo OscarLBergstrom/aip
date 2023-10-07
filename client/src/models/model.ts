@@ -12,7 +12,7 @@ export default class HaipModel {
   playlistName: string;
   loggedIn: boolean;
   user: User;
-  myPlaylists: Playlist[];
+  playlists: Playlist[];
   tracks: Track[];
 
   constructor() {
@@ -29,7 +29,7 @@ export default class HaipModel {
       username: "",
       id: "",
     };
-    this.myPlaylists = [];
+    this.playlists = [];
     this.tracks = [];
   }
 
@@ -295,7 +295,7 @@ export default class HaipModel {
         method: "GET" as Method,
       });
 
-      this.myPlaylists = [];
+      this.playlists = [];
       const items = data.playlists.items;
       for (let i = 0; i < items.length; i++) {
         let image_url = temp_logo;
@@ -307,9 +307,9 @@ export default class HaipModel {
           name: items[i].name,
           image_url: image_url,
         };
-        this.myPlaylists.push(playlist);
+        this.playlists.push(playlist);
       }
-      console.log("myPlaylists", this.myPlaylists);
+      console.log("playlists", this.playlists);
       this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);

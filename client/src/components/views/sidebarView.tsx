@@ -35,10 +35,10 @@ const SidebarView: React.FC<SidebarViewProps> = ({
                     <div className="menu-link" onClick={() => redirect("/")}>Home</div>
                 </div>
                 <div className="menu-item">
-                    <div className="menu-link" onClick={() => redirect(`/create?code=${user.code}`)}>Create playlist</div>
+                    <div className="menu-link" onClick={() => redirect(`/create?code=${user.code}`)}>Create Playlist</div>
                 </div>
                 <div className="menu-item">
-                    <div className="menu-link" onClick={() => redirect("/list")}>My playlists</div>
+                    <div className="menu-link" onClick={() => redirect("/list")}>Your Playlists</div>
                 </div>
             </div>
         </div>
