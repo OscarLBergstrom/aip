@@ -17,6 +17,7 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [showCreate, setShowCreate] = useState<boolean>(true);
 
   useEffect(() => {
     const getUser = async () => {
@@ -39,6 +40,7 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
     setSubmitted(true);
     if(model.tracks.length) {
       setSuccess(true);
+      setShowCreate(false);
     }
     setLoading(false);
   };
@@ -67,6 +69,8 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
       tracks={tracks}
       submitted={submitted}
       success={success}
+      showCreate={showCreate}
+      setShowCreate={setShowCreate}
     />
   );
 };

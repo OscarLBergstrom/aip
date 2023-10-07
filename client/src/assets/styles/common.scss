@@ -82,8 +82,8 @@
 }
 
 .subtitle {
-  font-size: 20px;
-  margin: 8px 0px;
+  font-size: 24px;
+  margin: 24px;
   font-weight: 600;
 }
 
@@ -92,10 +92,10 @@
 }
 
 .icon {
-  color: $text-primary;
+  color: $text-secondary;
   &:hover,
   &:focus {
-      color: $text-secondary;
+      color: $text-primary;
   }
 }
 
