@@ -107,7 +107,7 @@ const CreateView: React.FC<CreateViewProps> = ({
           success
           ? (
             <div>
-              <div className="subtitle">Your HAIP Playlist</div>
+              <div className="subtitle">My HAIP Playlist</div>
               <div className="botlist">
                 {tracks.map((track, index) => (
                   <div className="botlist-item" key={index}>

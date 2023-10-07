@@ -1,6 +1,7 @@
 import { useFetch } from "../hooks/useFetch";
 import { Method } from "axios";
-import { User, Track, Playlist } from "../assets/utils/types"
+import { User, Track, Playlist } from "../assets/utils/types";
+import temp_logo from "../assets/images/temp_logo.png";
 
 export default class HaipModel {
   observers: ((data: HaipModel) => void)[] = [];
@@ -286,22 +287,25 @@ export default class HaipModel {
   getPlaylists = async () => {
     try {
       const data = await useFetch({
-        url: "http://localhost:3001/api/getplaylists",
+        url: `http://localhost:3001/api/getplaylists?token=${encodeURIComponent(
+          this.user.token
+        )}&userID=${encodeURIComponent(
+          this.user.id
+        )}`,
         method: "GET" as Method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          token: this.user.token,
-          userID: this.user.id,
-        },
       });
 
-      const items = data.items;
+      this.myPlaylists = [];
+      const items = data.playlists.items;
       for (let i = 0; i < items.length; i++) {
+        let image_url = temp_logo;
+        if (items[i].images.length) {
+          image_url = items[i].images[0].url;
+        }
         const playlist: Playlist = {
           id: items[i].id,
           name: items[i].name,
+          image_url: image_url,
         };
         this.myPlaylists.push(playlist);
       }
@@ -322,5 +326,10 @@ export default class HaipModel {
       id: "",
     };
     this.notifyObservers();
+  }
+
+  selectPlaylist = (playlistID: string) => {
+    this.playlistID = playlistID;
+    console.log("playlist id", this.playlistID);
   }
 }

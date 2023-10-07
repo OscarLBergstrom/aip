@@ -4,11 +4,13 @@ import { authResponse } from "../controllers/authController";
 import { tokenResponse } from "../controllers/accessTokenController";
 import { profileResponse } from "../controllers/profileController";
 import { searchResponse } from "../controllers/searchController";
-import { createPlaylistResponse } from "../controllers/createPlaylistController";
+import { createPlaylistResponse} from "../controllers/createPlaylistController";
 import { addTracksResponse } from "../controllers/addTracksController";
 import { getPlaylistsResponse } from "../controllers/getPlaylistsController";
 
 const router = Router();
+
+router.get("/api/getplaylists", getPlaylistsResponse);
 
 router.post("/api/chatbot", createChatResponse);
 
@@ -23,7 +25,5 @@ router.get("/api/search", searchResponse);
 router.post("/api/playlist", createPlaylistResponse);
 
 router.post("/api/tracks", addTracksResponse);
-
-router.get("/api/getplaylists", getPlaylistsResponse);
 
 export default router;

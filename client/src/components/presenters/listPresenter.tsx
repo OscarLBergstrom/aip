@@ -31,13 +31,15 @@ const ListPresenter: React.FC<ListPresenterProps> = ({ model }) => {
         navigate(page);
     };
 
-    const handleSelect = () => {
+    const handleSelect = (playlistID: string) => {
+        model.selectPlaylist(playlistID);
         redirect("/preview");
     }
 
     return (
         <ListView
             onSelect={handleSelect}
+            myPlaylists={myPlaylists}
         />
     );
 }

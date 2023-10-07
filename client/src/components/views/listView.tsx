@@ -1,24 +1,26 @@
 import "../../assets/styles/common.scss";
 import "../../assets/styles/list.scss";
-import temp_logo from "../../assets/images/temp_logo.png";
+import { Playlist} from "../../assets/utils/types";
 
 interface ListViewProps {
-    onSelect: () => void;
+    onSelect: (playlist: string) => void;
+    myPlaylists: Playlist[];
 }
 
-const ListView: React.FC<ListViewProps> = ({ onSelect }) => {
-
-    const playlists = ["Playlist 1", "Playlist 2", "Playlist 3", "Playlist 3", "Playlist 3", "Playlist 3", "Playlist 3", "Playlist 3", "Playlist 3", "Playlist 3", "Playlist 3"];
+const ListView: React.FC<ListViewProps> = ({ 
+    onSelect,
+    myPlaylists,
+ }) => {
 
     return (
         <div className="page">
             <div className="card">
                 <div className="subtitle">My Playlists</div>
                 <div className="list">
-                    {playlists.map((playlist, index) => (
-                        <div key={index} className="list-item" onClick={onSelect}>
-                            <img className="list-item-image" src={temp_logo} alt="temp logo"/>
-                            <div className="list-item-name">{playlist}</div>
+                    {myPlaylists.map((playlist, index) => (
+                        <div key={index} className="list-item" onClick={() => onSelect(playlist.id)}>
+                            <img className="list-item-image" src={playlist.image_url} alt="playlist image"/>
+                            <div className="list-item-name">{playlist.name}</div>
                         </div>
                     ))}
                 </div>
