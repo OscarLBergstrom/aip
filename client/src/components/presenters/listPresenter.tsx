@@ -16,7 +16,6 @@ const ListPresenter: React.FC<ListPresenterProps> = ({ model }) => {
         const getPlaylists = async () => {
             await model.getPlaylists();
         }
-
         getPlaylists();
     }, []);
 

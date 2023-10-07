@@ -1,7 +1,6 @@
 import PreviewView from "../views/previewView";
 import HaipModel from "../../models/model";
-import { useEffect, useState } from "react";
-import LoadingView from "../views/loadingView";
+import { useState } from "react";
 
 interface PreviewPresenterProps {
   model: HaipModel;
