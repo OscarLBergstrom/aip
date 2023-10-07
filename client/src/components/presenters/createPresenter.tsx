@@ -46,6 +46,9 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   };
 
   const createPlaylist = async () => {
+    setLoading(true);
+    await model.submitPlaylistRequest();
+    setLoading(false);
     redirect("/preview");
   };
 
