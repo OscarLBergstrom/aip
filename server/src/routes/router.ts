@@ -7,7 +7,7 @@ import { searchResponse } from "../controllers/searchController";
 import { createPlaylistResponse} from "../controllers/createPlaylistController";
 import { addTracksResponse } from "../controllers/addTracksController";
 import { getPlaylistsResponse } from "../controllers/getPlaylistsController";
-import { getUserIDResponse } from "../controllers/userIDController";
+import { getUserIDResponse } from "../controllers/userIdController";
 
 const router = Router();
 
