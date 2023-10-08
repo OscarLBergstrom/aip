@@ -2,7 +2,7 @@ import "../../assets/styles/sidebar.scss";
 import "../../assets/styles/common.scss";
 import { HiMenu } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
-import { User } from "../../assets/utils/types";
+import { User } from "../../utils/types";
 
 interface SidebarViewProps {
     showSidebar: boolean;

@@ -1,6 +1,6 @@
 import { useFetch } from "../hooks/useFetch";
 import { Method } from "axios";
-import { User, Track, Playlist } from "../assets/utils/types";
+import { User, Track, Playlist } from "../utils/types";
 import temp_logo from "../assets/images/temp_logo.png";
 
 export default class HaipModel {
@@ -229,7 +229,9 @@ export default class HaipModel {
       await this.getUserToken();
       await this.getUserProfile();
       await this.getUserID();
-      this.loggedIn = true;
+      if (!(!Object.values(this.user).some((v) => v))) {
+        this.loggedIn = true;
+      }
       console.log("user: ", this.user);
       this.notifyObservers();
     }

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HaipModel from "../../models/model";
 import LoadingView from "../views/loadingView";
-import { Track } from "../../assets/utils/types";
+import { Track } from "../../utils/types";
 
 interface CreatePresenterProps {
   model: HaipModel;

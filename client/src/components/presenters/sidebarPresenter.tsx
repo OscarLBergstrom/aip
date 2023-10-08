@@ -2,7 +2,7 @@ import SidebarView from "../views/sidebarView";
 import { useState } from "react";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import HaipModel from "../../models/model";
-import { User } from "../../assets/utils/types";
+import { User } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
 
 interface SidebarPresenterProps {
