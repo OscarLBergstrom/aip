@@ -1,6 +1,6 @@
 import "../../assets/styles/common.scss";
 import "../../assets/styles/list.scss";
-import { Playlist} from "../../assets/utils/types";
+import { Playlist} from "../../utils/types";
 
 interface ListViewProps {
     onSelect: (playlist: string) => void;

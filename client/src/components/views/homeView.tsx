@@ -5,19 +5,20 @@ interface HomeViewProps {
   onLogin: () => void;
   loggedIn: boolean;
   haipWord: string;
+  goToCreate: () => void;
 }
 
 const HomeView: React.FC<HomeViewProps> = ({ 
   onLogin,
   loggedIn,
   haipWord, 
+  goToCreate,
 }) => {
 
 
   return (
     <div className="page">
       <div className="card">
-        {/* <div className="title">Welcome to HAIP!</div> */}
         <div className="haip-text">
           <div className="fade">{haipWord}</div>
           <div className="subtext">AI PLAYLIST</div>
@@ -37,7 +38,9 @@ const HomeView: React.FC<HomeViewProps> = ({
           ? <button className="button" onClick={onLogin}>
               Login
             </button>
-          : <div/>
+          : <button className="button" onClick={() => goToCreate()}>
+              Create New Playlist
+            </button>
         }
       </div>
     </div>
