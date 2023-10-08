@@ -68,7 +68,7 @@ export default class HaipModel {
   getUserID = async () => {
     try {
       const data = await useFetch({
-        url:'http://localhost:3001/api/userid',
+        url:'http://localhost:3001/db/userid',
         method: "GET" as Method
       });
       console.log(data.table);

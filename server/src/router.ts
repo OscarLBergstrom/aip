@@ -7,7 +7,7 @@ import { searchResponse } from "./controllers/searchController";
 import { createPlaylistResponse } from "./controllers/createPlaylistController";
 import { addTracksResponse } from "./controllers/addTracksController";
 import { getPlaylistsResponse } from "./controllers/getPlaylistsController";
-import { userId } from "./controllers/userIdController";
+import { getUserIDResponse } from "./controllers/userIDController";
 
 const router = Router();
 
@@ -27,6 +27,6 @@ router.post("/api/tracks", addTracksResponse);
 
 router.get("/api/getplaylists", getPlaylistsResponse);
 
-router.get("/api/userid", userId);
+router.get("/db/userid", getUserIDResponse);
 
 export default router;
