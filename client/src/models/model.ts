@@ -1,7 +1,7 @@
 import { useFetch } from "../hooks/useFetch";
 import { Method } from "axios";
 import { User, Track, Playlist } from "../assets/utils/types";
-import temp_logo from "../assets/images/temp_logo.png";
+//import temp_logo from "../assets/images/temp_logo.png";
 
 export default class HaipModel {
   observers: ((data: HaipModel) => void)[] = [];
@@ -313,7 +313,7 @@ export default class HaipModel {
       this.playlists = [];
       const items = data.playlists.items;
       for (let i = 0; i < items.length; i++) {
-        let image_url = temp_logo;
+        let image_url = null;
         if (items[i].images.length) {
           image_url = items[i].images[0].url;
         }
