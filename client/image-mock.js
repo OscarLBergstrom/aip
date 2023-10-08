@@ -1,0 +1,1 @@
+module.exports = "./src/assets/images/temp_logo.png";

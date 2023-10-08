@@ -1,6 +1,6 @@
 import HaipModel from '../../src/models/model';
 import { useFetch } from '../../src/hooks/useFetch';
-import { Track } from '../../src/assets/utils/types';
+import { Track } from '../../src/utils/types';
 
 jest.mock("../../src/hooks/useFetch");
 
