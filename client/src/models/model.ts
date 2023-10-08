@@ -109,7 +109,9 @@ export default class HaipModel {
         response[i].title,
         response[i].artist
       );
-      trackIDs.push(searchResult);
+      if(searchResult) {
+        trackIDs.push(searchResult);
+      }
     }
 
     return trackIDs;
