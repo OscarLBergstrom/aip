@@ -2,6 +2,7 @@ import HomeView from "../views/homeView";
 import HaipModel from "../../models/model";
 import { useState, useEffect } from "react";
 import { useInterval } from 'usehooks-ts'
+import { useNavigate } from "react-router-dom";
 
 interface HomePresenterProps {
   model: HaipModel;
@@ -14,6 +15,14 @@ const HomePresenter: React.FC<HomePresenterProps> = ({ model }) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(model.loggedIn);
   const [haipWord, setHaipWord] = useState<string>(h_words[0]);
   const [count, setCount] = useState<number>(1);
+
+  useEffect(() => {
+    const getUser = async () => {
+      await model.getUserDetails();
+    };
+
+    getUser();
+  }, []);
 
   const loggedInObserver = () => {
     setLoggedIn(model.loggedIn);
@@ -35,10 +44,20 @@ const HomePresenter: React.FC<HomePresenterProps> = ({ model }) => {
     document.location = model.urlResponse;
   };
 
+  const goToCreate = () => {
+    redirect("/create");
+  }
+
+  let navigate = useNavigate();
+  const redirect = (page: string) => {
+      navigate(page);
+  };
+
   return <HomeView 
             onLogin={handleLogin} 
             loggedIn={loggedIn}
             haipWord={haipWord}
+            goToCreate={goToCreate}
           />;
 };
 

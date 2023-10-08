@@ -1,7 +1,7 @@
 import { useFetch } from "../hooks/useFetch";
 import { Method } from "axios";
-import { User, Track, Playlist } from "../assets/utils/types";
-//import temp_logo from "../assets/images/temp_logo.png";
+import { User, Track, Playlist } from "../utils/types";
+import temp_logo from "../assets/images/temp_logo.png";
 
 export default class HaipModel {
   observers: ((data: HaipModel) => void)[] = [];
@@ -109,7 +109,9 @@ export default class HaipModel {
         response[i].title,
         response[i].artist
       );
-      trackIDs.push(searchResult);
+      if(searchResult) {
+        trackIDs.push(searchResult);
+      }
     }
 
     return trackIDs;
@@ -226,12 +228,16 @@ export default class HaipModel {
   getUserDetails = async () => {
     if (!Object.values(this.user).some((v) => v)) {
       this.getUserCode();
-      await this.getUserToken();
-      await this.getUserProfile();
-      await this.getUserID();
-      this.loggedIn = true;
-      console.log("user: ", this.user);
-      this.notifyObservers();
+      if(this.user.code) {
+        await this.getUserToken();
+        await this.getUserProfile();
+        await this.getUserID();
+        if (!(!Object.values(this.user).some((v) => v))) {
+          this.loggedIn = true;
+        }
+        console.log("user: ", this.user);
+        this.notifyObservers();
+      }
     }
   };
 
@@ -313,7 +319,7 @@ export default class HaipModel {
       this.playlists = [];
       const items = data.playlists.items;
       for (let i = 0; i < items.length; i++) {
-        let image_url = null;
+        let image_url = temp_logo;
         if (items[i].images.length) {
           image_url = items[i].images[0].url;
         }

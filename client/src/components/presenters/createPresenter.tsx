@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HaipModel from "../../models/model";
 import LoadingView from "../views/loadingView";
-import { Track } from "../../assets/utils/types";
+import { Track } from "../../utils/types";
 
 interface CreatePresenterProps {
   model: HaipModel;
@@ -18,14 +18,6 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [showCreate, setShowCreate] = useState<boolean>(true);
-
-  useEffect(() => {
-    const getUser = async () => {
-      await model.getUserDetails();
-    };
-
-    getUser();
-  }, []);
 
   const tracksObserver = () => {
     setTracks(model.tracks);

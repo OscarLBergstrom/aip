@@ -17,7 +17,7 @@ export const authResponse = async (req: Request, res: Response) => {
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
-    params.append("redirect_uri", "http://localhost:3000/create");
+    params.append("redirect_uri", "http://localhost:3000/");
     params.append("scope", "user-read-private user-read-email playlist-modify-private playlist-modify-public playlist-read-collaborative playlist-read-private");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);

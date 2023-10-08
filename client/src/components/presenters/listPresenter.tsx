@@ -2,7 +2,7 @@ import ListView from "../views/listView";
 import { useNavigate } from "react-router-dom";
 import HaipModel from "../../models/model";
 import { useState, useEffect } from "react";
-import { Playlist } from "../../assets/utils/types";
+import { Playlist } from "../../utils/types";
 
 interface ListPresenterProps {
   model: HaipModel;

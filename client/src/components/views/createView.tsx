@@ -1,6 +1,6 @@
 import "../../assets/styles/create.scss";
 import "../../assets/styles/common.scss";
-import { Track } from "../../assets/utils/types";
+import { Track } from "../../utils/types";
 import { BiErrorCircle } from "react-icons/bi";
 import { AiOutlineUp, AiOutlineDown } from "react-icons/ai";
 
