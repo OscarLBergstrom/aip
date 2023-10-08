@@ -65,6 +65,20 @@ export default class HaipModel {
     }
   }
 
+  getUserID = async () => {
+    try {
+      const data = await useFetch({
+        url:'http://localhost:3001/api/userid',
+        method: "GET" as Method
+      });
+      console.log(data.table);
+      console.log("Completed fetch for userID")
+    }
+    catch(error) {
+      console.error("Error: ", error)
+    }
+  };
+
   createPlaylist = async (playlistName: string) => {
     try {
       const data = await useFetch({
@@ -213,6 +227,7 @@ export default class HaipModel {
       this.getUserCode();
       await this.getUserToken();
       await this.getUserProfile();
+      await this.getUserID();
       this.loggedIn = true;
       console.log("user: ", this.user);
       this.notifyObservers();
