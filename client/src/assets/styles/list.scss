@@ -2,12 +2,11 @@
 
 .list {
     width: 100%;
-    max-height: 50vh;
-    overflow: scroll;
     display: grid;
     grid-template-columns: repeat(auto-fill, 186px);
     gap: 12px;
     justify-content: center;
+    margin-bottom: 24px;
 }
 
 .list-item {
@@ -29,6 +28,7 @@
 }
 
 .list-item-image {
+    aspect-ratio : 1 / 1;
     width: 100%;
     background-color: $bg-primary;
     border-radius: 5px;

@@ -1,6 +1,6 @@
 import HeaderView from "../views/headerView";
 import HaipModel from "../../models/model";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface HeaderPresenterProps {

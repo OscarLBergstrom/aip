@@ -10,34 +10,35 @@ interface ListPresenterProps {
 
 const ListPresenter: React.FC<ListPresenterProps> = ({ model }) => {
 
-    const [myPlaylists, setMyPlaylists] = useState<Playlist[]>(model.myPlaylists);
+    const [playlists, setPlaylists] = useState<Playlist[]>(model.playlists);
 
     useEffect( () => {
-        const getMyPlaylists = async () => {
+        const getPlaylists = async () => {
             await model.getPlaylists();
         }
-
-        getMyPlaylists();
+        getPlaylists();
     }, []);
 
-    const myPlaylistsObserver = () => {
-        setMyPlaylists(model.myPlaylists);
+    const playlistsObserver = () => {
+        setPlaylists(model.playlists);
     };
     
-    model.addObserver(myPlaylistsObserver);
+    model.addObserver(playlistsObserver);
     
     let navigate = useNavigate();
     const redirect = (page: string) => {
         navigate(page);
     };
 
-    const handleSelect = () => {
+    const handleSelect = (playlistID: string) => {
+        model.selectPlaylist(playlistID);
         redirect("/preview");
     }
 
     return (
         <ListView
             onSelect={handleSelect}
+            playlists={playlists}
         />
     );
 }
