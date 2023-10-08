@@ -25,5 +25,8 @@
   },
   "include": [
     "src"
+, "cypress/createViewCreateView.cy.tsx", "cypress/tests/previewViewPreviewView.cy.tsx"  ],
+  "exclude": [
+    "cypress"
   ]
 }
