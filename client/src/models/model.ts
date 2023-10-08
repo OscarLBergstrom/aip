@@ -226,14 +226,16 @@ export default class HaipModel {
   getUserDetails = async () => {
     if (!Object.values(this.user).some((v) => v)) {
       this.getUserCode();
-      await this.getUserToken();
-      await this.getUserProfile();
-      await this.getUserID();
-      if (!(!Object.values(this.user).some((v) => v))) {
-        this.loggedIn = true;
+      if(this.user.code) {
+        await this.getUserToken();
+        await this.getUserProfile();
+        await this.getUserID();
+        if (!(!Object.values(this.user).some((v) => v))) {
+          this.loggedIn = true;
+        }
+        console.log("user: ", this.user);
+        this.notifyObservers();
       }
-      console.log("user: ", this.user);
-      this.notifyObservers();
     }
   };
 

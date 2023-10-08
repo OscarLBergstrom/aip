@@ -19,14 +19,6 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const [success, setSuccess] = useState<boolean>(false);
   const [showCreate, setShowCreate] = useState<boolean>(true);
 
-  useEffect(() => {
-    const getUser = async () => {
-      await model.getUserDetails();
-    };
-
-    getUser();
-  }, []);
-
   const tracksObserver = () => {
     setTracks(model.tracks);
   }

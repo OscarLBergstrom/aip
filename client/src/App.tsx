@@ -21,8 +21,8 @@ const App = () => {
         <Route element={<PrivateRoutes model={haipModel}/>}>
             <Route path='/preview' element={<PreviewPresenter model={haipModel}/>}/>
             <Route path="/list" element={<ListPresenter model={haipModel}/>}/>
+            <Route path='/create' element={<CreatePresenter model={haipModel}/>}/>
         </Route>
-        <Route path='/create' element={<CreatePresenter model={haipModel}/>}/>
         <Route
           path="/"
           element={

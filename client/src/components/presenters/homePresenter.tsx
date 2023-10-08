@@ -15,6 +15,14 @@ const HomePresenter: React.FC<HomePresenterProps> = ({ model }) => {
   const [haipWord, setHaipWord] = useState<string>(h_words[0]);
   const [count, setCount] = useState<number>(1);
 
+  useEffect(() => {
+    const getUser = async () => {
+      await model.getUserDetails();
+    };
+
+    getUser();
+  }, []);
+
   const loggedInObserver = () => {
     setLoggedIn(model.loggedIn);
   };
