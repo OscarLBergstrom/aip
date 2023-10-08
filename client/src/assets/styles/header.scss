@@ -21,10 +21,14 @@
     0 0 16px $green-dark;
     font-family: 'Plus Jakarta Sans', sans-serif;
     letter-spacing: 4px;
-    cursor: pointer;
+    cursor: default;
 }  
 
-.header-text:hover{
+.header-text.loggedIn {
+    cursor: pointer;
+}
+
+.header-text.loggedIn:hover{
     color: $green-light;
     text-shadow: none;
 }
