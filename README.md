@@ -19,6 +19,10 @@ CREATE DATABASE haip;
 ```
 
 ```
+USE haip;
+```
+
+```
 CREATE TABLE users (
     USER_ID VARCHAR(255) PRIMARY KEY);
 ```
