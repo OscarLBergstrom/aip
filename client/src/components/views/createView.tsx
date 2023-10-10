@@ -66,7 +66,7 @@ const CreateView: React.FC<CreateViewProps> = ({
         { showCreate 
           ? (
             <div className="create">
-              {success ? <div/> : <div className="subtitle">Create Playlist</div>}
+              {success ? <div/> : <div id="create-title" className="subtitle">Create Playlist</div>}
               <form className="form" onSubmit={handleSubmit}>
                 <div className="option">
                   <div className="optionText"> What kind of playlist do you want to create?</div>
@@ -97,7 +97,7 @@ const CreateView: React.FC<CreateViewProps> = ({
                     onChange={(e) => setNumberOfTracks(parseInt(e.target.value))}
                   />
                 </div>
-                <input type="submit" value={"Submit"} />
+                <input type="submit" name="submit" value={"Submit"} />
               </form>
             </div>
           ) : <div/>

@@ -18,16 +18,16 @@ const HeaderView: React.FC<HeaderViewProps> = ({
         loggedIn
         ? (
             <div className="header">
-                <div className="header-text loggedIn" onClick={() => goToHome()}>HAIP</div>
+                <div id="header-logo" className="header-text loggedIn" onClick={() => goToHome()}>HAIP</div>
                 <div className="logout" 
                     onClick={() => onLogout()}
                     >
-                    <HiOutlineLogout className="icon" size="32px"/>
+                    <HiOutlineLogout id="logout" className="icon" size="32px"/>
                 </div>
             </div>
         ) : (
             <div className="header">
-                <div className="header-text">HAIP</div>
+                <div id="header-logo" className="header-text">HAIP</div>
             </div>
         )
     );

@@ -19,7 +19,7 @@ const HomeView: React.FC<HomeViewProps> = ({
   return (
     <div className="page">
       <div className="card">
-        <div className="haip-text">
+        <div className="haip-text" id="haip-text">
           <div className="fade">{haipWord}</div>
           <div className="subtext">AI PLAYLIST</div>
         </div>

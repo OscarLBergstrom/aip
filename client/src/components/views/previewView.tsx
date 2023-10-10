@@ -9,7 +9,7 @@ const PreviewView: React.FC<PreviewViewProps> = ({ playlistID }) => {
   return (
     <div className="page">
       <div className="card">
-        <div className="subtitle">Your HAIP Playlist</div>
+        <div className="subtitle" id="preview-title">Your HAIP Playlist</div>
         <iframe
           id="player"
           title="preview playlist player"
