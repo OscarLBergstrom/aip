@@ -34,3 +34,8 @@ CREATE TABLE playlists (
     FOREIGN KEY (USER_ID) REFERENCES haip.users(USER_ID)
 );
 ```
+
+## Docker
+
+1. Start docker desktop
+2. docker-compose up
