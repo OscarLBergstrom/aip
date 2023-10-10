@@ -39,3 +39,11 @@ CREATE TABLE playlists (
 
 1. Start docker desktop
 2. docker-compose up
+
+## Check if MySQL docker containers works:
+
+- `docker exec -it CONTAINER-ID mysql -u root -p`
+- `show databases;`
+- `use haip;`
+- `show tables;`
+- `select * from users;`
