@@ -4,6 +4,7 @@ services:
     build: ./db
     environment:
       MYSQL_ROOT_PASSWORD: databasehaip
+      MYSQL_DATABASE: haip
     restart: always
 
   server:
