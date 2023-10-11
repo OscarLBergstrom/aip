@@ -107,18 +107,18 @@ const CreateView: React.FC<CreateViewProps> = ({
           success
           ? (
             <div>
-              <div className="subtitle">Your HAIP Playlist</div>
-              <div className="botlist">
+              <div className="subtitle" id="bot-title">Your HAIP Playlist</div>
+              <div id="botlist" className="botlist">
                 {tracks.map((track, index) => (
-                  <div className="botlist-item" key={index}>
-                    <div className="botlist-item-title">{track.title}</div>
-                    <div className="botlist-item-artist">{track.artist}</div>
+                  <div id="botlist-item" className="botlist-item" key={index}>
+                    <div id="title" className="botlist-item-title">{track.title}</div>
+                    <div id="artist" className="botlist-item-artist">{track.artist}</div>
                   </div>
                 ))}
               </div>
               <button className="button" onClick={handleClick}>Save to Spotify</button>
             </div>
-          ) : <div className="error">
+          ) : <div id="error" className="error">
                 <BiErrorCircle size="20px"/>
                 <div className="error-message">Could not generate playlist, please provide a better description.</div>
               </div> 

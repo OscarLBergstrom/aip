@@ -43,6 +43,18 @@ describe('List', () => {
     cy.get('[id=list]').within(() => {
       cy.get('[id=list-item]').first().contains('Discopub');
     });
-  })
+  });
+
+});
+
+describe('List item click', () => {
+  
+  it('Click on list item redirects to preview', () => {
+    cy.mount(list());
+    cy.get('[id=list]').within(() => {
+      cy.get('[id=list-item]').first().click();
+    });
+    cy.url().should('eq', 'http://localhost:8080/preview');
+  });
 
 });

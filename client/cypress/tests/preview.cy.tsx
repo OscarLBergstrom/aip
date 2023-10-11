@@ -28,7 +28,7 @@ describe('Preview', () => {
 
   it('renders player', () => {
     cy.mount(preview());
-    cy.get('[id=player]');
+    cy.get('[id=player]').should('exist');
   });
 
 });

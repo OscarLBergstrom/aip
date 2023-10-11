@@ -45,5 +45,10 @@ describe('Header nog logged in', () => {
         cy.mount(header(false));
         cy.get('[id=header-logo]').should('have.class', 'header-text');
     });
+
+    it('renders no logout button when not logged in', () => {
+      cy.mount(header(false));
+      cy.get('[id=logout]').should('not.exist');
+    })
   
 });
