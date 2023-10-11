@@ -9,7 +9,7 @@ https://www.youtube.com/watch?v=u96rVINbAUI
 The MySQL database should have the following properties:
 - Host: localhost
 - Port: 3306
-- Name: haip
+- Username: root
 - Password: databasehaip
 
 In order to create the structure of the database run the following commands in the workbench.
