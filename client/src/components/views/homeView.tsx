@@ -35,7 +35,7 @@ const HomeView: React.FC<HomeViewProps> = ({
           </div>
         </div>
         {!(loggedIn)
-          ? <button className="button" onClick={onLogin}>
+          ? <button id="login-button" className="button" onClick={onLogin}>
               Login
             </button>
           : <button className="button" onClick={() => goToCreate()}>

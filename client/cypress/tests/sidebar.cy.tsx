@@ -69,7 +69,7 @@ describe('Menu items', () => {
 
 });
 
-describe('Menu item link', () => {
+describe('Menu item links', () => {
   
   it('Click on home redirects to home', () => {
     cy.mount(sidebar(true));
@@ -99,4 +99,5 @@ describe('Menu item link', () => {
   });
 
 });
+
 

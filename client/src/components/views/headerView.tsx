@@ -19,10 +19,10 @@ const HeaderView: React.FC<HeaderViewProps> = ({
         ? (
             <div className="header">
                 <div id="header-logo" className="header-text loggedIn" onClick={() => goToHome()}>HAIP</div>
-                <div className="logout" 
+                <div id="logout" className="logout" 
                     onClick={() => onLogout()}
                     >
-                    <HiOutlineLogout id="logout" className="icon" size="32px"/>
+                    <HiOutlineLogout id="logout-icon" className="icon" size="32px"/>
                 </div>
             </div>
         ) : (

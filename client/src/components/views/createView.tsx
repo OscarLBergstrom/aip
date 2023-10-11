@@ -51,12 +51,12 @@ const CreateView: React.FC<CreateViewProps> = ({
         { success 
           ? <div>
               { showCreate
-                ? <div className="toggler">
-                    <AiOutlineUp className="icon arrow" size="24px" onClick={() => setShowCreate(false)}/>
+                ? <div className="toggler" id="edit-playlist-open">
+                    <AiOutlineUp id="close-edit-button" className="icon arrow" size="24px" onClick={() => setShowCreate(false)}/>
                     <div className="toggler-text-open">Edit Playlist</div>
                   </div>
-                : <div className="toggler">
-                    <AiOutlineDown className="icon arrow" size="24px" onClick={() => setShowCreate(true)}/>
+                : <div className="toggler" id="edit-playlist-closed">
+                    <AiOutlineDown id="open-edit-button" className="icon arrow" size="24px" onClick={() => setShowCreate(true)}/>
                     <div className="toggler-text-closed">Edit Playlist</div>
                   </div>
               }

@@ -27,9 +27,16 @@ describe('Home Logged In', () => {
     cy.get('button').contains('Create New Playlist');
   });
 
+  it('redirects to create after click on create playlist', () => {
+    cy.mount(home(true));
+    cy.get('button').click();
+    cy.url().should('eq', 'http://localhost:8080/create');
+  });
+
 });
 
 describe('Home not logged in', () => {
+
   it('renders haip title', () => {
     cy.mount(home(false));
     cy.get('[id=haip-text]').contains('AI PLAYLIST');
@@ -39,4 +46,5 @@ describe('Home not logged in', () => {
     cy.mount(home(false));
     cy.get('button').contains('Login');
   });
+
 });
