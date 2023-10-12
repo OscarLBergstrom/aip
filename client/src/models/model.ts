@@ -66,14 +66,24 @@ export default class HaipModel {
     }
   }
 
-  getUserID = async () => {
+  // Checks if the user is in the database. If not add them to the database.
+  // 
+
+  checkUserID = async () => {
     try {
+      console.log(this.user.id);
       const data = await useFetch({
-        url:'http://localhost:3001/db/userid',
-        method: "GET" as Method
+        url:'http://localhost:3001/db/checkuserid',
+        method: "POST" as Method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          userid: this.user.id,
+        },
       });
-      console.log(data.table);
-      console.log("Completed fetch for userID")
+      console.log("This is data from DB " + data);
+      console.log("Completed fetch for userID");
     }
     catch(error) {
       console.error("Error: ", error)
@@ -231,7 +241,7 @@ export default class HaipModel {
       if(this.user.code) {
         await this.getUserToken();
         await this.getUserProfile();
-        await this.getUserID();
+        await this.checkUserID();
         if (!(!Object.values(this.user).some((v) => v))) {
           this.loggedIn = true;
         }
