@@ -8,6 +8,7 @@ import { createPlaylistResponse} from "../controllers/createPlaylistController";
 import { addTracksResponse } from "../controllers/addTracksController";
 import { getPlaylistsResponse } from "../controllers/getPlaylistsController";
 import { checkUserID } from "../controllers/userIdController";
+import { insertPlaylist } from "../controllers/setDatabasePlaylist";
 
 const router = Router();
 
@@ -28,5 +29,7 @@ router.post("/api/playlist", createPlaylistResponse);
 router.post("/api/tracks", addTracksResponse);
 
 router.post("/db/checkuserid", checkUserID);
+
+router.post("/db/insertplaylist", insertPlaylist);
 
 export default router;

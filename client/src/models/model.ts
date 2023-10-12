@@ -105,11 +105,31 @@ export default class HaipModel {
         },
       });
       this.playlistID = data.token.id;
+      this.insertPlaylistInDB();
       this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  insertPlaylistInDB = async () => {
+    try{
+      const data = await useFetch({
+        url: 'http://localhost:3001/db/insertplaylist',
+        method: "POST" as Method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          playlistid: this.playlistID,
+          userid: this.user.id
+        }
+      });
+      console.log("INSERT DATA" + data);
+    } catch(error) {
+      console.error("Error:", error);
+    }
+  }
 
   getTrackIDs = async (response: Track[]) => {
     const trackIDs = [];
