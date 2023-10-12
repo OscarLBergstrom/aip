@@ -4,7 +4,7 @@ import "../../assets/styles/loading.scss";
 const LoadingView = () => {
     return (
         <div className="page">
-            <div className="loader">
+            <div className="loader" id="loader">
                 <span className="stroke"/>
                 <span className="stroke"/>
                 <span className="stroke"/>

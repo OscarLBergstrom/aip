@@ -24,9 +24,10 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "cypress/createViewCreateView.cy.tsx", "cypress/tests/previewViewPreviewView.cy.tsx"  ],
+    "src",
+  ],
   "exclude": [
+    "tests",
     "cypress"
   ]
 }

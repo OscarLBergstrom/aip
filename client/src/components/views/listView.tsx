@@ -15,10 +15,10 @@ const ListView: React.FC<ListViewProps> = ({
     return (
         <div className="page">
             <div className="card">
-                <div className="subtitle">Your Playlists</div>
-                <div className="list">
+                <div className="subtitle" id="list-title">Your Playlists</div>
+                <div className="list" id="list">
                     {playlists.map((playlist, index) => (
-                        <div key={index} className="list-item" onClick={() => onSelect(playlist.id)}>
+                        <div id="list-item" key={index} className="list-item" onClick={() => onSelect(playlist.id)}>
                             <img className="list-item-image" src={playlist.image_url} alt="playlist image"/>
                             <div className="list-item-name">{playlist.name}</div>
                         </div>

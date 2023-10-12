@@ -19,7 +19,7 @@ const HomeView: React.FC<HomeViewProps> = ({
   return (
     <div className="page">
       <div className="card">
-        <div className="haip-text">
+        <div className="haip-text" id="haip-text">
           <div className="fade">{haipWord}</div>
           <div className="subtext">AI PLAYLIST</div>
         </div>
@@ -35,7 +35,7 @@ const HomeView: React.FC<HomeViewProps> = ({
           </div>
         </div>
         {!(loggedIn)
-          ? <button className="button" onClick={onLogin}>
+          ? <button id="login-button" className="button" onClick={onLogin}>
               Login
             </button>
           : <button className="button" onClick={() => goToCreate()}>
