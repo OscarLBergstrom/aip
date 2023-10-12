@@ -92,7 +92,7 @@ const CreateView: React.FC<CreateViewProps> = ({
                     type="range"
                     name="numberOfTracks"
                     min="1"
-                    max="10"
+                    max="20"
                     defaultValue={numberOfTracks}
                     onChange={(e) => setNumberOfTracks(parseInt(e.target.value))}
                   />
