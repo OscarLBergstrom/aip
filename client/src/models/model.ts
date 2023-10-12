@@ -113,6 +113,8 @@ export default class HaipModel {
 
   getTrackIDs = async (response: Track[]) => {
     const trackIDs = [];
+    console.log("HELLO");
+    console.log(response);
 
     for (let i = 0; i < response.length; i++) {
       const searchResult = await this.getSearchResult(
@@ -181,6 +183,8 @@ export default class HaipModel {
     try {
       // get the playlist in an array (the array consists of the tracks' Spotify URI)
       this.playlist = await this.getTrackIDs(this.tracks);
+
+      console.log("testing");
 
       // create a new playlist
       await this.createPlaylist(this.playlistName);
