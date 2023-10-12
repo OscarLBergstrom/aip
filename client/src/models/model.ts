@@ -8,6 +8,7 @@ export default class HaipModel {
   botResponse: string;
   urlResponse: string;
   playlist: string[];
+  playlistDB: string[];
   playlistID: string;
   playlistName: string;
   loggedIn: boolean;
@@ -19,6 +20,7 @@ export default class HaipModel {
     this.botResponse = "";
     this.urlResponse = "";
     this.playlist = [];
+    this.playlistDB = [];
     this.playlistID = "";
     this.playlistName = "";
     this.loggedIn = false;
@@ -335,6 +337,30 @@ export default class HaipModel {
     }
   };
 
+  getPlaylistDB = async () => {
+    try{
+      const data = await useFetch({
+        url: 'http://localhost:3001/db/getplaylists',
+        method: "POST" as Method,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: {
+          userid: this.user.id,
+        },
+      });
+      console.log(data.queryRes);
+
+      for(let i = 0; i < data.queryRes.length; i++){
+        this.playlistDB.push(data.queryRes[i].PLAYLIST_ID);
+        console.log(this.playlistDB);
+      }
+        
+    }catch(error){
+      console.log("Error:", error);
+    }
+  }
+
   getPlaylists = async () => {
     try {
       const data = await useFetch({
@@ -346,20 +372,28 @@ export default class HaipModel {
         method: "GET" as Method,
       });
 
+      await this.getPlaylistDB();
+
       this.playlists = [];
       const items = data.playlists.items;
+
+
       for (let i = 0; i < items.length; i++) {
-        let image_url = temp_logo;
-        if (items[i].images.length) {
-          image_url = items[i].images[0].url;
+        if(this.playlistDB.includes(data.playlists.items[i].id)){
+          console.log("PLAYLISTDB WOOOHOO", data.playlists.items[i].id);
+          let image_url = temp_logo;
+          if (items[i].images.length) {
+            image_url = items[i].images[0].url;
+          }
+          const playlist: Playlist = {
+            id: items[i].id,
+            name: items[i].name,
+            image_url: image_url,
+          };
+          this.playlists.push(playlist);
         }
-        const playlist: Playlist = {
-          id: items[i].id,
-          name: items[i].name,
-          image_url: image_url,
-        };
-        this.playlists.push(playlist);
       }
+
       console.log("playlists", this.playlists);
       this.notifyObservers();
     } catch (error) {

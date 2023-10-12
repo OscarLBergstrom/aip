@@ -12,7 +12,7 @@ export const getplaylists = async (req: Request, res: Response) => {
         console.log("queryRes: " + queryRes);
         console.log("err: " + err);
         res.json({
-            response: queryRes,
+            queryRes: queryRes,
         });
     });
 
