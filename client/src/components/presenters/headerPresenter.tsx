@@ -20,11 +20,11 @@ const HeaderPresenter: React.FC<HeaderPresenterProps> = ({ model }) => {
     const handleLogout = () => {
         model.logout();
         setLoggedIn(false);
-        redirect("/home");
+        redirect("/");
     }
 
     const goToHome = () => {
-        redirect("/home");
+        redirect("/");
     }
 
     let navigate = useNavigate();

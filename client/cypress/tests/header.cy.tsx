@@ -72,13 +72,13 @@ describe('Header redirects', () => {
   it('redirects to home after click on header logo', () => {
     cy.mount(header(true));
     cy.get('[id=header-logo]').click();
-    cy.url().should('eq', 'http://localhost:8080/home');
+    cy.url().should('eq', 'http://localhost:8080/');
   });
 
   it('redirects to home and header logo is not active after click on logout', () => {
     cy.mount(header(true));
     cy.get('[id=logout]').click();
-    cy.url().should('eq', 'http://localhost:8080/home');
+    cy.url().should('eq', 'http://localhost:8080/');
     cy.get('[id=header-logo]').should('have.class', 'header-text');
   });
 
