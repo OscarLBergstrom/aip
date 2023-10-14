@@ -24,8 +24,8 @@ const App = () => {
             <Route path="/list" element={<ListPresenter model={haipModel}/>}/>
             <Route path='/create' element={<CreatePresenter model={haipModel}/>}/>
         </Route>
-        <Route path="/home" element={<HomePresenter model={haipModel}/>}/>
-        <Route path="/" element={<LoadingPresenter model={haipModel}/>}/>
+        <Route path="/" element={<HomePresenter model={haipModel}/>}/>
+        <Route path="/loading" element={<LoadingPresenter model={haipModel}/>}/>
       </Routes>
       <FooterPresenter />
     </div>

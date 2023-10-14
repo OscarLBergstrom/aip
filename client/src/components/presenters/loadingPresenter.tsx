@@ -20,7 +20,7 @@ const LoadingPresenter: React.FC<LoadingPresenterProps> = ({ model }) => {
             await model.getPlaylists();
             setTimeout(() => {
                 if (!!Object.values(model.user).some((v) => v)) {
-                    redirect("/home");
+                    redirect("/");
                 }
             }, 1000);
         };
