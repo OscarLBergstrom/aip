@@ -353,7 +353,6 @@ export default class HaipModel {
 
       for(let i = 0; i < data.queryRes.length; i++){
         this.playlistDB.push(data.queryRes[i].PLAYLIST_ID);
-        console.log(this.playlistDB);
       }
         
     }catch(error){
@@ -380,7 +379,6 @@ export default class HaipModel {
 
       for (let i = 0; i < items.length; i++) {
         if(this.playlistDB.includes(data.playlists.items[i].id)){
-          console.log("PLAYLISTDB WOOOHOO", data.playlists.items[i].id);
           let image_url = temp_logo;
           if (items[i].images.length) {
             image_url = items[i].images[0].url;
@@ -394,7 +392,6 @@ export default class HaipModel {
         }
       }
 
-      console.log("playlists", this.playlists);
       this.notifyObservers();
     } catch (error) {
       console.error("Error:", error);

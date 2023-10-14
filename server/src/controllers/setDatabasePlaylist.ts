@@ -10,8 +10,6 @@ export const insertPlaylist = async (req: Request, res: Response) => {
     
     var sql = "INSERT INTO haip.playlists (USER_ID, PLAYLIST_ID) VALUES (?, ?)";
     pool.query(sql, [userid, playlistid], (err:any, queryRes:any)=>{
-        console.log("queryRes: " + queryRes);
-        console.log("err: " + err);
         res.json({
             response: queryRes,
         });

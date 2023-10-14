@@ -9,8 +9,6 @@ export const getplaylists = async (req: Request, res: Response) => {
     
     var sql = "SELECT PLAYLIST_ID FROM haip.playlists WHERE USER_ID = ?";
     pool.query(sql, userid, (err:any, queryRes:any)=>{
-        console.log("queryRes: " + queryRes);
-        console.log("err: " + err);
         res.json({
             queryRes: queryRes,
         });
