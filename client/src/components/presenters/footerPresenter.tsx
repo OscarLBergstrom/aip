@@ -1,8 +1,13 @@
 import FooterView from "../views/footerView";
 
 const HeaderPresenter = () => {
+
+    const goToUrl = (url: string) => {
+        document.location = url;
+    }
+
     return (
-        <FooterView/>
+        <FooterView goToUrl={goToUrl}/>
     );
 }
 

@@ -2,12 +2,6 @@
 @import "@fontsource/plus-jakarta-sans";
 @import "@fontsource/plus-jakarta-sans/600.css"; 
 
-.logo {
-    height: 48px;
-    margin: 8px;
-}
-
-
 .button {
     align-items: center;
     background-color: $green-primary;
@@ -79,12 +73,14 @@
   margin-bottom: 32px;
   margin-top: 24px;
   font-weight: 600;
+  color: $text-primary;
 }
 
 .subtitle {
   font-size: 24px;
   margin: 24px;
   font-weight: 600;
+  color: $text-primary;
 }
 
 .info {

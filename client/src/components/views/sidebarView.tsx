@@ -17,24 +17,23 @@ const SidebarView: React.FC<SidebarViewProps> = ({
 
     return (
         <div>
-            <div className="menu-toggler" onClick={toggleShowSidebar}>
+            <div id="menu-toggler" className="menu-toggler" onClick={toggleShowSidebar}>
                 {showSidebar
                     ? <AiOutlineClose className="icon" size="32px"/>
                     : <HiMenu className="icon" size="32px"/>}
             </div>
-            
             <div className={
                 showSidebar
                 ? "sidebar open"
                 : "sidebar"
-            }>
-                <div className="menu-item">
+            } id="menu">
+                <div id="menu-item-home" className="menu-item">
                     <div className="menu-link" onClick={() => redirect("/")}>Home</div>
                 </div>
-                <div className="menu-item">
+                <div id="menu-item-create" className="menu-item">
                     <div className="menu-link" onClick={() => redirect(`/create`)}>Create Playlist</div>
                 </div>
-                <div className="menu-item">
+                <div id="menu-item-list" className="menu-item">
                     <div className="menu-link" onClick={() => redirect("/list")}>Your Playlists</div>
                 </div>
             </div>

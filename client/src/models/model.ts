@@ -50,6 +50,10 @@ export default class HaipModel {
     this.observers.forEach((observer) => observer(this));
   }
 
+  /**
+   * Formats the bot response from a string message to a tracks array with artist and title
+   * @param botMessage The string message to format.
+   */
   formatBotResponse(botMessage: string) {
     this.tracks = [];
     botMessage = botMessage.trim();
@@ -62,20 +66,19 @@ export default class HaipModel {
         title: trackInfo[0].trim(),
         artist: trackInfo[1].trim(),
       };
-      console.log(track);
 
       this.tracks.push(track);
     }
   }
 
-  // Checks if the user is in the database. If not add them to the database.
-  // 
-
+  /**
+   * Check if the user is in the database. If not, add them to the database.
+   */
   checkUserID = async () => {
     try {
       console.log(this.user.id);
       const data = await useFetch({
-        url:'http://localhost:3001/db/checkuserid',
+        url: "http://localhost:3001/db/checkuserid",
         method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
@@ -84,14 +87,15 @@ export default class HaipModel {
           userid: this.user.id,
         },
       });
-      console.log("This is data from DB " + data);
-      console.log("Completed fetch for userID");
-    }
-    catch(error) {
-      console.error("Error: ", error)
+    } catch (error) {
+      console.error("Error: ", error);
     }
   };
 
+  /**
+   * Add a new playlist with the given name to the user's Spotify account.
+   * @param playlistName The string name of the playlist.
+   */
   createPlaylist = async (playlistName: string) => {
     try {
       const data = await useFetch({
@@ -133,15 +137,20 @@ export default class HaipModel {
     }
   }
 
-  getTrackIDs = async (response: Track[]) => {
+   /**
+   * For every track, search for the track on Spotify and get back the Spotify track ID for the first track in the search result.
+   * @param tracks The track array.
+   * @returns
+   */
+  getTrackIDs = async (tracks: Track[]) => {
     const trackIDs = [];
 
-    for (let i = 0; i < response.length; i++) {
+    for (let i = 0; i < tracks.length; i++) {
       const searchResult = await this.getSearchResult(
-        response[i].title,
-        response[i].artist
+        tracks[i].title,
+        tracks[i].artist
       );
-      if(searchResult) {
+      if (searchResult) {
         trackIDs.push(searchResult);
       }
     }
@@ -149,6 +158,9 @@ export default class HaipModel {
     return trackIDs;
   };
 
+  /**
+   * Add all the tracks to the previously created Spotify playlist.
+   */
   addTracks = async () => {
     try {
       await useFetch({
@@ -168,6 +180,12 @@ export default class HaipModel {
     }
   };
 
+  /**
+   * Send the user's input to chatGPT and format the bot response.
+   * @param userMessage The user's text input.
+   * @param playlistName The chosen name of the playlist.
+   * @param numberOfTracks The chosen number of tracks in the playlist.
+   */
   submitBotRequest = async (
     userMessage: string,
     playlistName: string,
@@ -175,7 +193,6 @@ export default class HaipModel {
   ) => {
     try {
       this.setPlaylistName(playlistName);
-      console.log(this.user.token);
       const data = await useFetch({
         url: "http://localhost:3001/api/chatbot",
         method: "POST" as Method,
@@ -195,10 +212,17 @@ export default class HaipModel {
     console.log("ChatBot:\n", this.botResponse);
   };
 
+  /**
+   * Set the playlist name.
+   * @param name The chosen playlist name.
+   */
   setPlaylistName = (name: string) => {
     this.playlistName = name;
   };
 
+  /**
+   * Creates a playlist with the chosen tracks.
+   */
   submitPlaylistRequest = async () => {
     try {
       // get the playlist in an array (the array consists of the tracks' Spotify URI)
@@ -206,7 +230,7 @@ export default class HaipModel {
 
       // create a new playlist
       await this.createPlaylist(this.playlistName);
-
+      
       // add the tracks to the playlist
       this.addTracks();
     } catch (error) {
@@ -214,7 +238,9 @@ export default class HaipModel {
     }
   };
 
-  /* Login */
+  /**
+   * When the user logs in, a verifier and a challenge are generated. With those, a URL to the Spotify authorization page is fetched.
+   */
   handleLogin = async () => {
     function generateCodeVerifier(length: number) {
       let text = "";
@@ -257,14 +283,18 @@ export default class HaipModel {
     }
   };
 
+  /**
+   * If the user data is not set, it will be set. Also, the user will then be set to logged in.
+   */
   getUserDetails = async () => {
     if (!Object.values(this.user).some((v) => v)) {
       this.getUserCode();
-      if(this.user.code) {
+      if (this.user.code) {
         await this.getUserToken();
         await this.getUserProfile();
         await this.checkUserID();
-        if (!(!Object.values(this.user).some((v) => v))) {
+        if (!!Object.values(this.user).some((v) => v)) {
+          console.log("logged in is set to true");
           this.loggedIn = true;
         }
         console.log("user: ", this.user);
@@ -273,7 +303,9 @@ export default class HaipModel {
     }
   };
 
-  /* Get user code param */
+  /**
+   * Get user code param.
+   */
   getUserCode = () => {
     const params = new URLSearchParams(window.location.search);
     const code_param = params.get("code");
@@ -282,7 +314,9 @@ export default class HaipModel {
     }
   };
 
-  /* Get user token */
+  /**
+   * Get user token.
+   */
   getUserToken = async () => {
     const verifier = localStorage.getItem("verifier");
     if (typeof this.user.code === "string" && typeof verifier === "string") {
@@ -303,7 +337,9 @@ export default class HaipModel {
     }
   };
 
-  /* Get email and username of user */
+  /**
+   * Get ID, email, and username of user.
+   */
   getUserProfile = async () => {
     try {
       const data = await useFetch({
@@ -321,6 +357,12 @@ export default class HaipModel {
     }
   };
 
+  /**
+   * Search for the given track on Spotify and return the URI of the first track in the search result.
+   * @param track The title of the track.
+   * @param artist The artist of the track.
+   * @returns
+   */
   getSearchResult = async (track: string, artist: string) => {
     try {
       const data = await useFetch({
@@ -360,14 +402,15 @@ export default class HaipModel {
     }
   }
 
+  /**
+   * Get all playlists for the user.
+   */
   getPlaylists = async () => {
     try {
       const data = await useFetch({
         url: `http://localhost:3001/api/getplaylists?token=${encodeURIComponent(
           this.user.token
-        )}&userID=${encodeURIComponent(
-          this.user.id
-        )}`,
+        )}&userID=${encodeURIComponent(this.user.id)}`,
         method: "GET" as Method,
       });
 
@@ -397,7 +440,10 @@ export default class HaipModel {
       console.error("Error:", error);
     }
   };
-  
+
+  /**
+   * Logout from Spotify.
+   */
   logout = () => {
     this.loggedIn = false;
     this.user = {
@@ -408,10 +454,13 @@ export default class HaipModel {
       id: "",
     };
     this.notifyObservers();
-  }
+  };
 
+  /**
+   * Set the current playlist.
+   * @param playlistID The ID of the chosen playlist.
+   */
   selectPlaylist = (playlistID: string) => {
     this.playlistID = playlistID;
-    console.log("playlist id", this.playlistID);
-  }
+  };
 }
