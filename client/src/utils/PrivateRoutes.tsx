@@ -19,7 +19,7 @@ const PrivateRoutes:React.FC<PrivateRoutesProps> = ({ model }) => {
     return (
         loggedIn 
         ? <Outlet/> 
-        : <Navigate to="/"/>
+        : <Navigate to="/home"/>
     );
 }
 

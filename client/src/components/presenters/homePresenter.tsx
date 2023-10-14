@@ -1,7 +1,6 @@
 import HomeView from "../views/homeView";
-import LoadingView from "../views/loadingView";
 import HaipModel from "../../models/model";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useInterval } from "usehooks-ts";
 import { useNavigate } from "react-router-dom";
 
@@ -26,17 +25,6 @@ const HomePresenter: React.FC<HomePresenterProps> = ({ model }) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(model.loggedIn);
   const [haipWord, setHaipWord] = useState<string>(h_words[0]);
   const [count, setCount] = useState<number>(1);
-  //const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const getUser = async () => {
-      //setLoading(true);
-      await model.getUserDetails();
-      //setLoading(false);
-    };
-
-    getUser();
-  }, []);
 
   const loggedInObserver = () => {
     setLoggedIn(model.loggedIn);
@@ -67,9 +55,7 @@ const HomePresenter: React.FC<HomePresenterProps> = ({ model }) => {
     navigate(page);
   };
 
-  return (/* loading ? (
-    <LoadingView />
-  ) : ( */
+  return (
     <HomeView
       onLogin={handleLogin}
       loggedIn={loggedIn}

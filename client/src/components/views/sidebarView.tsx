@@ -28,7 +28,7 @@ const SidebarView: React.FC<SidebarViewProps> = ({
                 : "sidebar"
             } id="menu">
                 <div id="menu-item-home" className="menu-item">
-                    <div className="menu-link" onClick={() => redirect("/")}>Home</div>
+                    <div className="menu-link" onClick={() => redirect("/home")}>Home</div>
                 </div>
                 <div id="menu-item-create" className="menu-item">
                     <div className="menu-link" onClick={() => redirect(`/create`)}>Create Playlist</div>
