@@ -4,7 +4,6 @@ const pool = createPool({
     host: "localhost",
     user: "root",
     password: "databasehaip",
-    database: "haip",
     connectionLimit: 10
 });
 
