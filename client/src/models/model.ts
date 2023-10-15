@@ -9,6 +9,7 @@ export default class HaipModel {
   botResponse: string;
   urlResponse: string;
   playlist: string[];
+  playlistDB: string[];
   playlistID: string;
   playlistName: string;
   loggedIn: boolean;
@@ -20,6 +21,7 @@ export default class HaipModel {
     this.botResponse = "";
     this.urlResponse = "";
     this.playlist = [];
+    this.playlistDB = [];
     this.playlistID = "";
     this.playlistName = "";
     this.loggedIn = false;
@@ -69,51 +71,6 @@ export default class HaipModel {
       this.tracks.push(track);
     }
   }
-
-  /**
-   * Check if the user is in the database. If not, add them to the database.
-   */
-  checkUserID = async () => {
-    try {
-      const data = await useFetch({
-        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/db/checkuserid",
-        method: "POST" as Method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          userid: this.user.id,
-        },
-      });
-    } catch (error) {
-      console.error("Error: ", error);
-    }
-  };
-
-  /**
-   * Add a new playlist with the given name to the user's Spotify account.
-   * @param playlistName The string name of the playlist.
-   */
-  createPlaylist = async (playlistName: string) => {
-    try {
-      const data = await useFetch({
-        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/api/playlist",
-        method: "POST" as Method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          token: this.user.token,
-          userID: this.user.id,
-          playlistName: playlistName,
-        },
-      });
-      this.playlistID = data.token.id;
-      this.notifyObservers();
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   /**
    * For every track, search for the track on Spotify and get back the Spotify track ID for the first track in the search result.
@@ -372,38 +329,6 @@ export default class HaipModel {
   };
 
   /**
-   * Get all playlists for the user.
-   */
-  getPlaylists = async () => {
-    try {
-      const data = await useFetch({
-        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) +`/api/getplaylists?token=${encodeURIComponent(
-          this.user.token
-        )}&userID=${encodeURIComponent(this.user.id)}`,
-        method: "GET" as Method,
-      });
-
-      this.playlists = [];
-      const items = data.playlists.items;
-      for (let i = 0; i < items.length; i++) {
-        let image_url = temp_logo;
-        if (items[i].images.length) {
-          image_url = items[i].images[0].url;
-        }
-        const playlist: Playlist = {
-          id: items[i].id,
-          name: items[i].name,
-          image_url: image_url,
-        };
-        this.playlists.push(playlist);
-      }
-      this.notifyObservers();
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  /**
    * Logout from Spotify.
    */
   logout = () => {
@@ -425,4 +350,132 @@ export default class HaipModel {
   selectPlaylist = (playlistID: string) => {
     this.playlistID = playlistID;
   };
+  
+  /**
+   * Check if the user is in the database. If not, add them to the database.
+   */
+  checkUserID = async () => {
+    try {
+      const data = await useFetch({
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/db/checkuserid",
+        method: "POST" as Method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          userid: this.user.id,
+        },
+      });
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
+
+  /**
+   * Add a new playlist with the given name to the user's Spotify account.
+   * @param playlistName The string name of the playlist.
+   */
+  createPlaylist = async (playlistName: string) => {
+    try {
+      const data = await useFetch({
+        url:  (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/api/playlist",
+        method: "POST" as Method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          token: this.user.token,
+          userID: this.user.id,
+          playlistName: playlistName,
+        },
+      });
+      this.playlistID = data.token.id;
+      this.insertPlaylistInDB();
+      this.notifyObservers();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  insertPlaylistInDB = async () => {
+    try{
+      const data = await useFetch({
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/db/insertplaylist",
+        method: "POST" as Method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          playlistid: this.playlistID,
+          userid: this.user.id
+        }
+      });
+      console.log("INSERT DATA" + data);
+    } catch(error) {
+      console.error("Error:", error);
+    }
+  }
+
+  getPlaylistDB = async () => {
+    try{
+      const data = await useFetch({
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/db/getplaylists",
+        method: "POST" as Method,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: {
+          userid: this.user.id,
+        },
+      });
+      console.log(data.queryRes);
+
+      for(let i = 0; i < data.queryRes.length; i++){
+        this.playlistDB.push(data.queryRes[i].PLAYLIST_ID);
+      }
+        
+    }catch(error){
+      console.log("Error:", error);
+    }
+  }
+
+  /**
+   * Get all playlists for the user.
+   */
+  getPlaylists = async () => {
+    try {
+      const data = await useFetch({
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + `/api/getplaylists?token=${encodeURIComponent(
+          this.user.token
+        )}&userID=${encodeURIComponent(this.user.id)}`,
+        method: "GET" as Method,
+      });
+
+      await this.getPlaylistDB();
+
+      this.playlists = [];
+      const items = data.playlists.items;
+
+
+      for (let i = 0; i < items.length; i++) {
+        if(this.playlistDB.includes(data.playlists.items[i].id)){
+          let image_url = temp_logo;
+          if (items[i].images.length) {
+            image_url = items[i].images[0].url;
+          }
+          const playlist: Playlist = {
+            id: items[i].id,
+            name: items[i].name,
+            image_url: image_url,
+          };
+          this.playlists.push(playlist);
+        }
+      }
+
+      this.notifyObservers();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
 }

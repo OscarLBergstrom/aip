@@ -3,7 +3,7 @@ import FooterView from "../views/footerView";
 const HeaderPresenter = () => {
 
     const goToUrl = (url: string) => {
-        window.location.href = url;
+        document.location = url;
     }
 
     return (

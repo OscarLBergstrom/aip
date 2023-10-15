@@ -8,6 +8,7 @@ import PreviewPresenter from './components/presenters/previewPresenter';
 import CreatePresenter from "./components/presenters/createPresenter";
 import SidebarPresenter from "./components/presenters/sidebarPresenter";
 import ListPresenter from "./components/presenters/listPresenter";
+import LoadingPresenter from "./components/presenters/loadingPresenter";
 import HaipModel from "./models/model";
 import PrivateRoutes from "./utils/PrivateRoutes"
 
@@ -23,12 +24,8 @@ const App = () => {
             <Route path="/list" element={<ListPresenter model={haipModel}/>}/>
             <Route path='/create' element={<CreatePresenter model={haipModel}/>}/>
         </Route>
-        <Route
-          path="/"
-          element={
-            <HomePresenter model={haipModel}/>
-            }
-         />
+        <Route path="/" element={<HomePresenter model={haipModel}/>}/>
+        <Route path="/loading" element={<LoadingPresenter model={haipModel}/>}/>
       </Routes>
       <FooterPresenter />
     </div>
