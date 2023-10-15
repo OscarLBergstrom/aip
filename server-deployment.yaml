@@ -1,0 +1,134 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: environmental-variables
+data:
+  REACT_APP_URL: "http://34.121.162.244:3001"
+  REDIRECT_URI: "http://34.16.95.74:3000/"
+  CLIENT_ID_DEPLOY: "2c290f22b5d140ea8cddd03fc75d8f56"
+  
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: gcr.io/haip-401908/db
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: databasehaip
+            - name: MYSQL_DATABASE
+              value: haip
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: gcr.io/haip-401908/server
+          env: 
+            - name: REDIRECT_URI 
+              valueFrom:
+                configMapKeyRef:
+                  name: environmental-variables
+                  key: REDIRECT_URI
+            - name: CLIENT_ID_DEPLOY 
+              valueFrom:
+                configMapKeyRef:
+                  name: environmental-variables
+                  key: CLIENT_ID_DEPLOY
+          ports:
+            - containerPort: 3001
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: gcr.io/haip-401908/client
+          env: 
+            - name: REACT_APP_URL 
+              valueFrom:
+                configMapKeyRef:
+                  name: environmental-variables
+                  key: REACT_APP_URL
+          ports:
+            - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+spec:
+  selector:
+    app: server
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+spec:
+  selector:
+    app: client
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector:
+    app: db
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: LoadBalancer
