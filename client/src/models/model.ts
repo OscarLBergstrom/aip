@@ -2,6 +2,7 @@ import { useFetch } from "../hooks/useFetch";
 import { Method } from "axios";
 import { User, Track, Playlist } from "../utils/types";
 import temp_logo from "../assets/images/temp_logo.png";
+import * as forge from 'node-forge';
 
 export default class HaipModel {
   observers: ((data: HaipModel) => void)[] = [];
@@ -74,9 +75,8 @@ export default class HaipModel {
    */
   checkUserID = async () => {
     try {
-      console.log(this.user.id);
       const data = await useFetch({
-        url: "http://localhost:3001/db/checkuserid",
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/db/checkuserid",
         method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export default class HaipModel {
   createPlaylist = async (playlistName: string) => {
     try {
       const data = await useFetch({
-        url: `http://localhost:3001/api/playlist`,
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/api/playlist",
         method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
@@ -142,7 +142,7 @@ export default class HaipModel {
   addTracks = async () => {
     try {
       await useFetch({
-        url: `http://localhost:3001/api/tracks`,
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/api/tracks",
         method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
@@ -172,7 +172,7 @@ export default class HaipModel {
     try {
       this.setPlaylistName(playlistName);
       const data = await useFetch({
-        url: "http://localhost:3001/api/chatbot",
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + "/api/chatbot",
         method: "POST" as Method,
         headers: {
           "Content-Type": "application/json",
@@ -187,7 +187,6 @@ export default class HaipModel {
       this.botResponse =
         "An error occurred while communicating with the chatbot.";
     }
-    console.log("ChatBot:\n", this.botResponse);
   };
 
   /**
@@ -226,21 +225,43 @@ export default class HaipModel {
       return text;
     }
 
-    async function generateCodeChallenge(codeVerifier: string) {
+    /* async function generateCodeChallenge(codeVerifier: string) {
+      console.log("Inside generate code challenge.");
       const data = new TextEncoder().encode(codeVerifier);
       const digest = await window.crypto.subtle.digest("SHA-256", data);
+      console.log("Before done with code challenge");
       return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
         .replace(/\+/g, "-")
         .replace(/\//g, "_")
         .replace(/=+$/, "");
-    }
+    } */
+
+    async function generateCodeChallenge(codeVerifier: string) {
+      
+      // Convert the codeVerifier to bytes
+      const codeVerifierBytes = forge.util.encodeUtf8(codeVerifier);
+      
+      // Use SHA-256 hash from forge
+      const sha256 = forge.md.sha256.create();
+      sha256.update(codeVerifierBytes);
+      const digest = sha256.digest();
+      
+      // Convert the digest to base64URL format
+      const base64URL = forge.util.encode64(digest.getBytes());
+      
+      return base64URL
+          .replace(/\+/g, "-")
+          .replace(/\//g, "_")
+          .replace(/=+$/, "");
+  
+  }
 
     try {
       const generated_verifier = generateCodeVerifier(128);
       const challenge = await generateCodeChallenge(generated_verifier);
 
       localStorage.setItem("verifier", generated_verifier);
-      const apiUrl = `http://localhost:3001/api/login?challenge=${encodeURIComponent(
+      const apiUrl = (process.env.REACT_APP_URL || "http://localhost:3001" ) + `/api/login?challenge=${encodeURIComponent(
         challenge
       )}`;
 
@@ -267,10 +288,8 @@ export default class HaipModel {
         await this.getUserProfile();
         await this.checkUserID();
         if (!!Object.values(this.user).some((v) => v)) {
-          console.log("logged in is set to true");
           this.loggedIn = true;
         }
-        console.log("user: ", this.user);
         this.notifyObservers();
       }
     }
@@ -295,7 +314,7 @@ export default class HaipModel {
     if (typeof this.user.code === "string" && typeof verifier === "string") {
       try {
         const data = await useFetch({
-          url: `http://localhost:3001/api/token`,
+          url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + `/api/token`,
           method: "POST" as Method,
           headers: {
             "Content-Type": "application/json",
@@ -316,7 +335,7 @@ export default class HaipModel {
   getUserProfile = async () => {
     try {
       const data = await useFetch({
-        url: `http://localhost:3001/api/profile?token=${encodeURIComponent(
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) + `/api/profile?token=${encodeURIComponent(
           this.user.token
         )}`,
         method: "GET" as Method,
@@ -339,7 +358,7 @@ export default class HaipModel {
   getSearchResult = async (track: string, artist: string) => {
     try {
       const data = await useFetch({
-        url: `http://localhost:3001/api/search?token=${encodeURIComponent(
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) +`/api/search?token=${encodeURIComponent(
           this.user.token
         )}&track=${encodeURIComponent(track)}&artist=${encodeURIComponent(
           artist
@@ -358,7 +377,7 @@ export default class HaipModel {
   getPlaylists = async () => {
     try {
       const data = await useFetch({
-        url: `http://localhost:3001/api/getplaylists?token=${encodeURIComponent(
+        url: (process.env.REACT_APP_URL || "http://localhost:3001" ) +`/api/getplaylists?token=${encodeURIComponent(
           this.user.token
         )}&userID=${encodeURIComponent(this.user.id)}`,
         method: "GET" as Method,

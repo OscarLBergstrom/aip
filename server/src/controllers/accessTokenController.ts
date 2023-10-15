@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: "./src/.env" });
 
-const clientId = process.env.CLIENT_ID;
+const clientId = process.env.CLIENT_ID_DEPLOY || process.env.CLIENT_ID;
 
 if (!clientId) {
   throw new Error("CLIENT_ID is not defined in the environment.");
@@ -18,7 +18,7 @@ export const tokenResponse = async (req: Request, res: Response) => {
     params.append("client_id", clientId);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", "http://localhost:3000/");
+    params.append("redirect_uri", (process.env.REDIRECT_URI || "http://localhost:3000/"));
     params.append("code_verifier", verifier);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {
