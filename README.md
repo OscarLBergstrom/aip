@@ -65,5 +65,5 @@ CREATE TABLE playlists (
     - `gcloud container clusters get-credentials haip --zone=us-central1-c`
 7. Apply Kubernetes configurations:
     - `kubectl apply -f server-deployment.yaml`
-8. Access the app here: http://35.225.215.49:3000/
+8. Access the app here: http://34.16.95.74:3000/
 
