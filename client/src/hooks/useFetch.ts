@@ -1,13 +1,13 @@
 import { Method } from "axios";
 
-interface Request {
+interface Request<T> {
     url: string,
     method: Method,
     headers?: Record<string, string>,
-    body?: Record<any, any>
+    body?: T
 }
 
-export const useFetch = async (request: Request) => {
+export const useFetch = async <T>(request: Request<T>) => {
     try {
         const response = await fetch(request.url, {
           method: request.method,

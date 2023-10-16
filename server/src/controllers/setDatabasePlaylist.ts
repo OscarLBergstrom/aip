@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import pool from "../../db-config"
+import { ResultSetHeader } from "mysql2";
 
 export const insertPlaylist = async (req: Request, res: Response) => {
     try{
@@ -9,7 +10,7 @@ export const insertPlaylist = async (req: Request, res: Response) => {
     var userid: string = req.body.userid;
     
     var sql = "INSERT INTO haip.playlists (USER_ID, PLAYLIST_ID) VALUES (?, ?)";
-    pool.query(sql, [userid, playlistid], (err:any, queryRes:any)=>{
+    pool.query(sql, [userid, playlistid], (err:Error | null, queryRes:ResultSetHeader)=>{
         res.json({
             response: queryRes,
         });

@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import pool from "../../db-config"
+import { UserDB } from "../utils/types"; 
+import { ResultSetHeader} from "mysql2";
 
 export const checkUserID = async (req: Request, res: Response) => {
     
@@ -11,7 +13,7 @@ export const checkUserID = async (req: Request, res: Response) => {
       
         //Check if the USER_ID exists
         var sql = "SELECT USER_ID FROM haip.users WHERE USER_ID = ?";
-        pool.query(sql, userid, (err:any, queryRes:any)=>{
+        pool.query(sql, userid, (err:Error | null, queryRes:UserDB[])=>{
           
           try{
             if(queryRes[0].USER_ID === userid){
@@ -24,8 +26,7 @@ export const checkUserID = async (req: Request, res: Response) => {
             // If the user does not exists add the USER_ID to the database
             
             var sql = "INSERT INTO haip.users (USER_ID) VALUES (?);"
-            pool.query(sql, userid, (err:any, queryRes:any)=>{
-              
+            pool.query(sql, userid, (err:Error | null, queryRes:ResultSetHeader)=>{
               if(err === null){
                 return res.json({
                     success: queryRes,

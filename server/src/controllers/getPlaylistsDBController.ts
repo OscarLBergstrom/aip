@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import pool from "../../db-config"
+import { PlaylistDB } from "../utils/types";
 
 export const getplaylists = async (req: Request, res: Response) => {
     try{
@@ -8,7 +9,7 @@ export const getplaylists = async (req: Request, res: Response) => {
     var userid: string = req.body.userid;
     
     var sql = "SELECT PLAYLIST_ID FROM haip.playlists WHERE USER_ID = ?";
-    pool.query(sql, userid, (err:any, queryRes:any)=>{
+    pool.query(sql, userid, (err:Error | null, queryRes:PlaylistDB[])=>{
         res.json({
             queryRes: queryRes,
         });
