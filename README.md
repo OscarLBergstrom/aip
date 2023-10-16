@@ -4,6 +4,7 @@ Welcome to HAIP: Your AI Playlist Generator! HAIP is your ultimate music compani
 
 ## Required installation
 - Node (we are using 20.6.0)
+- Add \server\src\.env with PORT, OPEN_API_KEY, CLIENT_ID. 
 
 There are two ways to run the application: locally without Docker and locally with docker-compose. We have also deployed the application, and you can find it here: http://34.16.95.74:3000/
 
