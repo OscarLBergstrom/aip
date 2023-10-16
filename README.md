@@ -4,26 +4,35 @@ Welcome to HAIP: Your AI Playlist Generator! HAIP is your ultimate music compani
 
 ## Required installation
 - Node (we are using 20.6.0)
+- npm
+- yarn (only for component tests)
 - Add /server/src/.env with PORT, OPEN_API_KEY, CLIENT_ID. 
 
 There are two ways to run the application: locally without Docker and locally with docker-compose. We have also deployed the application, and you can find it here: http://34.16.95.74:3000/
 
 ## Run locally without docker
-1. Inside the client directory:
+1. Inside the server directory:
     - `npm install`
     - `npm start`
-2. Inside the server directory:
+2. Inside the client directory:
     - `npm install`
     - `npm start`
 3. Setup the database according to below.
 4. You find the application here: http://localhost:3000/
-4. Run tests:
-    - `npm start test`
-    - `yarn cypress open`
+
+### Run tests
+1. Component tests
+    - Inside the server directory:
+        - `npm start`
+    - Inside the client directory:
+        - `yarn cypress open`
+2. Logic tests
+    - Inside the client directory:
+        - `npm test`
 
 ### 3. Setup MySQL database with MYSQL Dashboard
 
-Follow this guide! \
+1. Install MySQL workbench, you can follow this guide.
 https://www.youtube.com/watch?v=u96rVINbAUI
 
 The MySQL database should have the following properties:
