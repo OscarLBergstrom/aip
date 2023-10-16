@@ -6,6 +6,14 @@ export const searchResponse = async (req: Request, res: Response) => {
     const track = req.query.track as string;
     const artist = req.query.artist as string;
 
+    // Check for missing parameters
+    if (!token || !track || !artist) {
+      res
+        .status(400)
+        .json({ error: "Bad request: Missing parameters." });
+      return;
+    }
+
     const encodedTrack = encodeURIComponent(encodeURIComponent(track));
     const encodedArtist = encodeURIComponent(encodeURIComponent(artist));
 
@@ -18,9 +26,9 @@ export const searchResponse = async (req: Request, res: Response) => {
 
     const search = await result.json();
 
-    res.json({
-      search,
-    });
+    res
+      .status(200)
+      .json({ search });
   } catch (error) {
     console.error("Error:", error);
     res

@@ -7,6 +7,14 @@ export const addTracksResponse = async (req: Request, res: Response) => {
     const uris = req.body.uris;
     const token = req.body.token;
 
+    // Check for missing parameters
+    if (!playlistID || !uris || !token) {
+      res
+        .status(400)
+        .json({ error: "Bad request: Missing parameters." });
+      return;
+    }
+
     const result = await fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
@@ -15,9 +23,9 @@ export const addTracksResponse = async (req: Request, res: Response) => {
 
     const data = await result.json();
 
-    res.json({
-      token: data,
-    });
+    res
+      .status(200)
+      .json({ token: data });
   } catch (error) {
     console.error("Error:", error);
     res

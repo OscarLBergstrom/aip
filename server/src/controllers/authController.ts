@@ -14,6 +14,14 @@ export const authResponse = async (req: Request, res: Response) => {
 
     const challenge = req.query.challenge as string;
 
+    // Check for missing parameters
+    if (!challenge) {
+      res
+        .status(400)
+        .json({ error: "Bad request: Missing parameters." });
+      return;
+    }
+
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
@@ -22,9 +30,9 @@ export const authResponse = async (req: Request, res: Response) => {
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
 
-    res.json({
-      urlResponse: `https://accounts.spotify.com/authorize?${params.toString()}`,
-    });
+    res
+      .status(200)
+      .json({ urlResponse: `https://accounts.spotify.com/authorize?${params.toString()}` });
   } catch (error) {
     console.error("Error:", error);
     res
