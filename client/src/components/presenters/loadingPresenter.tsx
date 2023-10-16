@@ -19,7 +19,7 @@ const LoadingPresenter: React.FC<LoadingPresenterProps> = ({ model }) => {
                 if (!!Object.values(model.user).some((v) => v)) {
                     navigate("/");
                 }
-            }, 1000);
+            }, 2000);
         };
     
         getUser();
