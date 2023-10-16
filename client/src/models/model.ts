@@ -241,7 +241,7 @@ export default class HaipModel {
    */
   insertPlaylistInDB = async () => {
     try {
-      const data = await useFetch({
+      await useFetch({
         url:
           (process.env.REACT_APP_URL || "http://localhost:3001") +
           "/db/insertplaylist",
@@ -482,7 +482,7 @@ export default class HaipModel {
    */
   checkUserID = async () => {
     try {
-      const data = await useFetch({
+      await useFetch({
         url:
           (process.env.REACT_APP_URL || "http://localhost:3001") +
           "/db/checkuserid",

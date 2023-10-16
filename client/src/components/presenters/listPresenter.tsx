@@ -17,7 +17,7 @@ const ListPresenter: React.FC<ListPresenterProps> = ({ model }) => {
             await model.getPlaylists();
         }
         getPlaylists();
-    }, []);
+    }, [model]);
 
     const playlistsObserver = () => {
         setPlaylists(model.playlists);
