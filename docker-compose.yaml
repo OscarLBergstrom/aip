@@ -13,6 +13,7 @@ services:
       context: ./server
     volumes:
       - ./server:/app
+      - /app/node_modules
     ports:
       - 3001:3001
     env_file:
@@ -26,5 +27,6 @@ services:
       context: ./client
     volumes:
       - ./client:/app
+      - /app/node_modules
     ports:
       - 3000:3000
