@@ -28,7 +28,6 @@ const CreatePresenter: React.FC<CreatePresenterProps> = ({ model }) => {
   const handleSubmit = async () => {
     setLoading(true);
     setSuccess(false);
-    console.log("numberoftracks", numberOfTracks);
     await model.submitBotRequest(userMessage, playlistName, numberOfTracks);
     setSubmitted(true);
     if(model.tracks.length) {
