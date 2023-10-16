@@ -14,7 +14,7 @@ const LoadingPresenter: React.FC<LoadingPresenterProps> = ({ model }) => {
     useEffect(() => {
         const getUser = async () => {
             await model.getUserDetails();
-            await model.getPlaylists();
+           
             setTimeout(() => {
                 if (!!Object.values(model.user).some((v) => v)) {
                     navigate("/");
