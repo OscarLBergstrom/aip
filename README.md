@@ -1,9 +1,28 @@
-# aip
+# HAIP
 
+Welcome to HAIP: Your AI Playlist Generator! HAIP is your ultimate music companion. Using the synergy of the APIs of OpenAI and Spotify, HAIP simplifies playlist creation. Describe your desired mood, set the playlist's name and track count, and our AI will craft a personalized playlist for you. If you love a playlist, save it to Spotify with a single click. What's more, you can listen to your playlists directly on the website, enhancing your music experience. And with HAIP, all your created playlists are conveniently stored in one place for easy access. Whether it's a 'Hypnotic Chillout Vibes' playlist or 'High-Energy Workout' mix, HAIP has your music needs covered. Elevate your music enjoyment with HAIP today, where AI meets your unique taste!
 
-## Setup MySQL database with MYSQL Dashboard
+## Required installation
+- Node (we are using 20.6.0)
 
-Följ denna guiden! \
+There are two ways to run the application: locally without Docker and locally with docker-compose. We have also deployed the application, and you can find it here: http://34.16.95.74:3000/
+
+## Run locally without docker
+1. Inside the client directory:
+    - `npm install`
+    - `npm start`
+2. Inside the server directory:
+    - `npm install`
+    - `npm start`
+3. Setup the database according to below.
+4. You find the application here: http://localhost:3000/
+4. Run tests:
+    - `npm start test`
+    - `yarn cypress open`
+
+### 3. Setup MySQL database with MYSQL Dashboard
+
+Follow this guide! \
 https://www.youtube.com/watch?v=u96rVINbAUI
 
 The MySQL database should have the following properties:
@@ -30,15 +49,19 @@ CREATE TABLE users (
 ```
 CREATE TABLE playlists (
     USER_ID VARCHAR(255),
-    playlist VARCHAR(255) PRIMARY KEY,
+    PLAYLIST_ID VARCHAR(255) PRIMARY KEY,
     FOREIGN KEY (USER_ID) REFERENCES haip.users(USER_ID)
 );
 ```
 
-## Run Docker Locally
+## Run locally with Docker
 
 1. Start Docker Desktop
 2. `docker-compose up`
+3. You find the application here: http://localhost:3000/
+4. Run tests:
+    - `docker exec -it <name of container> npm run test`
+    - `docker exec -it <name of container> yarn cypress open`
 
 ### Check if MySQL docker containers works:
 
@@ -48,7 +71,11 @@ CREATE TABLE playlists (
 - `show tables;`
 - `select * from users;`
 
-## Deploy app using Kubernetes in Google Cloud
+## Deployment
+
+We have deployed the application using a kubernetes cluster in Google cloud.
+
+We have done the following steps:
 
 1. Download Google Cloud SDK shell
 2. In shell: `gcloud auth login`
