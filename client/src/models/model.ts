@@ -410,7 +410,6 @@ export default class HaipModel {
           userid: this.user.id
         }
       });
-      console.log("INSERT DATA" + data);
     } catch(error) {
       console.error("Error:", error);
     }
@@ -428,14 +427,16 @@ export default class HaipModel {
           userid: this.user.id,
         },
       });
-      console.log(data.queryRes);
 
-      for(let i = 0; i < data.queryRes.length; i++){
-        this.playlistDB.push(data.queryRes[i].PLAYLIST_ID);
+      this.playlistDB = [];
+      if(data.queryRes) {
+        for(let i = 0; i < data.queryRes.length; i++){
+          this.playlistDB.push(data.queryRes[i].PLAYLIST_ID);
+        }
       }
         
     }catch(error){
-      console.log("Error:", error);
+      console.error("Error:", error);
     }
   }
 
@@ -454,21 +455,22 @@ export default class HaipModel {
       await this.getPlaylistDB();
 
       this.playlists = [];
-      const items = data.playlists.items;
+        if(data.playlists) {
+        const items = data.playlists.items;
 
-
-      for (let i = 0; i < items.length; i++) {
-        if(this.playlistDB.includes(data.playlists.items[i].id)){
-          let image_url = temp_logo;
-          if (items[i].images.length) {
-            image_url = items[i].images[0].url;
+        for (let i = 0; i < items.length; i++) {
+          if(this.playlistDB.includes(data.playlists.items[i].id)){
+            let image_url = temp_logo;
+            if (items[i].images.length) {
+              image_url = items[i].images[0].url;
+            }
+            const playlist: Playlist = {
+              id: items[i].id,
+              name: items[i].name,
+              image_url: image_url,
+            };
+            this.playlists.push(playlist);
           }
-          const playlist: Playlist = {
-            id: items[i].id,
-            name: items[i].name,
-            image_url: image_url,
-          };
-          this.playlists.push(playlist);
         }
       }
 

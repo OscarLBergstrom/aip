@@ -3,15 +3,9 @@ import { Request, Response } from "express";
 export const addTracksResponse = async (req: Request, res: Response) => {
   try {
 
-    console.log("inside add tracks");
-
     const playlistID = req.body.playlistID;
     const uris = req.body.uris;
     const token = req.body.token;
-
-    console.log("Playlist ID: ", playlistID);
-    console.log("Uris: ", uris);
-    console.log("token: ", token);
 
     const result = await fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
       method: "POST",
@@ -20,8 +14,6 @@ export const addTracksResponse = async (req: Request, res: Response) => {
     });
 
     const data = await result.json();
-
-    console.log(data);
 
     res.json({
       token: data,

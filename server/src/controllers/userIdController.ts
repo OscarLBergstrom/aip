@@ -12,7 +12,6 @@ export const checkUserID = async (req: Request, res: Response) => {
         //Check if the USER_ID exists
         var sql = "SELECT USER_ID FROM haip.users WHERE USER_ID = ?";
         pool.query(sql, userid, (err:any, queryRes:any)=>{
-          console.log(queryRes);
           
           try{
             if(queryRes[0].USER_ID === userid){
