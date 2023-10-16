@@ -81,42 +81,20 @@ describe("HaipModel", () => {
   // getTrackIDs()
 
   it("should get track IDs for a list of tracks", async () => {
-    // Mock the getSearchResult method
     const mockSearchResult = "spotify:track:123456";
     model.getSearchResult = jest.fn().mockResolvedValue(mockSearchResult);
 
-    // Define a list of tracks
     const tracks: Track[] = [
       { title: "Song1", artist: "Artist1" },
       { title: "Song2", artist: "Artist2" },
     ];
 
-    // Call the getTrackIDs method
     const trackIDs = await model.getTrackIDs(tracks);
 
-    // Ensure that getSearchResult is called for each track
     expect(model.getSearchResult).toHaveBeenCalledTimes(tracks.length);
 
-    // Verify that trackIDs contains the expected values
     expect(trackIDs).toEqual([mockSearchResult, mockSearchResult]);
   });
-
-  // addTracks()
-  // TODO: need the token somehow to be able to test it
-
-  // submitBotRequest()
-  // TODO: does not work, probably it cannot find the chatGPT API key
-  /* it("should get botResponse correctly", async () => {
-    const userMessage = "Give me a cool playlist";
-    const playlistName = "Cool";
-    const numberOfTracks = 3;
-    
-    const message = await model.submitBotRequest(userMessage, playlistName, numberOfTracks);
-
-    console.log(message);
-    expect(model.botResponse).toBeDefined();
-    expect(typeof model.botResponse).toBe('string');
-  }) */
 
   // submitPlaylistRequest()
 
@@ -132,15 +110,6 @@ describe("HaipModel", () => {
     expect(model.addTracks).toHaveBeenCalled();
   });
 
-  // handleLogin()
-  // TODO: Does not work because window, textencoder etc is not defined in jest
-
-  /* it("should login and set the url response", async () => {
-    await model.handleLogin();
-    console.log(model.urlResponse);
-    expect(model.urlResponse).toBeDefined();
-  }); */
-
   // getUserDetails()
 
   it("getUserCode is called when this.user has not been logged in yet", async () => {
@@ -150,18 +119,4 @@ describe("HaipModel", () => {
 
     expect(model.getUserCode).toHaveBeenCalled();
   });
-
-  // getUserToken()
-  // TODO: need the token somehow to be able to test it
-
-  // getUserProfile()
-  // TODO: need the token somehow to be able to test it
-
-  // getSearchResult()
-  // TODO: need the token somehow to be able to test it
-
-  // getPlaylists()
-  // TODO: need the token somehow to be able to test it
-
-
 });

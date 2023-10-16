@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
-const cors = require("cors"); // TODO: av oklar anledning funkade inte import cors from "cors" för mig
+const cors = require("cors");
 import router from "./routes/router";
 const listEndpoints = require('express-list-endpoints')
 
