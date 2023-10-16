@@ -10,9 +10,6 @@ interface LoadingPresenterProps {
 const LoadingPresenter: React.FC<LoadingPresenterProps> = ({ model }) => {
 
     let navigate = useNavigate();
-    const redirect = (page: string) => {
-        navigate(page);
-    };
 
     useEffect(() => {
         const getUser = async () => {
@@ -20,13 +17,13 @@ const LoadingPresenter: React.FC<LoadingPresenterProps> = ({ model }) => {
             await model.getPlaylists();
             setTimeout(() => {
                 if (!!Object.values(model.user).some((v) => v)) {
-                    redirect("/");
+                    navigate("/");
                 }
             }, 1000);
         };
     
         getUser();
-    }, []);
+    }, [model, navigate]);
 
     return <LoadingView/>;
 
