@@ -12,6 +12,15 @@ const openai = new OpenAIApi(openaiConfig);
 export const createChatResponse = async (req: Request, res: Response) => {
   try {
     const { message, numberOfTracks } = req.body;
+
+    // Check for missing parameters
+    if (!message || !numberOfTracks) {
+      res
+        .status(400)
+        .json({ error: "Bad request: Missing parameters." });
+      return;
+    }
+
     const content = 
       `You are a playlist generator.` +
       `The playlist should match the description that I provide.` +
@@ -48,9 +57,13 @@ export const createChatResponse = async (req: Request, res: Response) => {
     ) {
       const responseMessage = completion.data.choices[0].message.content;
 
-      res.json({ botResponse: responseMessage });
+      res
+        .status(200)
+        .json({ botResponse: responseMessage });
     } else {
-      res.status(500).json({ error: "Invalid response from the chatbot API." });
+      res
+        .status(500)
+        .json({ error: "Invalid response from the chatbot API." });
     }
   } catch (error) {
     console.error("Error:", error);

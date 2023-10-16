@@ -14,6 +14,14 @@ export const tokenResponse = async (req: Request, res: Response) => {
     const code = req.body.code;
     const verifier = req.body.verifier;
 
+    // Check for missing parameters
+    if (!code || !verifier) {
+      res
+        .status(400)
+        .json({ error: "Bad request: Missing parameters." });
+      return;
+    }
+
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("grant_type", "authorization_code");
@@ -29,9 +37,10 @@ export const tokenResponse = async (req: Request, res: Response) => {
 
     const { access_token } = await result.json();
 
-    res.json({
-      token: access_token,
-    });
+    res
+      .status(200)
+      .json({ token: access_token });
+
   } catch (error) {
     console.error("Error:", error);
     res

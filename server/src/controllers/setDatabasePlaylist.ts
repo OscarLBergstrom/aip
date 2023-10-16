@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import pool from "../../db-config"
+import { ResultSetHeader } from "mysql2";
 
 export const insertPlaylist = async (req: Request, res: Response) => {
     try{
@@ -7,12 +8,27 @@ export const insertPlaylist = async (req: Request, res: Response) => {
 
     var playlistid: string = req.body.playlistid;
     var userid: string = req.body.userid;
+
+    // Check for missing parameters
+    if (!playlistid || !userid) {
+        res
+            .status(400)
+            .json({ error: "Bad request: Missing parameters." });
+        return;
+    }
     
     var sql = "INSERT INTO haip.playlists (USER_ID, PLAYLIST_ID) VALUES (?, ?)";
-    pool.query(sql, [userid, playlistid], (err:any, queryRes:any)=>{
-        res.json({
-            response: queryRes,
-        });
+    pool.query(sql, [userid, playlistid], (err: Error | null, queryRes:ResultSetHeader) => {
+        if(err === null) {
+            res
+                .status(200)
+                .json({ response: queryRes });
+        } else {
+            console.error("SQL error:", err);
+            res
+                .status(500)
+                .json({ error: err });
+        }
     });
 
       } catch (error) {
