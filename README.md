@@ -10,6 +10,8 @@ Welcome to HAIP: Your AI Playlist Generator! HAIP is your ultimate music compani
 
 There are two ways to run the application: locally without Docker and locally with docker-compose. We have also deployed the application, and you can find it here: http://34.16.95.74:3000/
 
+To be able to create a playlist using your Spotify account, you need to be added as a user to our Spotify developer app. Contact us if you want us to add your Spotify account.
+
 ## Run locally without docker
 1. Inside the server directory:
     - `npm install`
@@ -35,9 +37,7 @@ There are two ways to run the application: locally without Docker and locally wi
 Cypress:
 ![Cypress](cypress_tests.png)
 
-
-
-### 3. Setup MySQL database with MYSQL Dashboard
+### Setup MySQL database with MYSQL Dashboard
 
 1. Install MySQL workbench, you can follow this guide.
 https://www.youtube.com/watch?v=u96rVINbAUI
@@ -76,7 +76,7 @@ CREATE TABLE playlists (
 1. Start Docker Desktop
 2. `docker-compose up`
 3. You find the application here: http://localhost:3000/
-4. Run logic tests:
+4. Run jest tests:
     - `docker exec -it CONTAINER-ID npm run test`
 
 ### Check if MySQL docker containers works:
