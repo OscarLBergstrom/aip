@@ -30,6 +30,8 @@ To be able to create a playlist using your Spotify account, you need to be added
         - `yarn cypress open`, and then choose component testing (run it interactively in a GUI)
         - `yarn cypress run --component  --headless` (run it in console)
 2. Logic tests
+    - Inside the server directory:
+        - `npm start`
     - Inside the client directory:
         - `npm test`
 
