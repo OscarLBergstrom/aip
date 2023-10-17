@@ -77,11 +77,11 @@ CREATE TABLE playlists (
 2. `docker-compose up`
 3. You find the application here: http://localhost:3000/
 4. Run jest tests:
-    - `docker exec -it CONTAINER-ID npm run test`
+    - `docker exec -it CLIENT-CONTAINER-ID npm run test`
 
-### Check if MySQL docker containers works:
+### Check if MySQL docker container works:
 
-- `docker exec -it CONTAINER-ID mysql -u root -p`
+- `docker exec -it DB-CONTAINER-ID mysql -u root -p`
 - `show databases;`
 - `use haip;`
 - `show tables;`
