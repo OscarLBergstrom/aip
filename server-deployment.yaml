@@ -4,7 +4,7 @@ metadata:
   name: environmental-variables
 data:
   REACT_APP_URL: "http://34.121.162.244:3001"
-  REDIRECT_URI: "http://34.16.95.74:3000/"
+  REDIRECT_URI: "http://34.16.95.74:3000/loading"
   CLIENT_ID_DEPLOY: "2c290f22b5d140ea8cddd03fc75d8f56"
   
 

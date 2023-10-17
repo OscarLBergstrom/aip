@@ -25,10 +25,17 @@ There are two ways to run the application: locally without Docker and locally wi
     - Inside the server directory:
         - `npm start`
     - Inside the client directory:
-        - `yarn cypress open`
+        - `yarn cypress open` (run it interactively in a GUI)
+        - `yarn cypress run --component` (run it in console)
 2. Logic tests
     - Inside the client directory:
         - `npm test`
+
+#### Example of test output:
+Cypress:
+![Cypress](cypress_tests.png)
+
+
 
 ### 3. Setup MySQL database with MYSQL Dashboard
 
@@ -69,9 +76,8 @@ CREATE TABLE playlists (
 1. Start Docker Desktop
 2. `docker-compose up`
 3. You find the application here: http://localhost:3000/
-4. Run tests:
-    - `docker exec -it <name of container> npm run test`
-    - `docker exec -it <name of container> yarn cypress open`
+4. Run logic tests:
+    - `docker exec -it CONTAINER-ID npm run test`
 
 ### Check if MySQL docker containers works:
 
